@@ -1,0 +1,71 @@
+$border-gray: #e9ecef
+$lighter-gray: #F9F9F9
+
+*
+    font-family: 'Rubik', sans-serif
+
+body
+    font-family: 'Rubik', sans-serif
+    margin: 0
+    padding: 0
+
+.navbar
+    border-bottom: 1px solid $border-gray
+    padding: 2px
+    display: flex
+    justify-content: space-between
+    align-items: center
+    background-color: white
+
+.left
+    font-size: 8px
+    margin-left: 10px
+    display: flex
+    gap: 10px
+
+.left button
+    cursor: pointer
+    border: none
+    background-color: white
+    font-size: 16px
+    padding: 10px
+    border-radius: 10px
+    &:hover
+        background-color: $lighter-gray
+
+.left h1
+    margin: 0
+    font-weight: 400
+
+.middle input
+    font-family: 'Rubik', sans-serif
+    border: none
+    outline: none
+    background-color: $lighter-gray
+    &:active
+        border: none
+        outline: none
+
+.search
+    display: flex
+    align-items: center
+    gap: 10px
+    background-color: $lighter-gray
+    padding: 5px
+    border-radius: 13px
+
+.right
+    margin-right: 10px
+    display: flex
+    align-items: center
+    justify-content: center
+    gap: 12px
+
+.right div
+    margin-top: 4px
+    cursor: pointer
+
+.right img
+    height: 25px
+    width: 25px
+    border-radius: 50%
