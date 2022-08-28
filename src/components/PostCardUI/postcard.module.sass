@@ -6,16 +6,26 @@ $border-gray: #e9ecef
     padding: 0
 
 .container
+    border-radius: 10px
+
     background-color: white
-    padding: 16px
+    padding: 20px
     padding-top: 15px
     cursor: pointer
+    padding-bottom: 10px
     border-bottom: 1px solid $border-gray
+    margin-bottom: 20px
+    box-shadow: 0 3px 5px rgb(0 0 0 / 0.1)
 
 .header
     display: flex
     align-items: center
-    gap: 10px
+    justify-content: space-between
+
+.header div
+    &:nth-child(1)
+        display: flex
+        gap: 10px
 
 .header h1
     font-size: 16px
@@ -31,7 +41,7 @@ $border-gray: #e9ecef
     border-radius: 50%
 
 .content p
-    font-size: 16px
+    font-size: 15px
     margin-top: 10px
     font-weight: 350
     color: #343a40
@@ -44,6 +54,14 @@ $border-gray: #e9ecef
     cursor: pointer
     &:hover
         text-decoration: underline
+
+.content img
+    margin-top: 10px
+    border-radius: 10px
+    width: 640px
+    // height: 200px
+    margin-bottom: 10px
+    object-fit: cover
 
 .footer
     margin-top: 20px
@@ -70,4 +88,53 @@ $border-gray: #e9ecef
 
 .userlikespfp img
     height: 18px
+    width: 18px
     border-radius: 50%
+
+.interaction
+    display: flex
+    align-items: center
+    justify-content: space-around
+    margin-right: 20px
+    margin-left: 20px
+    margin-top: 15px
+    border-top: 1px solid #dee2e6
+    border-bottom: 1px solid #dee2e6
+    padding-top: 5px
+    padding-bottom: 5px
+    // padding: 5px
+
+.icons
+    display: flex
+    align-items: center
+    gap: 5px
+    color: #868e96
+    padding: 5px 15px
+    border-radius: 8px
+    &:hover
+        background-color: #f1f3f5
+
+.comment
+    display: flex
+    gap: 10px
+    margin-top: 10px
+
+.comment img
+    height: 35px
+    width: 35px
+    border-radius: 50%
+
+.comment input
+    padding: 10px 15px
+    border: none
+    outline: none
+    border-radius: 16px
+    background-color: #F0F2F5
+    width: 100%
+
+@media only screen and (max-width: 670px)
+    .interaction
+        margin-right: 0px
+        margin-left: 0px
+        justify-content: center
+        gap: 40px

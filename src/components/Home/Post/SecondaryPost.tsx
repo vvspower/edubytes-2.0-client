@@ -5,13 +5,12 @@ import like_react from "../../../assets/like_react.png";
 
 const SecondaryPost = () => {
   return (
-    <div className={styles.secondary_container}>
-      <div className={styles.secondary_header}>
+    <div className={styles.container}>
+      <div className={styles.header}>
         <div>
           <img src={example_pfp} />
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam
-            faucibus arcu ut mattis consectetur....
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
           </p>
         </div>
       </div>

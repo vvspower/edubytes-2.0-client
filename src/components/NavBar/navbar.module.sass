@@ -16,6 +16,13 @@ body
     justify-content: space-between
     align-items: center
     background-color: white
+    // position: fixed
+    position: fixed
+    width: 100%
+    left: 0
+    top: 0
+    z-index: 100
+    border-top: 0
 
 .left
     font-size: 8px
@@ -69,3 +76,7 @@ body
     height: 25px
     width: 25px
     border-radius: 50%
+
+@media only screen and (max-width: 670px)
+    .search
+        display: none

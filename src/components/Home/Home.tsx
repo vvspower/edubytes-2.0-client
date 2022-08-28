@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useReducer, MouseEvent } from "react";
-import Post from "./Post/Post";
 import styles from "./home.module.sass";
 import SecondaryPost from "./Post/SecondaryPost";
 import TrendingFlatIcon from "@mui/icons-material/TrendingFlat";
@@ -45,7 +44,7 @@ const Home = () => {
 
   const postStack: JSX.Element = (
     <>
-      <Stack sx={{ padding: "15px" }} spacing={1}>
+      <Stack sx={{ padding: "15px", backgroundColor: "white", borderRadius: "16px" }} spacing={1}>
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <Skeleton variant="circular" width={40} height={40} />
           <Skeleton variant="text" width={100} />
@@ -53,15 +52,14 @@ const Home = () => {
         <Skeleton variant="text" width="100%" />
         <Skeleton variant="text" width="100%" />
         <Skeleton variant="text" width="100%" />
-      </Stack>
-      <Stack sx={{ padding: "15px" }} spacing={1}>
-        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <Skeleton variant="circular" width={40} height={40} />
-          <Skeleton variant="text" width={100} />
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <Skeleton variant="text" width="100px" />
+          <Skeleton variant="text" width="100px" />
         </div>
-        <Skeleton variant="text" width="100%" />
-        <Skeleton variant="text" width="100%" />
-        <Skeleton variant="text" width="100%" />
+        <div style={{ display: "flex", gap: "10px", alignItems: "center", marginTop: "20px" }}>
+          <Skeleton variant="circular" width={35} height={35} />
+          <Skeleton variant="text" width="100%" height={50} style={{ borderRadius: "12pxpx" }} />
+        </div>
       </Stack>
     </>
   );
@@ -96,44 +94,48 @@ const Home = () => {
         spinner
       ) : (
         <>
-          <div>
-            <Post />
-            <div style={{ display: "flex", alignItems: "center" }}>
+          <div className={styles.secondary_post}>
+            {/* <Post /> */}
+            {/* <div style={{ display: "flex", alignItems: "center" }}>
               <div className={styles.arrow}>
                 <TrendingFlatIcon
                   fontSize="large"
                   sx={{ fill: "#868e96", fontSize: "50px" }}
                 />
               </div>
-              <SecondaryPost />
-            </div>
+              
+            </div> */}
+            <SecondaryPost />
+            <SecondaryPost />
           </div>
           <div className={styles.postbar}>
             <CreatePostBar pfp={user.details.pfp} />
           </div>
           <div className={styles.mainposts}>
             <div className={styles.header}>
-              <h1>You are viewing posts from Example</h1>
-              <InfoOutlinedIcon sx={{ fill: "#adb5bd" }} fontSize="small" />
+
+              {/* <InfoOutlinedIcon sx={{ fill: "#adb5bd" }} fontSize="small" /> */}
             </div>
             <div>
               {posts.length !== 0
                 ? posts.map((item, i) => {
-                    return (
-                      <PostCard
-                        key={i}
-                        _id={item._id}
-                        username={item.username}
-                        created={item.created}
-                        image={item.image}
-                        subject={item.subject}
-                        tags={item.tags}
-                        pfp={item.user_pfp}
-                        content={item.content}
-                        likes={item.likes}
-                      />
-                    );
-                  })
+                  return (
+                    <PostCard
+                      key={i}
+                      _id={item._id}
+                      username={item.username}
+                      created={item.created}
+                      image={item.image}
+                      subject={item.subject}
+                      tags={item.tags}
+                      pfp={item.user_pfp}
+                      content={item.content}
+                      likes={item.likes}
+                      logged_in_user_pfp={user.details.pfp}
+                      logged_in_user={user.username}
+                    />
+                  );
+                })
                 : postStack}
             </div>
             <p className={styles.endtext}>End of the posts</p>
