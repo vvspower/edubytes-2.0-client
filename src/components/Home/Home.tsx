@@ -15,9 +15,18 @@ import Box from "@mui/material/Box";
 import Skeleton from "@mui/material/Skeleton";
 import Stack from "@mui/material/Stack";
 import CreatePost from "./CreatePost/CreatePost";
+import { ITopPostsResponse } from "../../ApiManager/forum";
+import HomeIcon from "@mui/icons-material/Home";
+import { AxiosResponse } from "axios";
+import PeopleIcon from "@mui/icons-material/People";
+import ImportContactsIcon from "@mui/icons-material/ImportContacts";
+import LeftBar from "./LeftBar/LeftBar";
 
 const Home = () => {
   const [posts, setPosts] = useState<IPost[]>([]);
+  const [topPosts, setTopPosts] = useState<IPost[]>([]);
+  const [mode, setMode] = useState<"home" | "friends" | "resources">("home");
+
   const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
   const navigate = useNavigate();
   const forumApi = new Forum();
@@ -42,9 +51,19 @@ const Home = () => {
     forceUpdate();
   };
 
+  const getTopPosts = async () => {
+    const response: AxiosResponse<ITopPostsResponse> =
+      await forumApi.getTopPosts(user.education.institute);
+    setTopPosts(response.data.data.sorted);
+    forceUpdate();
+  };
+
   const postStack: JSX.Element = (
     <>
-      <Stack sx={{ padding: "15px", backgroundColor: "white", borderRadius: "16px" }} spacing={1}>
+      <Stack
+        sx={{ padding: "15px", backgroundColor: "white", borderRadius: "16px" }}
+        spacing={1}
+      >
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <Skeleton variant="circular" width={40} height={40} />
           <Skeleton variant="text" width={100} />
@@ -55,10 +74,6 @@ const Home = () => {
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <Skeleton variant="text" width="100px" />
           <Skeleton variant="text" width="100px" />
-        </div>
-        <div style={{ display: "flex", gap: "10px", alignItems: "center", marginTop: "20px" }}>
-          <Skeleton variant="circular" width={35} height={35} />
-          <Skeleton variant="text" width="100%" height={50} style={{ borderRadius: "12pxpx" }} />
         </div>
       </Stack>
     </>
@@ -90,58 +105,81 @@ const Home = () => {
 
   return (
     <div className={styles.container}>
-      {user._id == "" ? (
-        spinner
-      ) : (
-        <>
-          <div className={styles.secondary_post}>
-            {/* <Post /> */}
-            {/* <div style={{ display: "flex", alignItems: "center" }}>
-              <div className={styles.arrow}>
-                <TrendingFlatIcon
-                  fontSize="large"
-                  sx={{ fill: "#868e96", fontSize: "50px" }}
-                />
-              </div>
-              
-            </div> */}
-            <SecondaryPost />
-            <SecondaryPost />
-          </div>
-          <div className={styles.postbar}>
-            <CreatePostBar pfp={user.details.pfp} />
-          </div>
-          <div className={styles.mainposts}>
-            <div className={styles.header}>
+      <div className={styles.left}>
+        <LeftBar />
+      </div>
+      <div className={styles.middle}>
+        {user._id == "" ? (
+          spinner
+        ) : (
+          <>
+            <div className={styles.secondary_post}>
+              <SecondaryPost />
+              <SecondaryPost />
+            </div>
+            <div className={styles.postbar}>
+              <CreatePostBar pfp={user.details.pfp} />
+            </div>
 
-              {/* <InfoOutlinedIcon sx={{ fill: "#adb5bd" }} fontSize="small" /> */}
+            <div className={styles.mainposts}>
+              <div className={styles.header}>
+                {/* "#339af0" is blue */}
+                <div onClick={() => setMode("home")}>
+                  <HomeIcon
+                    sx={{
+                      cursor: "pointer",
+                      fill: mode === "home" ? "#339af0" : "#868e96",
+                    }}
+                    fontSize="large"
+                  />
+                </div>
+                <div onClick={() => setMode("friends")}>
+                  <PeopleIcon
+                    sx={{
+                      cursor: "pointer",
+                      fill: mode === "friends" ? "#339af0" : "#868e96",
+                    }}
+                    fontSize="large"
+                  />
+                </div>
+                <div onClick={() => setMode("resources")}>
+                  <ImportContactsIcon
+                    sx={{
+                      cursor: "pointer",
+                      fill: mode === "resources" ? "#339af0" : "#868e96",
+                    }}
+                    fontSize="large"
+                  />
+                </div>
+              </div>
+              <div>
+                {posts.length !== 0
+                  ? posts.map((item, i) => {
+                    return (
+                      <PostCard
+                        key={i}
+                        _id={item._id}
+                        username={item.username}
+                        created={item.created}
+                        image={item.image}
+                        subject={item.subject}
+                        tags={item.tags}
+                        pfp={item.user_pfp}
+                        content={item.content}
+                        likes={item.likes}
+                      />
+                    );
+                  })
+                  : postStack}
+              </div>
+              <p className={styles.endtext}>End of the posts</p>
             </div>
-            <div>
-              {posts.length !== 0
-                ? posts.map((item, i) => {
-                  return (
-                    <PostCard
-                      key={i}
-                      _id={item._id}
-                      username={item.username}
-                      created={item.created}
-                      image={item.image}
-                      subject={item.subject}
-                      tags={item.tags}
-                      pfp={item.user_pfp}
-                      content={item.content}
-                      likes={item.likes}
-                      logged_in_user_pfp={user.details.pfp}
-                      logged_in_user={user.username}
-                    />
-                  );
-                })
-                : postStack}
-            </div>
-            <p className={styles.endtext}>End of the posts</p>
-          </div>
-        </>
-      )}
+          </>
+        )}
+      </div>
+      <div className={styles.right}>
+        <h1>hello</h1>
+      </div>
     </div>
   );
 };

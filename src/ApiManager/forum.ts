@@ -24,15 +24,54 @@ export interface IPost {
   likes: ILikes[];
 }
 
+export interface Replies {
+  _id: string
+  username: string
+  reply_to: string
+  image: string
+  content: string
+  created: string
+  user_pfp: string
+}
+
 export interface IGetPostsResponse {
   data: IPost[];
   success: boolean;
+}
+
+export interface IGetRepliesResponse {
+  data: Replies[]
+  success: boolean
 }
 
 export interface IDefaultResponse {
   data: string;
   success: boolean;
 }
+
+interface ITopPosts {
+  case: string
+  sorted: IPost[]
+}
+
+export interface ITopPostsResponse {
+  data: ITopPosts,
+  success: boolean
+
+}
+
+export interface ISinglePost {
+  data: IPost
+  success: boolean
+}
+
+export interface IPostReply {
+  data: Replies
+  success: boolean
+}
+
+
+
 
 export default class Forum {
   private async uploadImage(form: FormData) {
@@ -42,6 +81,7 @@ export default class Forum {
     );
     return response.data.url.toString();
   }
+
 
   public async createPost(content: string, target: string, subject: string, tags: string[], img: FormData | undefined) {
     let image = ""
@@ -55,6 +95,8 @@ export default class Forum {
     );
     return response;
   }
+
+
   public async getPostsTargetGeneral(target: string) {
     delete axios.defaults.headers.common["Authorization"];
     const response: AxiosResponse<IGetPostsResponse> = await instance.get(
@@ -62,6 +104,19 @@ export default class Forum {
     );
     return response.data;
   }
+
+
+  public async getPostById(id: string) {
+    delete axios.defaults.headers.common["Authorization"];
+    const response: AxiosResponse<ISinglePost> = await instance.get(
+      `/post/${id}`
+    );
+    return response;
+  }
+
+
+
+
   public async postLike(like: boolean, id: string) {
     instance.defaults.headers.common["Authorization"] =
       sessionStorage.getItem("token")!;
@@ -77,4 +132,28 @@ export default class Forum {
       return response.data.success
     }
   }
+
+  public async getReplies(post_id: string) {
+    instance.defaults.headers.common["Authorization"] =
+      sessionStorage.getItem("token")!;
+    const response: AxiosResponse<IGetRepliesResponse> = await instance.get(`/reply/${post_id}`)
+    return response.data.data
+  }
+
+  public async postReply(post_id: string, content: string, image: string = "") {
+    instance.defaults.headers.common["Authorization"] =
+      sessionStorage.getItem("token")!;
+    const response: AxiosResponse<IPostReply> = await instance.post(`/reply/${post_id}`, {
+      content, image
+    })
+    return response
+  }
+
+  public async getTopPosts(target: string) {
+    const response: AxiosResponse<ITopPostsResponse> = await instance.get(`/post/top/${target}`)
+    return response
+  }
 }
+
+
+// http://127.0.0.1:9000/community/forums/post/top/ALEVEL

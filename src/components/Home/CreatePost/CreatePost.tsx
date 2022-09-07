@@ -90,7 +90,6 @@ const CreatePost = (props: Props) => {
     }
   };
 
-  console.log(forum)
 
   const handleSelect = (event: ChangeEvent<HTMLSelectElement>): void => {
     setforum(event.target.value)
