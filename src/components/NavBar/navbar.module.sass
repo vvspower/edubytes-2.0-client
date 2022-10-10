@@ -30,6 +30,7 @@ body
     margin-left: 10px
     display: flex
     gap: 10px
+    margin-right: 45px
 
 .left button
     cursor: pointer
@@ -59,8 +60,26 @@ body
     align-items: center
     gap: 10px
     background-color: $lighter-gray
+    // background-color: black
+    padding: 0px
+    border-radius: 25px
+    padding-left: 0px
+    border-top-left-radius: 25px
+    border-bottom-left-radius: 25px
+
+.search input
+    width: 630px
+    // padding-right: 130px
+
+.search_icon
+    background-color: #e9ecef
     padding: 5px
-    border-radius: 13px
+    padding-bottom: 3px
+    padding-left: 10px
+    padding-right: 10px
+    cursor: pointer
+    border-top-left-radius: 25px
+    border-bottom-left-radius: 25px
 
 .right
     margin-right: 10px
@@ -68,6 +87,7 @@ body
     align-items: center
     justify-content: center
     gap: 12px
+    // margin-left: 20px
 
 .right div
     margin-top: 4px
@@ -77,6 +97,12 @@ body
     height: 25px
     width: 25px
     border-radius: 50%
+
+// .icons
+//     padding: 5px
+//     border-radius: 50%
+//     &:hover
+//         background-color: #dee2e6
 
 @media only screen and (max-width: 670px)
     .search

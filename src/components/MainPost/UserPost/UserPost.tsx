@@ -1,5 +1,6 @@
 import * as timeago from "timeago.js";
 import React, { useState, useEffect, useReducer } from 'react'
+import { KeyboardEvent } from 'react';
 import styles from './post.module.sass'
 import Forum, { IDefaultResponse, IPost, IPostReply } from '../../../ApiManager/forum'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
@@ -14,13 +15,16 @@ import { Box } from "@mui/material";
 import CircularProgress from '@mui/material/CircularProgress';
 import SendIcon from '@mui/icons-material/Send';
 import { AxiosResponse } from "axios";
+import Suggestions, { ResponseSuggestedPost, SuggestedPost, SuggestedUser } from "../../../ApiManager/suggestions";
 
 
 
 const UserPost = (props: IPost) => {
     const forumApi = new Forum()
+    const suggestedApi = new Suggestions
     const user = useSelector((state: RootState) => state.user.value);
     const [fetched, setFetched] = useState<boolean>(false)
+
     const [likes, setLikes] = useState<ILikes[]>(props.likes)
     const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
     const [liked, setLiked] = useState<boolean>(false)
@@ -28,12 +32,16 @@ const UserPost = (props: IPost) => {
     const [replies, setReplies] = useState<Replies[]>([])
     const [content, setContent] = useState<string>("")
 
+
+
     const getReplies = async () => {
         const response: Replies[] = await forumApi.getReplies(props._id)
         setReplies(response)
         forceUpdate()
         setSuccess(true)
     }
+
+
 
     const newLike: ILikes = {
         username: user.username,
@@ -55,7 +63,6 @@ const UserPost = (props: IPost) => {
 
     }
 
-
     const postReply = async () => {
         if (content.length >= 2) {
             const response: AxiosResponse<IPostReply> = await forumApi.postReply(props._id, content)
@@ -73,13 +80,19 @@ const UserPost = (props: IPost) => {
                 forceUpdate()
             }
         });
-
     }
+
+    const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === "Enter") {
+            postReply()
+        }
+    };
 
     useEffect(() => {
         checkLiked()
         window.scrollTo(0, 0)
         getReplies()
+
     }, [])
 
 
@@ -126,8 +139,8 @@ const UserPost = (props: IPost) => {
             </div>
             <div className={styles.comments}>
                 <div className={styles.replybox}>
-                    <img width="30px" src={user.details.pfp} />
-                    <input value={content} onChange={(e) => setContent(e.target.value)} placeholder="Comment" />
+                    <img width="30px" height="30px" src={user.details.pfp} />
+                    <input value={content} onKeyDown={(e) => handleKeyPress(e)} onChange={(e) => setContent(e.target.value)} placeholder="Comment" />
                     <div onClick={postReply}>
                         <SendIcon style={{ fill: "#868e96", cursor: "pointer" }} />
                     </div>

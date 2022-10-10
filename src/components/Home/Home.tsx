@@ -21,6 +21,7 @@ import { AxiosResponse } from "axios";
 import PeopleIcon from "@mui/icons-material/People";
 import ImportContactsIcon from "@mui/icons-material/ImportContacts";
 import LeftBar from "./LeftBar/LeftBar";
+import FriendScreen from "./FriendScreen/FriendScreen";
 
 const Home = () => {
   const [posts, setPosts] = useState<IPost[]>([]);
@@ -58,7 +59,7 @@ const Home = () => {
     forceUpdate();
   };
 
-  const postStack: JSX.Element = (
+  const postPreview: JSX.Element = (
     <>
       <Stack
         sx={{ padding: "15px", backgroundColor: "white", borderRadius: "16px" }}
@@ -70,10 +71,15 @@ const Home = () => {
         </div>
         <Skeleton variant="text" width="100%" />
         <Skeleton variant="text" width="100%" />
-        <Skeleton variant="text" width="100%" />
+
         <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <Skeleton variant="text" width="100px" />
-          <Skeleton variant="text" width="100px" />
+          <Skeleton sx={{ borderRadius: "25px" }} variant="circular" width={60} height={30} />
+          <div style={{ display: "flex", gap: "10px" }}>
+            <Skeleton sx={{ borderRadius: "25px" }} variant="circular" width={60} height={30} />
+            <Skeleton sx={{ borderRadius: "25px" }} variant="circular" width={60} height={30} />
+            <Skeleton variant="circular" width={30} height={30} />
+
+          </div>
         </div>
       </Stack>
     </>
@@ -100,6 +106,7 @@ const Home = () => {
       navigate("/login");
     } else if (user.education.institute != "") {
       getPosts();
+      getTopPosts()
     }
   }, [user]);
 
@@ -113,66 +120,70 @@ const Home = () => {
           spinner
         ) : (
           <>
-            <div className={styles.secondary_post}>
-              <SecondaryPost />
-              <SecondaryPost />
+            <div className={styles.secondary_post}>{
+              topPosts.map((item, i) => {
+                return <SecondaryPost key={i} username={item.username} pfp={item.user_pfp} likes={item.likes} content={item.content} id={item._id} image={item.image} />
+              })
+            }
             </div>
             <div className={styles.postbar}>
               <CreatePostBar pfp={user.details.pfp} />
             </div>
+            <div className={styles.header}>
+              <button onClick={() => setMode("home")}><HomeIcon
+                sx={{
+                  cursor: "pointer",
+                  fill: mode === "home" ? "#339af0" : "#868e96",
+                }}
+                fontSize="small"
+              /></button>
+              <button onClick={() => setMode("friends")}><PeopleIcon
+                sx={{
+                  cursor: "pointer",
+                  fill: mode === "friends" ? "#339af0" : "#868e96",
+                }}
+                fontSize="small"
+              /></button>
+              <button onClick={() => setMode("resources")}><ImportContactsIcon
+                sx={{
+                  cursor: "pointer",
+                  fill: mode === "resources" ? "#339af0" : "#868e96",
+                }}
+                fontSize="small"
+              /></button>
+
+            </div>
 
             <div className={styles.mainposts}>
-              <div className={styles.header}>
-                {/* "#339af0" is blue */}
-                <div onClick={() => setMode("home")}>
-                  <HomeIcon
-                    sx={{
-                      cursor: "pointer",
-                      fill: mode === "home" ? "#339af0" : "#868e96",
-                    }}
-                    fontSize="large"
-                  />
-                </div>
-                <div onClick={() => setMode("friends")}>
-                  <PeopleIcon
-                    sx={{
-                      cursor: "pointer",
-                      fill: mode === "friends" ? "#339af0" : "#868e96",
-                    }}
-                    fontSize="large"
-                  />
-                </div>
-                <div onClick={() => setMode("resources")}>
-                  <ImportContactsIcon
-                    sx={{
-                      cursor: "pointer",
-                      fill: mode === "resources" ? "#339af0" : "#868e96",
-                    }}
-                    fontSize="large"
-                  />
-                </div>
-              </div>
+
               <div>
-                {posts.length !== 0
-                  ? posts.map((item, i) => {
-                    return (
-                      <PostCard
-                        key={i}
-                        _id={item._id}
-                        username={item.username}
-                        created={item.created}
-                        image={item.image}
-                        subject={item.subject}
-                        tags={item.tags}
-                        pfp={item.user_pfp}
-                        content={item.content}
-                        likes={item.likes}
-                      />
-                    );
-                  })
-                  : postStack}
+                {mode === "home" ? <div>
+                  {posts.length !== 0
+                    ? posts.map((item, i) => {
+                      return (
+                        <div className={styles.post}>
+                          <PostCard
+                            key={i}
+                            _id={item._id}
+                            username={item.username}
+                            created={item.created}
+                            image={item.image}
+                            subject={item.subject}
+                            tags={item.tags}
+                            pfp={item.user_pfp}
+                            content={item.content}
+                            likes={item.likes}
+                          />
+                        </div>
+                      );
+                    })
+                    : <div className={styles.post} >{postPreview}</div>}
+                  <p className={styles.endtext}>End of the posts</p>
+                </div> : null}
+                {mode === "friends" ? <div>
+                  <FriendScreen />
+                </div> : null}
               </div>
-              <p className={styles.endtext}>End of the posts</p>
             </div>
           </>
         )}

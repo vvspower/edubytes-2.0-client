@@ -3,19 +3,25 @@ import styles from "./navbar.module.sass";
 import NotificationsNoneRoundedIcon from "@mui/icons-material/NotificationsNoneRounded";
 import MailOutlineRoundedIcon from "@mui/icons-material/MailOutlineRounded";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
+import { Badge } from "@mui/material";
 import Auth from "../../ApiManager/auth";
 import { IGetUserResponse } from "../../ApiManager/auth";
 import { RootState } from "../../store/store";
 import { initializeUser, removeUser } from "../../state/userSlice";
 import { useSelector, useDispatch } from "react-redux";
 import Button from "@mui/material/Button";
+import edubytes_logo_large from '../../assets/edubytes_logo_large.png'
 import UserAvatarDropDown from "./UserAvatarDropDown/UserAvatarDropDown";
+import SearchDropDown from "./SearchDropDown/SearchDropDown";
+import { useNavigate } from "react-router-dom";
 
 const NavBar = () => {
+  const navigate = useNavigate()
   const authApi = new Auth();
   const dispatch = useDispatch();
-  const [success, setSuccess] = useState(false);
+  const [success, setSuccess] = useState<boolean>(false);
   const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
+  const [search, setsearch] = useState<string>("")
   const user = useSelector((state: RootState) => state.user.value);
   const token: string | null = sessionStorage.getItem("token");
 
@@ -31,7 +37,7 @@ const NavBar = () => {
   // END HERE
 
   const getUser = async () => {
-    const data: IGetUserResponse = await authApi.getUser(
+    const data: IGetUserResponse = await authApi.getUserFromToken(
       sessionStorage.getItem("token")!
     );
     dispatch(initializeUser(data.data));
@@ -45,28 +51,35 @@ const NavBar = () => {
     }
   }, []);
 
+  console.log(search)
+
   return (
     <>
       {success ? (
         <div className={styles.navbar}>
           <div className={styles.left}>
-            <button>Home</button>
-            <button>Bazaar</button>
-            <button>Explore</button>
+            <div>
+              <img src={edubytes_logo_large} height='30px' style={{ marginTop: "5px" }} />
+            </div>
           </div>
           <div className={styles.middle}>
             <div className={styles.search}>
-              <SearchRoundedIcon sx={{ fill: "#868e96" }} />
-              <input placeholder="Search" />
+              <div className={styles.search_icon}>
+                <SearchRoundedIcon sx={{ fill: "#868e96" }} />
+              </div>
+              <input onChange={(e) => setsearch(e.target.value)} placeholder="Search" />
             </div>
+            {search.length != 0 ? <SearchDropDown search={search} /> : null}
           </div>
           {token !== null ? (
             <div className={styles.right}>
-              <div>
-                <MailOutlineRoundedIcon sx={{ fill: "#868e96" }} />
+              <div className={styles.icons}>
+                <MailOutlineRoundedIcon sx={{ fill: "#868e96", padding: "5px", borderRadius: "50%", ":hover": { backgroundColor: "#e9ecef" } }} />
               </div>
-              <div>
-                <NotificationsNoneRoundedIcon sx={{ fill: "#868e96" }} />
+              <div onClick={() => navigate("/notifications")} className={styles.icons}>
+                <Badge sx={{ "marginRight": "8px" }} badgeContent={4} variant="dot" color="primary">
+                  <NotificationsNoneRoundedIcon sx={{ fill: "#868e96", padding: "0px", borderRadius: "50%", ":hover": { backgroundColor: "#e9ecef" }, }} />
+                </Badge>
               </div>
               <button
                 style={{

@@ -56,11 +56,20 @@ export default class Auth {
     return response.data.data;
   }
 
-  public async getUser(token: string) {
+  public async getUserFromToken(token: string) {
     instance.defaults.headers.get["Authorization"] = token;
     const response: AxiosResponse<IGetUserResponse> = await instance.get(
       "/user"
     );
     return response.data;
   }
+
+  public async getUserFromUsername(username: string) {
+    delete axios.defaults.headers.common["Authorization"];
+    const response: AxiosResponse<IGetUserResponse> = await instance.get(
+      `/user/${username}`
+    );
+    return response;
+  }
+
 }

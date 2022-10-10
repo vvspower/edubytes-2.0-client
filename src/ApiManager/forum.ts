@@ -49,7 +49,7 @@ export interface IDefaultResponse {
   success: boolean;
 }
 
-interface ITopPosts {
+export interface ITopPosts {
   case: string
   sorted: IPost[]
 }
@@ -62,6 +62,11 @@ export interface ITopPostsResponse {
 
 export interface ISinglePost {
   data: IPost
+  success: boolean
+}
+
+export interface IMultiplePosts {
+  data: IPost[]
   success: boolean
 }
 
@@ -114,7 +119,15 @@ export default class Forum {
     return response;
   }
 
+  // http://127.0.0.1:9000/community/forums/post/user/vvspower
 
+  public async getPostUser(username: string) {
+    delete axios.defaults.headers.common["Authorization"];
+    const response: AxiosResponse<IMultiplePosts> = await instance.get(
+      `/post/user/${username}`
+    );
+    return response;
+  }
 
 
   public async postLike(like: boolean, id: string) {

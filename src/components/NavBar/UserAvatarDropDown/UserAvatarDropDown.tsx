@@ -4,6 +4,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { useNavigate } from "react-router-dom";
 import styles from "./dropdown.module.sass";
 import Chip from "@mui/material/Chip";
+
 import Stack from "@mui/material/Stack";
 
 interface Props {
@@ -28,14 +29,19 @@ const UserAvatarDropDown = (props: Props) => {
         id="basic-menu"
         anchorEl={props.anchorEl}
         open={props.open}
+        elevation={0}
         onClose={props.handleClose}
+        sx={{ height: "410px" }}
+
         MenuListProps={{
           "aria-labelledby": "basic-button",
         }}
       >
         <div className={styles.menu}>
           <h1 className={styles.title}>ACCOUNT</h1>
-          <div className={styles.profile}>
+          <div onClick={() => {
+            navigate(`/u/${props.user_name}`)
+          }} className={styles.profile}>
             <img src={props.user_pfp} />
             <div onClick={props.handleClose} className={styles.details}>
               <div>

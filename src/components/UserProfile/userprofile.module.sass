@@ -1,0 +1,231 @@
+.container
+    margin-top: 85px
+    display: flex
+
+.left
+    border-right: 1px solid #dee2e6
+    max-width: 340px
+    padding-right: 50px
+    position: fixed
+    margin-left: 60px
+    max-height: 80vh
+    // overflow-y: overlay
+
+.left
+    &:hover
+        max-height: 100vh
+        overflow-y: overlay
+
+.user
+    display: flex
+    flex-direction: column
+    gap: 10px
+    padding-bottom: 20px
+    border-bottom: 1px solid #dee2e6
+
+.edit_btn
+    padding: 8px
+    border-radius: 25px
+    outline: none
+    border: none
+    background-color: #e9ecef
+    border: 1px solid #dee2e6
+    cursor: pointer
+
+.user img
+    height: 300px
+    width: 300px
+    object-fit: cover
+    padding: 15px
+    box-shadow: 0 3px 5px rgb(0 0 0 / 0.1)
+    background-color: white
+    border-radius: 50%
+
+.user_interact
+    display: flex
+    justify-content: center
+    gap: 10px
+
+.user_interact button
+    cursor: pointer
+    padding: 8px
+    border-radius: 25px
+    outline: none
+    border: none
+    background-color: #228be6
+    color: white
+    border: 1px solid #dee2e6
+    width: 100%
+
+.user p
+    font-size: 18px
+    margin-left: 115px
+
+.user span
+    font-size: 12px
+    color: #495057
+
+.friends
+    margin-top: 10px
+    padding: 5px
+    border-radius: 8px
+    background-color: white
+    padding-bottom: 10px
+
+.friends main
+    display: flex
+    gap: 12px
+    margin-left: 3px
+    margin-top: 10px
+
+.friend
+    display: flex
+    flex-direction: column
+    align-items: center
+    box-shadow: 0 3px 5px rgb(0 0 0 / 0.1)
+    padding: 5px
+    border-radius: 8px
+    cursor: pointer
+
+.friend img
+    height: 90px
+    width: 90px
+    border-radius: 8px
+    object-fit: cover
+
+.friend p
+    margin-top: 10px
+    font-size: 12px
+
+.friends button
+    border-radius: 25px
+    padding: 5px
+    border: none
+    // display: flex
+    margin-left: 260px
+    margin-top: 8px
+    color: #868e96
+    font-size: 12px
+
+.posts
+    margin: 0 auto
+    margin-left: 480px
+    width: 850px
+    padding: 10px
+    // background-color: white
+    border-radius: 8px
+
+.post
+    margin-bottom: 15px
+    background-color: white
+    border-radius: 16px
+    padding: 5px
+    box-shadow: 0 3px 5px rgb(0 0 0 / 0.1)
+
+.right h1
+    font-size: 12px
+    font-weight: 400
+    color: #adb5bd
+
+.right
+    border-left: 1px solid #dee2e6
+    padding-left: 40px
+    // margin-right: 200px
+    position: fixed
+    margin-left: 1380px
+
+.contributions
+    background-color: white
+    padding: 10px
+    border-radius: 8px
+    width: 400px
+
+.contributions img
+    height: 25px
+    border-radius: 50%
+
+main p
+    font-size: 14px
+    color: #495057
+
+.contributions div
+    display: flex
+    align-items: center
+    gap: 6px
+    padding: 5px
+    border-radius: 25px
+    box-shadow: 0 3px 5px rgb(0 0 0 / 0.1)
+    margin-bottom: 10px
+
+.contributions h1
+    text-align: center
+
+.similar_users
+    margin-top: 30px
+
+.similar_users img
+    width: 50px
+    border-radius: 50%
+    margin-top: 2px
+
+.similar_user
+    display: flex
+    align-items: center
+    gap: 10px
+    background-color: white
+    border-radius: 30px
+    padding: 6px
+    box-shadow: 0 3px 5px rgb(0 0 0 / 0.1)
+    margin-top: 10px
+    cursor: pointer
+
+.similar_user button
+    background-color: #339af0
+    border: none
+    outline-width: none
+    color: white
+    padding: 8px 10px
+    border-radius: 12px
+
+.similar_users span
+    color: #adb5bd
+    font-size: 12px
+
+.similar_user div
+    &:nth-child(2)
+        display: flex
+        align-items: center
+        gap: 150px
+
+.fav
+    display: flex
+    align-items: center
+    gap: 10px
+    margin-top: 10px
+
+.favorites main
+    display: flex
+    align-items: center
+    justify-content: space-between
+    border-radius: 8px
+    padding-left: 10px
+    box-shadow: 0 3px 5px rgb(0 0 0 / 0.1)
+    background-color: white
+    cursor: pointer
+
+.favorites main img
+    height: 30px
+
+.favorites main h1
+    font-size: 12px
+    color: #495057
+
+.favorites main p
+    font-size: 10px
+    color: #868e96
+
+.favorites
+    border-radius: 8px
+    margin-top: 20px
+    background-color: white
+    padding: 15px
