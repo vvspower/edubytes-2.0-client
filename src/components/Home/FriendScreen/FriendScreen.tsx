@@ -1,26 +1,39 @@
 import React, { useState, useEffect, useReducer } from 'react'
-import { AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import styles from './friendscreen.module.sass'
 import example_pfp from '../../../assets/example_pfp.jpg'
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useSelector } from 'react-redux';
-import Friend, { FriendRequest } from '../../../ApiManager/friend';
-import Suggestions from '../../../ApiManager/suggestions';
-import { ResponseData } from '../../../ApiManager/friend';
-import { ResponseSuggestedUser, SuggestedUser } from '../../../ApiManager/suggestions';
+import Friend, { DefaultResponse, FriendRequest } from '../../../ApiManager/api/friend';
+import Suggestions from '../../../ApiManager/api/suggestions';
+import { ResponseData } from '../../../ApiManager/api/friend';
+import { ResponseSuggestedUser, SuggestedUser } from '../../../ApiManager/api/suggestions';
 import { RootState } from '../../../store/store';
 import { Stack } from '@mui/system';
 import { Skeleton } from '@mui/material';
+import SnackBar from '../../SnackBar/SnackBar';
 import CircularProgress from '@mui/material/CircularProgress';
 
 const FriendScreen = () => {
+    const user = useSelector((state: RootState) => state.user.value);
+
     const [friendReqs, setFriendReqs] = useState<FriendRequest[]>([])
     const [suggestedUsers, setSuggestedUsers] = useState<SuggestedUser[]>([])
-    const user = useSelector((state: RootState) => state.user.value);
+    const [text, setText] = useState<string>("")
     const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
     const [success, setSuccess] = useState<boolean>(false)
+    const [open, setOpen] = useState(false);
+
     const friendApi = new Friend()
     const suggestionApi = new Suggestions()
+
+    const handleCloseSnackBar = (event?: React.SyntheticEvent | Event, reason?: string) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen(false);
+    };
+
 
     const friendStack: JSX.Element = (
         <>
@@ -54,6 +67,31 @@ const FriendScreen = () => {
         forceUpdate()
     }
 
+    const createNewFriendReqArray = (username: string) => {
+        let newFR = friendReqs.filter((item) => {
+            return item.sender != username
+        })
+        setFriendReqs(newFR)
+    }
+
+
+    const acceptFriendRequest = async (username: string) => {
+        try {
+            const response: AxiosResponse<DefaultResponse> = await friendApi.acceptFriendRequest(username)
+            setText(response.data.data)
+            setOpen(true)
+            createNewFriendReqArray(username)
+
+        } catch (err: any) {
+            if (axios.isAxiosError(err)) {
+                setText(err.response?.data.data!)
+                setOpen(true)
+                createNewFriendReqArray(username)
+
+            }
+        }
+    }
+
     const getData = () => {
         getFriendRequest()
         getSuggestedUser()
@@ -67,6 +105,7 @@ const FriendScreen = () => {
 
     return (
         <div className={styles.container}>
+            <SnackBar open={open} handleClose={handleCloseSnackBar} text={text} />
             <div className={styles.friend_requests}>
                 <h1>Friend Requests</h1>
                 {friendReqs.length === 0 ? <span>No friend requests</span> : null}
@@ -78,7 +117,7 @@ const FriendScreen = () => {
                                     <img src={item.sender_pfp} />
                                     <p>{item.sender}</p>
                                 </div>
-                                <div style={{ cursor: "pointer" }}>
+                                <div onClick={() => { acceptFriendRequest(item.sender) }} style={{ cursor: "pointer", marginRight: "20px" }}>
                                     <AddCircleIcon sx={{ fill: "#339af0" }} />
                                 </div>
                             </main>
@@ -92,7 +131,7 @@ const FriendScreen = () => {
                                     <img src={item.details.pfp} />
                                     <p>{item.username}</p>
                                 </div>
-                                <div style={{ cursor: "pointer" }}>
+                                <div style={{ cursor: "pointer", marginRight: "20px" }}>
                                     <AddCircleIcon sx={{ fill: "#339af0" }} />
                                 </div>
                             </main>

@@ -6,11 +6,11 @@ import styles from "./createpost.module.sass";
 import { RootState } from "../../../store/store";
 import { useSelector } from "react-redux";
 import ImageIcon from "@mui/icons-material/Image";
-import Forum from "../../../ApiManager/forum";
+import Forum from "../../../ApiManager/api/forum";
 import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
 import Modal from "@mui/material/Modal";
-import { IDefaultResponse } from "../../../ApiManager/forum";
+import { IDefaultResponse } from "../../../ApiManager/api/forum";
 import CircularProgress from "@mui/material/CircularProgress";
 
 

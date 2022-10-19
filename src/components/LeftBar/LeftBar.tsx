@@ -1,21 +1,16 @@
 import React from 'react'
 import styles from './leftbar.module.sass'
 import { useSelector } from 'react-redux'
-import { RootState } from '../../../store/store'
-import resource from '../../../assets/resource.png'
-import university from '../../../assets/university.png'
-import marketplace from '../../../assets/marketplace.png'
-import friends from '../../../assets/friends.png'
-import star from '../../../assets/star.png'
-import book from '../../../assets/book.jpg'
+import { RootState } from '../../store/store'
+import resource from '../../assets/resource.png'
+import university from '../../assets/university.png'
+import marketplace from '../../assets/marketplace.png'
+import friends from '../../assets/friends.png'
+import star from '../../assets/star.png'
+import book from '../../assets/book.jpg'
 import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
 import Typography from '@mui/material/Typography';
-
-
-
-
-
 
 
 const LeftBar = () => {

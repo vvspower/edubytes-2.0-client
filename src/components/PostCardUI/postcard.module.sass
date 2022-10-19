@@ -7,9 +7,13 @@ $border-gray: #e9ecef
 
 .container
     background-color: white
-    padding: 15px 10px
+    // padding: 15px 10px
     cursor: pointer
     padding-bottom: 15px
+    border-radius: 4px
+    max-width: 680px
+    border: 1px solid #dee2e6
+
     // border-bottom: 1px solid $border-gray
 
 .header
@@ -54,13 +58,14 @@ $border-gray: #e9ecef
     &:hover
         text-decoration: underline
 
-.content img
-    margin-top: 10px
+.image img
+    max-height: 200px
     border-radius: 4px
-    width: 100%
-    // height: 200px
-    margin-bottom: 10px
     object-fit: cover
+    width: 678px
+    border-bottom-left-radius: 0px
+    border-bottom-right-radius: 0px
+    // border: 1px solid #dee2e6
 
 .likes
     display: flex

@@ -1,17 +1,28 @@
 .container
     display: flex
-    // justify-content: space-between
+    position: absolute
+    width: 1200px
+    left: 25%
+    gap: 20px
 
 .middle
-    margin: 0 auto
-    max-width: 680px
+    position: relative
 
-.left
+.right
+    display: flex
+    flex-direction: column
+    gap: 15px
+    margin-top: 60px
     position: fixed
-    right: 0
+    left: 1260px
 
 @media only screen and (max-width: 1410px)
     .left
         display: none
+
+    .middle
+        position: block
+        left: 0
+
     .container
         display: block

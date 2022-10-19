@@ -2,20 +2,20 @@ import * as timeago from "timeago.js";
 import React, { useState, useEffect, useReducer } from 'react'
 import { KeyboardEvent } from 'react';
 import styles from './post.module.sass'
-import Forum, { IDefaultResponse, IPost, IPostReply } from '../../../ApiManager/forum'
+import Forum, { IDefaultResponse, IPost, IPostReply } from '../../../ApiManager/api/forum'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import { ILikes } from '../../../ApiManager/forum';
+import { ILikes } from '../../../ApiManager/api/forum';
 import Chip from "@mui/material/Chip";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useSelector } from "react-redux";
-import { Replies } from "../../../ApiManager/forum";
+import { Replies } from "../../../ApiManager/api/forum";
 import { RootState } from "../../../store/store";
 import { Box } from "@mui/material";
 import CircularProgress from '@mui/material/CircularProgress';
 import SendIcon from '@mui/icons-material/Send';
 import { AxiosResponse } from "axios";
-import Suggestions, { ResponseSuggestedPost, SuggestedPost, SuggestedUser } from "../../../ApiManager/suggestions";
+import Suggestions, { ResponseSuggestedPost, SuggestedPost, SuggestedUser } from "../../../ApiManager/api/suggestions";
 
 
 
@@ -40,8 +40,6 @@ const UserPost = (props: IPost) => {
         forceUpdate()
         setSuccess(true)
     }
-
-
 
     const newLike: ILikes = {
         username: user.username,
@@ -114,8 +112,8 @@ const UserPost = (props: IPost) => {
                 <img src={props.image} />
             </div>
             <div className={styles.footer}>
-                <div className={styles.likes}>
-                    <div style={{ cursor: "pointer" }} onClick={handleLike}>
+                <div onClick={handleLike} className={styles.likes}>
+                    <div style={{ cursor: "pointer" }} >
                         {!liked ? <FavoriteBorderIcon fontSize="small" sx={{ fill: "#868e96" }} /> : <FavoriteIcon fontSize="small" sx={{ fill: "#339af0", }} />}
                         <span>{likes?.length}</span>
                     </div>
@@ -129,9 +127,9 @@ const UserPost = (props: IPost) => {
                     {props?.tags?.slice(0, 3).map((item, i) => {
                         return <Chip
                             key={i}
-                            sx={{ marginRight: 1 }}
+                            sx={{ marginRight: 1, border: "1px solid  #dee2e6" }}
                             label={item}
-                            size="small"
+                            size="medium"
                         />
                     })
                     }
@@ -141,7 +139,7 @@ const UserPost = (props: IPost) => {
                 <div className={styles.replybox}>
                     <img width="30px" height="30px" src={user.details.pfp} />
                     <input value={content} onKeyDown={(e) => handleKeyPress(e)} onChange={(e) => setContent(e.target.value)} placeholder="Comment" />
-                    <div onClick={postReply}>
+                    <div onClick={postReply} className={styles.send_icon}>
                         <SendIcon style={{ fill: "#868e96", cursor: "pointer" }} />
                     </div>
                 </div>

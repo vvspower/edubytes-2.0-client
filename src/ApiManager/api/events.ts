@@ -5,16 +5,7 @@ const instance = axios.create({
     timeout: 100000,
 });
 
-// "_id": "62fcaea2cbbaff09d494d0c1",
-//       "for": "horuken",
-//       "from": {
-//         "username": "vvspower",
-//         "pfp": ""
-//       },
-//       "content": "vvspower mentioned you in a comment..",
-//       "created": "1660726946.0",
-//       "read": false,
-//       "redirect": "/post?v=62fbd5d2863e50b04de45f34"
+
 
 export interface INotification {
     _id: string;

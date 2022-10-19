@@ -4,7 +4,7 @@ import example_pfp from "../../../assets/example_pfp.jpg";
 import like_react from "../../../assets/like_react.png";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useNavigate } from "react-router-dom";
-import { ILikes } from "../../../ApiManager/forum";
+import { ILikes } from "../../../ApiManager/api/forum";
 
 
 // username={item.username} pfp={item.user_pfp} likes={item.likes} content={item.content} id={item._id} image={item.image}

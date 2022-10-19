@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useReducer } from "react";
 import UserPost from "./UserPost/UserPost";
-import Forum, { IPost, ISinglePost } from "../../ApiManager/forum";
+import Forum, { IPost, ISinglePost } from "../../ApiManager/api/forum";
 import axios, { AxiosError, AxiosResponse } from "axios";
-import SuggestedPosts from "./SuggestedPosts/SuggestedPosts";
+import SuggestedPosts from "./RightBar/SuggestedPosts/SuggestedPosts";
 import styles from './mainpost.module.sass'
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 
-import Suggestions, { ResponseSuggestedPost, SuggestedPost } from "../../ApiManager/suggestions";
+import Suggestions, { ResponseSuggestedPost, SuggestedPost } from "../../ApiManager/api/suggestions";
+import UserInfo from "./RightBar/UserInfo/UserInfo";
 
 const MainPost = () => {
     const forumApi = new Forum();
@@ -42,7 +43,7 @@ const MainPost = () => {
         forceUpdate()
     }
 
-   
+
 
     useEffect(() => {
         getPost();
@@ -51,9 +52,6 @@ const MainPost = () => {
 
     return (
         <div className={styles.container}>
-            <div className={styles.left}>
-                <h1>hey</h1>
-            </div>
             <div className={styles.middle} style={{ marginTop: "60px", paddingBottom: "20px" }}>
                 {post?._id ? (
                     <UserPost
@@ -71,7 +69,8 @@ const MainPost = () => {
                 ) : null}
                 {!found ? <p>Post not found</p> : null}
             </div>
-            <div className={styles.left}>
+            <div className={styles.right}>
+                {post?.username ? <UserInfo username={post?.username!} /> : null}
                 <SuggestedPosts posts={suggested} />
             </div>
         </div>

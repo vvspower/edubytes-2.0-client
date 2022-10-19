@@ -1,38 +1,42 @@
 import React, { useEffect, useState, useReducer, MouseEvent } from "react";
 import styles from "./home.module.sass";
-import SecondaryPost from "./Post/SecondaryPost";
+import SecondaryPost from "../../components/Home/Post/SecondaryPost";
 import TrendingFlatIcon from "@mui/icons-material/TrendingFlat";
-import CreatePostBar from "./CreatePostBar/CreatePostBar";
-import PostCard from "../PostCardUI/PostCard";
+import CreatePostBar from "../../components/Home/CreatePostBar/CreatePostBar";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { RootState } from "../../store/store";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import Forum from "../../ApiManager/forum";
-import { IPost } from "../../ApiManager/forum";
+import Forum from "../../ApiManager/api/forum";
+import { IPost } from "../../ApiManager/interface/Interfaces";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import Skeleton from "@mui/material/Skeleton";
 import Stack from "@mui/material/Stack";
-import CreatePost from "./CreatePost/CreatePost";
-import { ITopPostsResponse } from "../../ApiManager/forum";
+import CreatePost from "../../components/Home/CreatePost/CreatePost";
+import { ITopPostsResponse } from "../../ApiManager/interface/Interfaces";
 import HomeIcon from "@mui/icons-material/Home";
 import { AxiosResponse } from "axios";
 import PeopleIcon from "@mui/icons-material/People";
 import ImportContactsIcon from "@mui/icons-material/ImportContacts";
-import LeftBar from "./LeftBar/LeftBar";
-import FriendScreen from "./FriendScreen/FriendScreen";
+import LeftBar from "../../components/LeftBar/LeftBar";
+import FriendScreen from "../../components/Home/FriendScreen/FriendScreen";
+import PostCard from "../../components/PostCardUI/PostCard";
 
 const Home = () => {
   const [posts, setPosts] = useState<IPost[]>([]);
   const [topPosts, setTopPosts] = useState<IPost[]>([]);
   const [mode, setMode] = useState<"home" | "friends" | "resources">("home");
 
+
+
   const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
   const navigate = useNavigate();
   const forumApi = new Forum();
 
   const user = useSelector((state: RootState) => state.user.value);
+
+
 
   // MENU VARIABLES
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -44,7 +48,7 @@ const Home = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  // END HERE
+
 
   const getPosts = async () => {
     const data = await forumApi.getPostsTargetGeneral(user.education.institute);
@@ -112,6 +116,7 @@ const Home = () => {
 
   return (
     <div className={styles.container}>
+
       <div className={styles.left}>
         <LeftBar />
       </div>
@@ -189,7 +194,7 @@ const Home = () => {
         )}
       </div>
       <div className={styles.right}>
-        <h1>hello</h1>
+        <LeftBar />
       </div>
     </div>
   );

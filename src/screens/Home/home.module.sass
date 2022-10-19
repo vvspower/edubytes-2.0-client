@@ -9,13 +9,13 @@ body
     margin: 0
 
 .left
+
     position: fixed
-    left: 0
+    left: 230px
 
 .right
     position: fixed
-    right: 0
-    background-color: blue
+    right: 230px
 
 .secondary_post
     display: flex
@@ -24,13 +24,15 @@ body
 
 .container
     display: flex
-    justify-content: space-between
+    gap: 20px
+
     padding-top: 50px
     padding-left: calc(100vw - 100%)
 
 .middle
+    position: relative
     margin: 0 auto
-    max-width: 800px
+    max-width: 680px
 
 .arrow
     margin-left: 70px
@@ -47,22 +49,13 @@ body
     color: $secondary-gray
 
 .header
-    // padding: 20px
-    // display: flex
+
     display: block
     float: right
-    // justify-content: space-around
-    // gap: 10px
-    // margin-top: 5px
-    // margin-bottom: 20px
-    // padding-bottom: 10px
     border: 2px solid #dee2e6
     background-color: white
     border-radius: 25px
-    margin-top: 5px
     max-width: 125px
-    // margin-left: 670px
-
 .header button
     border: none
     background-color: white
@@ -86,22 +79,19 @@ body
     font-weight: 500
     font-size: 16px
 
-.header
-
 .mainposts
     // background-color: white
     margin-top: 46px
     // padding: 10px
-    border-radius: 6px
+    // border-radius: 6px
     // box-shadow: 0 3px 5px rgb(0 0 0 / 0.1)
 
 .post
+    max-width: 680px
     background-color: white
-    // box-shadow: 0 3px 5px rgb(0 0 0 / 0.1)
-    border: 1px solid #dee2e6
-    padding: 10px
-    border-radius: 16px
-    margin-bottom: 15px
+    border-radius: 4px
+    margin-bottom: 5px
+    // border: 1px solid #dee2e6
 
 @media only screen and (max-width: 1390px)
     .left

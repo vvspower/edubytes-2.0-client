@@ -3,15 +3,15 @@ import React, { useEffect, useState, useReducer } from "react";
 import styles from "./postcard.module.sass";
 import example_pfp from "../../assets/example_pfp.jpg";
 import likes_react from "../../assets/like_react.png";
-import { ILikes } from "../../ApiManager/forum";
-import { IDefaultResponse } from "../../ApiManager/forum";
-import Forum from "../../ApiManager/forum";
+import { ILikes } from "../../ApiManager/interface/Interfaces";
+import { IDefaultResponse } from "../../ApiManager/interface/Interfaces";
+import Forum from "../../ApiManager/api/forum";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import CommentIcon from "@mui/icons-material/Comment";
 import ShareIcon from "@mui/icons-material/Share";
-import { Replies } from "../../ApiManager/forum";
+import { Replies } from "../../ApiManager/interface/Interfaces";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useSelector } from "react-redux";
@@ -41,8 +41,7 @@ const PostCard = (props: Props) => {
   const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
   const [fetched, setFetched] = useState<boolean>(false);
 
-  console.log(props.likes);
-  console.log(props.created);
+
   let now = new Date();
   let date = new Date(now.getTime() - parseFloat(props.created));
 
@@ -55,7 +54,6 @@ const PostCard = (props: Props) => {
   const handleLike = (): void => {
     setLiked(!liked);
     forumApi.postLike(!liked, props._id);
-    console.log(!liked);
     if (!liked) {
       let newlikes = likes;
       newlikes.push(newLike);
@@ -74,7 +72,6 @@ const PostCard = (props: Props) => {
     });
   };
 
-  console.log(props.tags);
   useEffect(() => {
     setLikes(props.likes);
     checkLiked();
@@ -82,60 +79,65 @@ const PostCard = (props: Props) => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
-        <div>
-          <img src={props.pfp} />
-          <div>
-            <h1>{props.username}</h1>
-            <p>{timeago.format(parseInt(props.created + "000"))}</p>
-          </div>
-        </div>
-        <MoreHorizIcon sx={{ fill: "#868e96" }} />
-      </div>
       <div
         onClick={() => navigate(`/post?v=${props._id}`)}
-        className={styles.content}
+        className={styles.image}
+
       >
-        <p>{props.content}</p>
         {/* <span>Read More</span> */}
         {props.image != "" ? <img src={props.image} /> : null}
       </div>
-
-      <div className={styles.interaction}>
-        <div onClick={handleLike} className={styles.likes}>
+      <div style={{ padding: "12px" }}>
+        <div className={styles.header}>
           <div>
-            <div className={styles.icons}>
-              {!liked ? (
-                <FavoriteBorderIcon fontSize="small" sx={{ fill: "#868e96" }} />
-              ) : (
-                <FavoriteIcon fontSize="small" sx={{ fill: "#339af0" }} />
-              )}
+            <img src={props.pfp} />
+            <div>
+              <h1>{props.username}</h1>
+              <p>{timeago.format(parseInt(props.created + "000"))}</p>
             </div>
-            <span>{likes.length}</span>
           </div>
-          <div className={styles.userlikespfp}>
-            {likes.slice(0, 4).map((item, i) => {
-              return <img key={i} src={item.user_pfp} />;
-            })}
-          </div>
+          <MoreHorizIcon sx={{ fill: "#868e96" }} />
         </div>
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <div>
-            {props?.tags?.map((item, i) => {
-              return (
+        <div className={styles.content}>
+          <p >{props.content}</p>
+        </div>
 
-                <Chip
-                  key={i}
-                  sx={{ marginRight: 1, border: "1px solid #dee2e6 " }}
-                  label={item}
-                  size="medium"
-                />
-
-              );
-            })}
+        <div className={styles.interaction}>
+          <div onClick={handleLike} className={styles.likes}>
+            <div>
+              <div className={styles.icons}>
+                {!liked ? (
+                  <FavoriteBorderIcon fontSize="small" sx={{ fill: "#868e96" }} />
+                ) : (
+                  <FavoriteIcon fontSize="small" sx={{ fill: "#339af0" }} />
+                )}
+              </div>
+              <span>{likes.length}</span>
+            </div>
+            <div className={styles.userlikespfp}>
+              {likes.slice(0, 4).map((item, i) => {
+                return <img key={i} src={item.user_pfp} />;
+              })}
+            </div>
           </div>
-          <div className={styles.comment}>
-            <CommentIcon sx={{ fill: "#868e96" }} fontSize="small" />
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <div>
+              {props?.tags?.map((item, i) => {
+                return (
+
+                  <Chip
+                    key={i}
+                    sx={{ marginRight: 1, border: "1px solid #dee2e6 " }}
+                    label={item}
+                    size="medium"
+                  />
+
+                );
+              })}
+            </div>
+            <div className={styles.comment}>
+              <CommentIcon sx={{ fill: "#868e96" }} fontSize="small" />
+            </div>
           </div>
         </div>
       </div>

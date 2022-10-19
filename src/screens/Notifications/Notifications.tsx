@@ -3,9 +3,10 @@ import styles from './notifications.module.sass'
 import notif from '../../assets/notif.png'
 import example_pfp from '../../assets/example_pfp.jpg'
 import { AxiosResponse } from 'axios'
-import { NotificationsResponse } from '../../ApiManager/events'
-import { INotification } from '../../ApiManager/events'
-import Notification from '../../ApiManager/events'
+// import { NotificationsResponse } from '../../ApiManager/api/events'
+import { NotificationsResponse } from '../../ApiManager/api/events'
+import { INotification } from '../../ApiManager/api/events'
+import Notification from '../../ApiManager/api/events'
 
 // todo: process api
 

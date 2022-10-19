@@ -4,7 +4,7 @@ import { Chip } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 
 import styles from './suggestedpost.module.sass'
-import { SuggestedPost } from '../../../ApiManager/suggestions'
+import { SuggestedPost } from '../../../../ApiManager/api/suggestions'
 
 interface Props {
     posts: SuggestedPost[]
@@ -21,7 +21,7 @@ const SuggestedPosts = (props: Props) => {
     const navigate = useNavigate()
     return (
         <div className={styles.container}>
-            <h1>Suggested posts</h1>
+            <h1>Similar Posts</h1>
             {props.posts.map((item, i) => {
                 return <div onClick={() => redirect(item._id)} className={styles.suggested}>
                     <div className={styles.header}>

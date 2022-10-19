@@ -4,8 +4,8 @@ import NotificationsNoneRoundedIcon from "@mui/icons-material/NotificationsNoneR
 import MailOutlineRoundedIcon from "@mui/icons-material/MailOutlineRounded";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import { Badge } from "@mui/material";
-import Auth from "../../ApiManager/auth";
-import { IGetUserResponse } from "../../ApiManager/auth";
+import Auth from "../../ApiManager/api/auth";
+import { IGetUserResponse } from "../../ApiManager/api/auth";
 import { RootState } from "../../store/store";
 import { initializeUser, removeUser } from "../../state/userSlice";
 import { useSelector, useDispatch } from "react-redux";
