@@ -2,20 +2,28 @@ import * as timeago from "timeago.js";
 import React, { useState, useEffect, useReducer } from 'react'
 import { KeyboardEvent } from 'react';
 import styles from './post.module.sass'
-import Forum, { IDefaultResponse, IPost, IPostReply } from '../../../ApiManager/api/forum'
+import Forum from '../../../ApiManager/api/forum'
+import { IPost, IDefaultResponse, IPostReply } from "../../../ApiManager/interface/Interfaces";
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import { ILikes } from '../../../ApiManager/api/forum';
+// import { ILikes } from '../../../ApiManager/api/forum';
+import { ILikes } from "../../../ApiManager/interface/Interfaces";
 import Chip from "@mui/material/Chip";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useSelector } from "react-redux";
-import { Replies } from "../../../ApiManager/api/forum";
+// import { Replies } from "../../../ApiManager/api/forum";
+import { Replies } from "../../../ApiManager/interface/Interfaces";
 import { RootState } from "../../../store/store";
 import { Box } from "@mui/material";
 import CircularProgress from '@mui/material/CircularProgress';
+import { SuggestedPost, ResponseSuggestedPost, SuggestedUser } from "../../../ApiManager/interface/Interfaces";
+import Suggestions from "../../../ApiManager/api/suggestions";
 import SendIcon from '@mui/icons-material/Send';
 import { AxiosResponse } from "axios";
-import Suggestions, { ResponseSuggestedPost, SuggestedPost, SuggestedUser } from "../../../ApiManager/api/suggestions";
+
+// import Suggestions, { ResponseSuggestedPost, SuggestedPost, SuggestedUser } from "../../../ApiManager/api/suggestions";
+// import Suggestions, { ResponseSuggestedPost, SuggestedPost, SuggestedUser } from "../../../ApiManager/api/suggestions";
+// import Suggestions, ResponseSuggestedPost, SuggestedPost, SuggestedUser  from "../../../ApiManager/api/suggestions";
 
 
 
@@ -97,42 +105,46 @@ const UserPost = (props: IPost) => {
 
     return (
         <div className={styles.container}>
-            <div className={styles.header}>
-                <div className={styles.head}>
-                    <img src={props.user_pfp} />
+            <div className={styles.mainpost}>
+                <div className={styles.header}>
+                    <div className={styles.head}>
+                        <img src={props.user_pfp} />
+                        <div>
+                            <p>{props.username}</p>
+                            <span>{timeago.format(parseInt(props.created + "000"))}</span>
+                        </div>
+                    </div>
+                    <MoreHorizIcon sx={{ fill: "#868e96", }} />
+                </div>
+                <div className={styles.content}>
+                    <img src={props.image} />
+                    <p>{props.content}</p>
+                </div>
+                <div className={styles.footer}>
+                    <div onClick={handleLike} className={styles.likes}>
+                        <div style={{ cursor: "pointer" }} >
+                            {!liked ? <FavoriteBorderIcon fontSize="small" sx={{ fill: "#868e96" }} /> : <FavoriteIcon fontSize="small" sx={{ fill: "#339af0", }} />}
+                            <span>{likes?.length}</span>
+                        </div>
+                        <div className={styles.userlikespfp}>
+                            {likes?.slice(0, 4).map((item, i) => {
+                                return <img key={i} src={item.user_pfp} />;
+                            })}
+                        </div>
+                    </div>
                     <div>
-                        <p>{props.username}</p>
-                        <span>{timeago.format(parseInt(props.created + "000"))}</span>
+                        {props?.tags?.slice(0, 3).map((item, i) => {
+                            return <Chip
+                                key={i}
+                                sx={{
+                                    marginRight: 1, backgroundColor: "#D7EFE0", color: "#37b24d"
+                                }}
+                                label={item}
+                                size="small"
+                            />
+                        })
+                        }
                     </div>
-                </div>
-                <MoreHorizIcon sx={{ fill: "#868e96", }} />
-            </div>
-            <div className={styles.content}>
-                <p>{props.content}</p>
-                <img src={props.image} />
-            </div>
-            <div className={styles.footer}>
-                <div onClick={handleLike} className={styles.likes}>
-                    <div style={{ cursor: "pointer" }} >
-                        {!liked ? <FavoriteBorderIcon fontSize="small" sx={{ fill: "#868e96" }} /> : <FavoriteIcon fontSize="small" sx={{ fill: "#339af0", }} />}
-                        <span>{likes?.length}</span>
-                    </div>
-                    <div className={styles.userlikespfp}>
-                        {likes?.slice(0, 4).map((item, i) => {
-                            return <img key={i} src={item.user_pfp} />;
-                        })}
-                    </div>
-                </div>
-                <div>
-                    {props?.tags?.slice(0, 3).map((item, i) => {
-                        return <Chip
-                            key={i}
-                            sx={{ marginRight: 1, border: "1px solid  #dee2e6" }}
-                            label={item}
-                            size="medium"
-                        />
-                    })
-                    }
                 </div>
             </div>
             <div className={styles.comments}>
@@ -148,11 +160,15 @@ const UserPost = (props: IPost) => {
                     {success ?
                         replies.map((item, i) => {
                             return <div key={i} className={styles.reply}>
-                                <img src={item.user_pfp} />
+                                <div className={styles.head}>
+                                    <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                                        <img src={item.user_pfp} />
+                                        <h1>{item.username}</h1>
+                                    </div>
+                                    <span>{timeago.format(parseInt(item.created + "000"))}</span>
+                                </div>
                                 <div>
                                     <div style={{ display: "flex", padding: "0", justifyContent: "space-between", gap: "10px" }}>
-                                        <h1>{item.username}</h1>
-                                        <span>{timeago.format(parseInt(item.created + "000"))}</span>
                                     </div>
                                     <p>{item.content}</p>
                                 </div>

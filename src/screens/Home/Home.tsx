@@ -19,14 +19,46 @@ import HomeIcon from "@mui/icons-material/Home";
 import { AxiosResponse } from "axios";
 import PeopleIcon from "@mui/icons-material/People";
 import ImportContactsIcon from "@mui/icons-material/ImportContacts";
-import LeftBar from "../../components/LeftBar/LeftBar";
+import LeftBar from "../../components/Home/LeftBar/LeftBar";
+import RightBar from "../../components/Home/RightBar/RightBar";
+import Notes from "../../components/Home/NotesDisplay/Notes";
 import FriendScreen from "../../components/Home/FriendScreen/FriendScreen";
 import PostCard from "../../components/PostCardUI/PostCard";
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
+import Contribute from "../../components/Home/Contribute/Contribute";
+import NoteScreen from "../../components/Home/NotesScreen/NoteScreen";
 
 const Home = () => {
   const [posts, setPosts] = useState<IPost[]>([]);
   const [topPosts, setTopPosts] = useState<IPost[]>([]);
   const [mode, setMode] = useState<"home" | "friends" | "resources">("home");
+  const [random, setRandom] = useState(Math.floor(Math.random() * 6))
+
+
+
+  // const random: number = (Math.floor(Math.random() * 6))
+
+  const responsive = {
+    superLargeDesktop: {
+      // the naming can be any, depends on you.
+      breakpoint: { max: 4000, min: 3000 },
+      items: 7,
+      slidesToSlide: 8
+    },
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 3
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 2
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1
+    }
+  };
 
 
 
@@ -131,6 +163,47 @@ const Home = () => {
               })
             }
             </div>
+            <div className={styles.carousel}>
+              <div className={styles.head} >
+                <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" width={20} viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5m.75-9l3-3 2.148 2.148A12.061 12.061 0 0116.5 7.605" />
+                  </svg>
+                  <p>Popular</p>
+                </div>
+                <div>
+                  <span>Contribute</span>
+                </div>
+              </div>
+              <Carousel
+                itemClass="carousel-item-padding-0-px"
+                centerMode={true}
+                autoPlaySpeed={5000}
+
+                responsive={responsive}
+                removeArrowOnDeviceType={["tablet", "mobile"]}
+                partialVisible={false}
+              >
+                <div>
+                  <Notes />
+                </div>
+                <div>
+                  <Notes />
+                </div>
+                <div>
+                  <Notes />
+                </div>
+                <div>
+                  <Notes />
+                </div>
+                <div>
+                  <Notes />
+                </div>
+                <div>
+                  <Notes />
+                </div>
+              </Carousel>
+            </div>
             <div className={styles.postbar}>
               <CreatePostBar pfp={user.details.pfp} />
             </div>
@@ -165,7 +238,7 @@ const Home = () => {
                 {mode === "home" ? <div>
                   {posts.length !== 0
                     ? posts.map((item, i) => {
-                      return (
+                      return i !== random ? (
                         <div className={styles.post}>
                           <PostCard
                             key={i}
@@ -180,7 +253,24 @@ const Home = () => {
                             likes={item.likes}
                           />
                         </div>
-                      );
+                      ) : <div>
+                        <Contribute />
+                        <div style={{ marginBottom: "10px" }}>
+                          <PostCard
+                            key={i}
+                            _id={item._id}
+                            username={item.username}
+                            created={item.created}
+                            image={item.image}
+                            subject={item.subject}
+                            tags={item.tags}
+                            pfp={item.user_pfp}
+                            content={item.content}
+                            likes={item.likes}
+                          />
+                        </div>
+
+                      </div>
                     })
                     : <div className={styles.post} >{postPreview}</div>}
                   <p className={styles.endtext}>End of the posts</p>
@@ -188,13 +278,14 @@ const Home = () => {
                 {mode === "friends" ? <div>
                   <FriendScreen />
                 </div> : null}
+                {mode === "resources" ? <NoteScreen /> : null}
               </div>
             </div>
           </>
         )}
       </div>
       <div className={styles.right}>
-        <LeftBar />
+        <RightBar />
       </div>
     </div>
   );

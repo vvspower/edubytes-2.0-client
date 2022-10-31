@@ -7,14 +7,10 @@ $border-gray: #e9ecef
 
 .container
     background-color: white
-    // padding: 15px 10px
     cursor: pointer
-    padding-bottom: 15px
-    border-radius: 4px
-    max-width: 680px
+    border-radius: 16px
+    width: 100%
     border: 1px solid #dee2e6
-
-    // border-bottom: 1px solid $border-gray
 
 .header
     display: flex
@@ -60,19 +56,18 @@ $border-gray: #e9ecef
 
 .image img
     max-height: 200px
-    border-radius: 4px
+    border-radius: 16px
     object-fit: cover
-    width: 678px
+    width: 100%
     border-bottom-left-radius: 0px
     border-bottom-right-radius: 0px
-    // border: 1px solid #dee2e6
 
 .likes
     display: flex
     align-items: center
     gap: 10px
     background-color: #f1f3f5
-    padding: 5px 8px
+    padding: 0px 8px
     border: 1px solid #dee2e6
     border-radius: 25px
     &:hover
@@ -80,7 +75,10 @@ $border-gray: #e9ecef
 
 .comment
     background-color: #f1f3f5
-    padding: 5px 5px 0px 5px
+    // padding: 2px 5px 2px 5spx
+    padding-top: 3px
+    padding-right: 2px
+    padding-left: 1px
     padding-bottom: 0px
     border: 1px solid #dee2e6
 
@@ -103,8 +101,8 @@ $border-gray: #e9ecef
     display: flex
 
 .userlikespfp img
-    height: 18px
-    width: 18px
+    height: 16px
+    width: 16px
     border-radius: 50%
 
 .interaction
@@ -125,7 +123,8 @@ $border-gray: #e9ecef
     gap: 5px
     color: #868e96
     border-radius: 8px
-    font-size: 14px
+    font-size: 12px
+    // size: 5px
 
 @media only screen and (max-width: 670px)
     .interaction
@@ -133,6 +132,9 @@ $border-gray: #e9ecef
         margin-left: 0px
         // justify-content: center
         gap: 40px
+
+    .container
+        width: 100%
 
     .content img
         width: 100%

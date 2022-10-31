@@ -3,8 +3,10 @@ import styles from "./post.module.sass";
 import example_pfp from "../../../assets/example_pfp.jpg";
 import like_react from "../../../assets/like_react.png";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import { ILikes } from "../../../ApiManager/interface/Interfaces";
+import { Chip } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { ILikes } from "../../../ApiManager/api/forum";
+// import { ILikes } from "../../../ApiManager/api/forum";
 
 
 // username={item.username} pfp={item.user_pfp} likes={item.likes} content={item.content} id={item._id} image={item.image}
@@ -34,7 +36,7 @@ const SecondaryPost = (props: Props) => {
           </p>
         </div>
       </div>
-      <div>
+      <div style={{ paddingLeft: "5px", paddingRight: "5px" }}>
         <div className={styles.likes}>
           <div>
             <FavoriteIcon fontSize="small" sx={{ fill: "#339af0", height: "12px" }} />
@@ -45,8 +47,13 @@ const SecondaryPost = (props: Props) => {
             }
             <span style={{ marginLeft: "5px" }}>{props.likes.length}</span>
           </div>
-
-          <span>view &gt;</span>
+          <Chip
+            sx={{
+              backgroundColor: "#FEF2E4", color: "#ffa94d", height: "20px"
+            }}
+            label={"Popular"}
+            size="small"
+          />
         </div>
       </div>
     </div>

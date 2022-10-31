@@ -169,7 +169,7 @@ const UserProfile = () => {
                     </main>
                     <button>View all &gt;</button>
                 </div>
-                <div className={styles.similar_users}>
+                {/* <div className={styles.similar_users}>
                     <span>Similar users</span>
                     <div className={styles.similar_user}>
                         <div>
@@ -198,6 +198,31 @@ const UserProfile = () => {
                             <AddCircleIcon sx={{ fill: "#4dabf7" }} />
                         </div>
                     </div>
+                </div> */}
+                <div>
+                    <main className={styles.contributions}>
+                        <h1> Latest contributions</h1>
+                        <div>
+                            <img src={example_pfp} />
+                            <p>uploaded notes for: Computer Science (9618)</p>
+                        </div>
+                        <div>
+                            <img src={example_pfp} />
+                            <p>uploaded notes for: Computer Science (9618)</p>
+                        </div>
+                        <div>
+                            <img src={example_pfp} />
+                            <p>uploaded notes for: Computer Science (9618)</p>
+                        </div>
+                        <div>
+                            <img src={example_pfp} />
+                            <p>uploaded notes for: Computer Science (9618)</p>
+                        </div>
+                        <div>
+                            <img src={example_pfp} />
+                            <p>uploaded notes for: Computer Science (9618)</p>
+                        </div>
+                    </main>
                 </div>
             </div>
 
@@ -222,7 +247,7 @@ const UserProfile = () => {
             </div> : <div className={styles.posts}>
                 {postStack}
             </div>}
-            <div className={styles.right}>
+            {/* <div className={styles.right}>
                 <main className={styles.contributions}>
                     <div>
                         <img src={example_pfp} />
@@ -262,7 +287,7 @@ const UserProfile = () => {
                         </div>
                     </main>
                 </div>
-            </div>
+            </div> */}
         </div>
     );
 };

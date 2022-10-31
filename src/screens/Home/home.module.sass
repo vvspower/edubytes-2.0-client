@@ -15,12 +15,50 @@ body
 
 .right
     position: fixed
-    right: 230px
+    right: 220px
 
 .secondary_post
     display: flex
     gap: 10px
     margin-top: 10px
+
+.carousel
+    background-color: white
+    padding: 10px
+    padding-top: 15px
+    border-radius: 12px
+    border: 1px solid #dee2e6
+
+    margin-top: 10px
+
+.head
+    display: flex
+    justify-content: space-between
+    align-items: center
+    margin-bottom: 10px
+    font-size: 14px
+
+// .head span
+//     font-size: 12px
+//     color: #adb5bd
+    margin-right: 5px
+    cursor: pointer
+    &:hover
+        text-decoration:
+
+.head span
+    background-color: #339af0
+    border: none
+    border-radius: 25px
+    padding: 5px 8px
+    font-size: 12px
+    color: white
+    cursor: pointer
+
+.carousel svg
+    box-shadow: 0 3px 5px rgb(0 0 0 / 0.1)
+    border-radius: 50%
+    padding: 2px
 
 .container
     display: flex
@@ -52,6 +90,7 @@ body
 
     display: block
     float: right
+    margin-top: 4px
     border: 2px solid #dee2e6
     background-color: white
     border-radius: 25px
@@ -89,8 +128,8 @@ body
 .post
     max-width: 680px
     background-color: white
-    border-radius: 4px
-    margin-bottom: 5px
+    border-radius: 16px
+    margin-bottom: 15px
     // border: 1px solid #dee2e6
 
 @media only screen and (max-width: 1390px)
@@ -101,6 +140,12 @@ body
 
 @media only screen and (max-width: 670px)
     .container
-        max-width: 100%
+        // width: 100px
         padding-left: 10px
         padding-right: 10px
+
+    // .secondary_post
+    //     display: none
+
+    // .postbar
+    //     display: none

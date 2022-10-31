@@ -7,9 +7,6 @@ const instance = axios.create({
     timeout: 100000,
 });
 
-
-
-
 export default class Friend {
     private _token: string
 

@@ -1,19 +1,20 @@
 .container
-    margin-top: 85px
     display: flex
+    margin: 0 auto
+    width: 1000px
+    margin-top: 60px
+    gap: 20px
 
 .left
-    border-right: 1px solid #dee2e6
+    // display: 
+    display: inline
+    border: 1px solid #dee2e6
+    flex-basis: auto
+    border-radius: 8px
     max-width: 340px
-    padding-right: 50px
-    position: fixed
-    margin-left: 60px
-    max-height: 80vh
-
-.left
-    &:hover
-        max-height: 100vh
-        overflow-y: overlay
+    max-height: 100%
+    background-color: white
+    padding: 10px
 
 .user
     display: flex
@@ -25,6 +26,7 @@
 .edit_btn
     padding: 8px
     border-radius: 25px
+    width: 340px
     outline: none
     border: none
     background-color: #e9ecef
@@ -32,10 +34,11 @@
     cursor: pointer
 
 .user img
-    height: 300px
-    width: 300px
+    height: 200px
+    width: 200px
+    margin-left: 50px
     object-fit: cover
-    padding: 15px
+    padding: 5px
     box-shadow: 0 3px 5px rgb(0 0 0 / 0.1)
     background-color: white
     border-radius: 50%
@@ -111,18 +114,12 @@
     font-size: 12px
 
 .posts
-    margin: 0 auto
-    margin-left: 480px
-    width: 850px
-    padding: 10px
-    border-radius: 8px
+    width: 680px
 
 .post
     margin-bottom: 15px
     background-color: white
     border-radius: 16px
-    padding: 5px
-    box-shadow: 0 3px 5px rgb(0 0 0 / 0.1)
 
 .right h1
     font-size: 12px
@@ -133,14 +130,16 @@
     border-left: 1px solid #dee2e6
     padding-left: 40px
     // margin-right: 200px
-    position: fixed
-    margin-left: 1380px
+    // position: fixed
+    // margin-left: 1380px
 
 .contributions
-    background-color: white
-    padding: 10px
-    border-radius: 8px
-    width: 400px
+    margin-top: 20px
+
+.contributions h1
+    font-size: 12px
+    font-weight: 400
+    color: #adb5bd
 
 .contributions img
     height: 25px

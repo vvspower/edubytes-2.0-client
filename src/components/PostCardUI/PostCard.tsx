@@ -88,7 +88,7 @@ const PostCard = (props: Props) => {
         {props.image != "" ? <img src={props.image} /> : null}
       </div>
       <div style={{ padding: "12px" }}>
-        <div className={styles.header}>
+        <div onClick={() => navigate(`/post?v=${props._id}`)} className={styles.header}>
           <div>
             <img src={props.pfp} />
             <div>
@@ -98,7 +98,7 @@ const PostCard = (props: Props) => {
           </div>
           <MoreHorizIcon sx={{ fill: "#868e96" }} />
         </div>
-        <div className={styles.content}>
+        <div onClick={() => navigate(`/post?v=${props._id}`)} className={styles.content}>
           <p >{props.content}</p>
         </div>
 
@@ -107,9 +107,9 @@ const PostCard = (props: Props) => {
             <div>
               <div className={styles.icons}>
                 {!liked ? (
-                  <FavoriteBorderIcon fontSize="small" sx={{ fill: "#868e96" }} />
+                  <FavoriteBorderIcon fontSize="small" sx={{ fill: "#868e96", height: "18px" }} />
                 ) : (
-                  <FavoriteIcon fontSize="small" sx={{ fill: "#339af0" }} />
+                  <FavoriteIcon fontSize="small" sx={{ fill: "#339af0", height: "18px" }} />
                 )}
               </div>
               <span>{likes.length}</span>
@@ -127,16 +127,18 @@ const PostCard = (props: Props) => {
 
                   <Chip
                     key={i}
-                    sx={{ marginRight: 1, border: "1px solid #dee2e6 " }}
+                    sx={{
+                      marginRight: 1, backgroundColor: "#D7EFE0", color: "#37b24d"
+                    }}
                     label={item}
-                    size="medium"
+                    size="small"
                   />
 
                 );
               })}
             </div>
             <div className={styles.comment}>
-              <CommentIcon sx={{ fill: "#868e96" }} fontSize="small" />
+              <CommentIcon sx={{ fill: "#868e96", height: "14px" }} fontSize="small" />
             </div>
           </div>
         </div>

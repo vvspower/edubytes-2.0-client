@@ -6,7 +6,7 @@ import Login from "./screens/Auth/Login/Login";
 import MainPost from "./components/MainPost/MainPost";
 import Notifications from "./screens/Notifications/Notifications";
 import UserProfile from "./screens/UserProfile/UserProfile";
-import SideBar from "./components/SideBar/SideBar";
+// import SideBar from "./components/SideBar/SideBar";
 import MainPage from "./screens/Main/MainPage";
 
 function App() {
