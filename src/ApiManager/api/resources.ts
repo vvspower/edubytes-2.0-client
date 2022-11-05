@@ -19,6 +19,7 @@ export default class Resource {
 
     constructor() {
         this._token = this._token = sessionStorage.getItem("token")!;
+
     }
 
     public async uploadImage(form: FormData) {
@@ -29,40 +30,16 @@ export default class Resource {
         return response.data.url.toString();
     }
 
-    public async uploadFileToGoogleDrive(file: any) {//the file
-        let reader = new FileReader(); //this for convert to Base64
-        reader.readAsDataURL(file)//start conversion...
-        reader.onload = async function (e) {
-            //.. once finished..
-            let rawLog = (<string>reader?.result).split(",")[1]!; //extract only thee file data part
-            let dataSend = {
-                dataReq: { data: rawLog, name: file.name, type: file.type },
-                fname: "uploadFilesToGoogleDrive",
-            };
-            const response: AxiosResponse<any> = await drive_instance.post("/exec", JSON.stringify(dataSend))
-            console.log(response.data)
-            return response.data.url
-        };
-    }
 
-    // "username": username,
-    // "resource_title": content["resource_title"],
-    // "resource_type": content["resource_type"],
-    // "preview_image": content["preview_image"],
-    // "price": content["price"],
-    // "rating": content["rating"],
-    // "file_type": content["file_type"],
-    // # will be an array, single element in array in pdf, or else multiple links of images
-    // "subject": content["subject"],
-    // 'link': content["link"], # this will be a list
-    // "created": content["created"],
 
     public async uploadResource(data: interfaces.Resource) {
         instance.defaults.headers.common["Authorization"] = this._token
         const response: AxiosResponse<interfaces.ResourceResponse> = await instance.post(`/upload`, data)
-        return response.data.data
+        console.log(response)
+        return response
     }
 }
+
 
 
 

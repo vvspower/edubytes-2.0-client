@@ -41,8 +41,7 @@ const SecondaryPost = (props: Props) => {
           <div>
             <FavoriteIcon fontSize="small" sx={{ fill: "#339af0", height: "12px" }} />
             {props.likes.map((item, i) => {
-              console.log(props.likes)
-              return <img src={item.user_pfp} />
+              return <img key={i} src={item.user_pfp} />
             })
             }
             <span style={{ marginLeft: "5px" }}>{props.likes.length}</span>

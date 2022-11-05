@@ -309,20 +309,7 @@ export interface ResponseSuggestedPost {
     success: boolean
 }
 
-// "username": username,
-// "resource_title": content["resource_title"],
-// "resource_type": content["resource_type"],
-// "preview_image": content["preview_image"],
-// "price": content["price"],
-// "rating": content["rating"],
-// "file_type": content["file_type"],
-// # will be an array, single element in array in pdf, or else multiple links of images
-// "subject": content["subject"],
-// 'link': content["link"], # this will be a list
-// "created": content["created"],
-
 export interface Resource {
-    username: string
     resource_title: string
     resource_type: string
     preview_image: string
@@ -331,9 +318,9 @@ export interface Resource {
     file_type: string
     subject: string
     link: string[]
-    created: string
+    visibility: string
 }
 
 export interface ResourceResponse {
-    data: Resource
+    data: string
 }

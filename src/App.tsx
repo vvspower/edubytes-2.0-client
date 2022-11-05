@@ -6,6 +6,7 @@ import Login from "./screens/Auth/Login/Login";
 import MainPost from "./components/MainPost/MainPost";
 import Notifications from "./screens/Notifications/Notifications";
 import UserProfile from "./screens/UserProfile/UserProfile";
+import Marketplace from "./screens/ResourcePage/Marketplace/Marketplace";
 // import SideBar from "./components/SideBar/SideBar";
 import MainPage from "./screens/Main/MainPage";
 
@@ -22,7 +23,7 @@ function App() {
         <Route path="/u/:username" element={<UserProfile />} />
         <Route path="/post" element={<MainPost />} />
         <Route path="/notifications" element={<Notifications />} />
-
+        <Route path="/marketplace" element={<Marketplace />} />
       </Routes>
     </div>
   );
