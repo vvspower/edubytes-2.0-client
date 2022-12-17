@@ -6,9 +6,10 @@ import Login from "./screens/Auth/Login/Login";
 import MainPost from "./components/MainPost/MainPost";
 import Notifications from "./screens/Notifications/Notifications";
 import UserProfile from "./screens/UserProfile/UserProfile";
-import Marketplace from "./screens/ResourcePage/Marketplace/Marketplace";
-// import SideBar from "./components/SideBar/SideBar";
+import Resource from "./screens/ResourcePage/Resource/Resource";
 import MainPage from "./screens/Main/MainPage";
+import ViewResource from "./screens/ResourcePage/Resource/ViewResource/ViewResource";
+import Calendar from "./screens/Calendar/Calendar";
 
 function App() {
   const location = useLocation();
@@ -23,7 +24,11 @@ function App() {
         <Route path="/u/:username" element={<UserProfile />} />
         <Route path="/post" element={<MainPost />} />
         <Route path="/notifications" element={<Notifications />} />
-        <Route path="/marketplace" element={<Marketplace />} />
+        <Route path="/resources" element={<Resource />} />
+        <Route path="/resources/view/:id" element={<ViewResource />} />
+        <Route path="/calendar" element={<Calendar />} />
+
+
       </Routes>
     </div>
   );

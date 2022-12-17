@@ -10,7 +10,7 @@ import Forum from "../../../ApiManager/api/forum";
 import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
 import Modal from "@mui/material/Modal";
-import { IDefaultResponse } from "../../../ApiManager/api/forum";
+import { IDefaultResponse } from "../../../ApiManager/interface/Interfaces";
 import CircularProgress from "@mui/material/CircularProgress";
 
 
@@ -19,6 +19,7 @@ interface Props {
   handleClose: () => void;
   pfp: string;
   username: string;
+  type: string
 }
 
 const style = {
@@ -68,6 +69,7 @@ const CreatePost = (props: Props) => {
       settags(event.target.value);
     }
   };
+  
 
   const handleDelete = (i: number): void => {
     const tags = tagsArray;
@@ -77,11 +79,13 @@ const CreatePost = (props: Props) => {
     forceUpdate();
   };
 
+
   const handleClick = (): void => {
     if (hiddenFileInput.current) {
       hiddenFileInput.current.click();
     }
   };
+
 
   const onImageChange = (event: ChangeEvent<HTMLInputElement>): void => {
     if (event.target.files && event.target.files[0]) {
@@ -95,7 +99,6 @@ const CreatePost = (props: Props) => {
     setforum(event.target.value)
 
   }
-
 
   const uploadPost = async () => {
     try {

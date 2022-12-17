@@ -7,11 +7,6 @@ const instance = axios.create({
     timeout: 100000,
 });
 
-const drive_instance = axios.create({
-    baseURL: "https://script.google.com/macros/s/AKfycbzahMBn4ZbghLAMQG2zCLMd1f7PuxDDSVOr7DreZ9U1kD4rD48W8oo-nLJVbq7g2eP-bg",
-    timeout: 100000,
-})
-
 
 
 export default class Resource {
@@ -22,24 +17,46 @@ export default class Resource {
 
     }
 
-    public async uploadImage(form: FormData) {
-        const response: any = await instance.post(
-            "https://api.cloudinary.com/v1_1/disle0uxb/image/upload",
-            form
-        );
-        return response.data.url.toString();
-    }
-
-
-
     public async uploadResource(data: interfaces.Resource) {
         instance.defaults.headers.common["Authorization"] = this._token
         const response: AxiosResponse<interfaces.ResourceResponse> = await instance.post(`/upload`, data)
         console.log(response)
         return response
     }
-}
 
+    public async getResources() {
+        const response: AxiosResponse<interfaces.ReturnedResourceResponse> = await instance.get(`/`)
+        console.log(response)
+        return response
+    }
+
+    public async getUserResourcesWithAuth() {
+        instance.defaults.headers.common["Authorization"] = this._token
+        const response: AxiosResponse<interfaces.ReturnedResourceResponse> = await instance.get(`/user`)
+        return response
+    }
+
+    public async getUserResourcesWithNoAuth(username: string) {
+        const response: AxiosResponse<interfaces.ReturnedResourceResponse> = await instance.get(`/${username}`)
+        return response
+    }
+
+    public async getOneResource(id: string) {
+        const response: AxiosResponse<interfaces.ReturnedResourceResponseSingle> = await instance.get(`/${id}`)
+        return response
+    }
+
+    public async searchResources(board: string, subject: string, query: string) {
+        const response: AxiosResponse<interfaces.ReturnedResourceResponse> = await instance.get(`/search/${board}/${subject}/${query}`)
+        return response
+    }
+
+    public async changeRating(id: string, rating: number) {
+        instance.defaults.headers.common["Authorization"] = this._token
+        const response: AxiosResponse<interfaces.ResourceResponse> = await instance.post(`/rating/${id}`, { "rating": rating })
+        return response
+    }
+}
 
 
 

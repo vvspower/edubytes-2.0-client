@@ -2,6 +2,9 @@ $secondary-gray: #adb5bd
 
 html
     height: 100%
+    // overflow-y: scroll
+    overflow-x: hidden
+    margin-right: calc(-1 * (100vw - 100%))
 
 body
     background-color: #F0F2F5
@@ -15,7 +18,7 @@ body
 
 .right
     position: fixed
-    right: 220px
+    left: 1310px
 
 .secondary_post
     display: flex
@@ -28,6 +31,7 @@ body
     padding-top: 15px
     border-radius: 12px
     border: 1px solid #dee2e6
+    // display: none
 
     margin-top: 10px
 
@@ -54,7 +58,6 @@ body
     font-size: 12px
     color: white
     cursor: pointer
-
 .carousel svg
     box-shadow: 0 3px 5px rgb(0 0 0 / 0.1)
     border-radius: 50%
@@ -65,7 +68,8 @@ body
     gap: 20px
 
     padding-top: 50px
-    padding-left: calc(100vw - 100%)
+    // padding-left: calc(100vw - 100%)
+    // padding-left: calc(100vw - 100%)
 
 .middle
     position: relative
@@ -87,7 +91,6 @@ body
     color: $secondary-gray
 
 .header
-
     display: block
     float: right
     margin-top: 4px
@@ -95,6 +98,7 @@ body
     background-color: white
     border-radius: 25px
     max-width: 125px
+
 .header button
     border: none
     background-color: white
@@ -119,18 +123,13 @@ body
     font-size: 16px
 
 .mainposts
-    // background-color: white
     margin-top: 46px
-    // padding: 10px
-    // border-radius: 6px
-    // box-shadow: 0 3px 5px rgb(0 0 0 / 0.1)
 
 .post
     max-width: 680px
     background-color: white
     border-radius: 16px
     margin-bottom: 15px
-    // border: 1px solid #dee2e6
 
 @media only screen and (max-width: 1390px)
     .left
@@ -140,12 +139,35 @@ body
 
 @media only screen and (max-width: 670px)
     .container
-        // width: 100px
-        padding-left: 10px
-        padding-right: 10px
+        padding-left: 5px
+        padding-right: 20px
 
-    // .secondary_post
-    //     display: none
+    .carousel
+        width: 500px
 
-    // .postbar
-    //     display: none
+@media only screen and (max-width: 540px)
+    .secondary_post main
+        &:nth-child(2)
+            display: none
+
+    .secondary_post
+        width: 100%
+
+    .carousel
+        width: 500px
+
+@media only screen and (max-width: 500px)
+    .carousel
+        width: 450px
+
+@media only screen and (max-width: 450px)
+    .carousel
+        width: 400px
+
+@media only screen and (max-width: 400px)
+    .carousel
+        width: 350px
+
+@media only screen and (max-width: 350px)
+    .carousel
+        width: 300px

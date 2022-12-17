@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import styles from './leftbar.module.sass'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../store/store'
@@ -11,8 +12,10 @@ import book from '../../../assets/book.jpg'
 import Rating from '@mui/material/Rating';
 
 
+
 const LeftBar = () => {
     const user = useSelector((state: RootState) => state.user.value);
+    const navigate = useNavigate()
 
     return (
         <div className={styles.container}>
@@ -24,9 +27,9 @@ const LeftBar = () => {
                     </div>
                     <div className={styles.menu}>
                         <div className={styles.buttons}>
-                            <button>
+                            <button onClick={() => navigate("/resources")}>
                                 <img src={resource} />
-                                <div>Browse Resources</div>
+                                <div >Browse Resources</div>
                             </button>
                             <button>
                                 <img src={university} />

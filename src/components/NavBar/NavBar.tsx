@@ -46,9 +46,9 @@ const NavBar = () => {
   };
 
   useEffect(() => {
-    if (sessionStorage.getItem("token") !== null) {
-      getUser();
-    }
+    // if (sessionStorage.getItem("token") !== null) {
+    getUser();
+    // }
   }, []);
 
   console.log(search)

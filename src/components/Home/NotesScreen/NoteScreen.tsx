@@ -7,13 +7,99 @@ import Resource from '../../../ApiManager/api/resources';
 import * as interfaces from '../../../ApiManager/interface/Interfaces'
 import LinearWithValueLabel from '../../LoadingLinear/LinearWithValueLabel';
 import { useNavigate } from 'react-router-dom';
-import { type } from 'os';
+import Cloudinary from '../../../ApiManager/cloudinaryApi/cloudinary';
 
 
 const NoteScreen = () => {
     const resourceApi = new Resource()
+    const cloudinaryApi = new Cloudinary()
+
     const navigate = useNavigate()
-    const subjects = ["Accounting - 7707",
+
+    const boards = [
+        "A Level",
+        "O Level",
+        "ECAT/MDCAT",
+        "Intermediate",
+        "Matric"
+    ]
+
+    const alevelsubjects = [
+        "Accounting - 9706",
+        "Afrikaans - 9679",
+        "Afrikaans - Language (AS Level only) - 8679",
+        "Arabic - 9680",
+        "Arabic - Language (AS Level only) - 8680",
+        "Art & Design - 9479",
+        "Biblical Studies (9484) New",
+        "Biology - 9700",
+        "Business (9609)",
+        "Chemistry - 9701",
+        "Chinese - Language & Literature (A Level only) - 9868 New",
+        "Chinese - Language (AS Level only) - 8681",
+        "Chinese (A Level only) - 9715",
+        "Chinese Language (AS Level) - 8238 New",
+        "Classical Studies - 9274",
+        "Computer Science - 9618",
+        "Design & Technology - 9705",
+        "Design & Textiles - 9631",
+        "Digital Media & Design - 9481",
+        "Divinity (A Level only) - 9011",
+        "Divinity (AS Level only) - 8041",
+        "Drama - 9482",
+        "Economics - 9708",
+        "English - Language and Literature (AS Level only) - 8695",
+        "English - Literature - 9695",
+        "English General Paper (AS Level only) - 8021",
+        "English Language - 9093",
+        "Environmental Management (AS only) - 8291",
+        "French - Language (AS Level only) - 8682",
+        "French (A Level only) - 9716",
+        "French Language & Literature - 9898",
+        "French Language (AS Level) - 8028",
+        "Geography - 9696",
+        "German - 9897",
+        "German - Language (AS Level only) - 8683",
+        "German - Language (AS Level) - 8027",
+        "German (A Level only) - 9717",
+        "Global Perspectives & Research - 9239",
+        "Hindi - Language (AS Level only) - 8687",
+        "Hindi - Literature (AS Level only) - 8675",
+        "Hindi (A Level only) - 9687",
+        "Hinduism - 9487",
+        "History - 9489",
+        "Information Technology - 9626",
+        "Islamic Studies - 9488",
+        "Japanese Language (AS Level only) - 8281",
+        "Law - 9084",
+        "Marine Science - 9693",
+        "Mathematics - 9709",
+        "Mathematics - Further - 9231",
+        "Media Studies - 9607",
+        "Music - 9483",
+        "Physical Education - 9396",
+        "Physics - 9702",
+        "Portuguese - Language (AS Level only) - 8684",
+        "Portuguese (A Level only) - 9718",
+        "Psychology - 9990",
+        "Sociology - 9699",
+        "Spanish - First Language (AS Level only) - 8665",
+        "Spanish - Language & Literature (A Level only) - 9844 New",
+        "Spanish - Language (AS Level only) - 8685",
+        "Spanish - Literature (AS Level only) - 8673",
+        "Spanish (A Level only) - 9719",
+        "Spanish Language (AS Level) - 8022 New",
+        "Sport & Physical Education (AS Level only) (8386) New",
+        "Tamil - 9689",
+        "Tamil - Language (AS Level only) - 8689",
+        "Thinking Skills - 9694",
+        "Travel & Tourism - 9395",
+        "Urdu - Language (AS Level only) - 8686",
+        "Urdu - Pakistan only (A Level only) - 9686",
+        "Urdu (A Level only) - 9676",
+    ]
+
+    const olevelsubjects = ["Accounting - 7707",
         "Agriculture - 5038",
         "Arabic - 3180",
         "Art & Design - 6090",
@@ -55,6 +141,16 @@ const NoteScreen = () => {
         "Urdu - First Language - 3247",
         "Urdu - Second Language - 3248"]
 
+
+    const ecatsubjects = [
+        "Mathematics",
+        "Physics",
+        "Chemistry",
+        "Biology",
+        "Computer Science",
+        "English"
+    ]
+
     const hiddenImageFileInput = useRef<HTMLInputElement>(null);
     const hiddenPDFFileInput = useRef<HTMLInputElement>(null);
 
@@ -63,8 +159,10 @@ const NoteScreen = () => {
 
     const [title, setTitle] = useState<string>("")
     const [price, setPrice] = useState<string>("0")
-    const [subject, setSubject] = useState<string>(subjects[0])
-    const [visibility, setVisibility] = useState<string>("public")
+    const [board, setBoard] = useState<string>(boards[0])
+    const [subject, setSubject] = useState<string>("")
+
+    const [visibility, setVisibility] = useState<string>("private")
 
     const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
 
@@ -128,7 +226,7 @@ const NoteScreen = () => {
                 imageFile.map(async (file, i) => {
                     let formData = createFormData(imageFile, file)
                     try {
-                        const response: string = await resourceApi.uploadImage(formData!)
+                        const response: string = await cloudinaryApi.uploadImage(formData!)
                         const url = imageURL
                         url.push(response)
                         setImageURL(url)
@@ -157,10 +255,10 @@ const NoteScreen = () => {
 
 
     const uploadPDF = async () => {
+        console.log("here")
         setUploading(true);
 
         (async function (next) {
-
             let reader = new FileReader();
             reader.readAsDataURL(PDF!)
             reader.onload = async function (e) {
@@ -190,9 +288,6 @@ const NoteScreen = () => {
         if (title.length <= 10) {
             raiseError("title should be atleast 10 characters or more")
             return false
-        } else if (price.length === 0) {
-            raiseError("Please enter a price")
-            return false
         } else {
             return true
         }
@@ -205,9 +300,9 @@ const NoteScreen = () => {
                 "resource_title": title,
                 "resource_type": target,
                 "preview_image": target === "image" ? imageURL[0] : "",
-                "price": parseInt(price),
                 "rating": 0,
                 "file_type": target,
+                "board": board,
                 "subject": subject,
                 "link": target === "image" ? imageURL : pdfURL,
                 "visibility": visibility
@@ -217,7 +312,7 @@ const NoteScreen = () => {
                 setProgress(100)
 
                 if (response.status === 200) {
-                    let timeout = setTimeout(() => navigate("/marketplace"), 1000);
+                    let timeout = setTimeout(() => navigate("/resources"), 1000);
                 }
             } catch (err: any) {
                 if (axios.isAxiosError(err)) {
@@ -227,16 +322,16 @@ const NoteScreen = () => {
         }
     }
 
+    console.log(subject)
+
     // todo: handle status != 200 error
 
     return (
         <div className={styles.container}>
             <div className={styles.upload}>
-                <h2>Contribute by uploading &gt;</h2>
+                {image.length === 0 && PDF === undefined ? <h2>Contribute by uploading &gt;</h2> : null}
                 <div>
                     {image.length === 0 && PDF === undefined ? <div className={styles.input}>
-                        {/* <h2>Contribute by uploading &gt;</h2> */}
-
                         <div onClick={() => {
                             hiddenPDFFileInput.current!.click()
                         }}>
@@ -302,13 +397,37 @@ const NoteScreen = () => {
                                     <div className={styles.notes_info}>
                                         <div>
                                             <input onChange={(e) => { setTitle(e.target.value) }} value={title} placeholder='Title' />
-                                            <input onChange={(e) => { setPrice(e.target.value) }} value={price} style={{ width: "100px" }} placeholder='Price (0 for free)' />
-                                            <select onChange={(e) => { setSubject(e.target.value) }} name='Subject'>
-                                                {subjects.map((item, i) => {
+                                            <select onChange={(e) => { setBoard(e.target.value) }} name="subject" >
+                                                {boards.map((item, i) => {
+                                                    // TODO: Add logic to set subject to first subject in the list onChange
+                                                    return <option value={item}>{item}</option>
+                                                })}
+                                            </select>
+
+                                            {board === "O Level" ? <select onChange={(e) => { setSubject(e.target.value) }} name='subject'>
+                                                {olevelsubjects.map((item, i) => {
                                                     return <option value={item}>{item}</option>
                                                 })}
 
-                                            </select>
+                                            </select> : null}
+                                            {board === "ECAT/MDCAT" ? <select onChange={(e) => { setSubject(e.target.value) }} name='subject'>
+                                                {ecatsubjects.map((item, i) => {
+                                                    return <option value={item}>{item}</option>
+                                                })}
+
+                                            </select> : null}
+                                            {board === "A Level" ?
+                                                <select onChange={(e) => { setSubject(e.target.value) }} name="subject">
+                                                    {
+                                                        alevelsubjects.map((item, i) => {
+                                                            return <option value={item}>{item}</option>
+                                                        })
+                                                    }
+
+                                                </select>
+                                                : null}
+
+
                                             <select onChange={(e) => { setVisibility(e.target.value) }} name='visibility'>
                                                 <option value={"private"}>Private</option>
                                                 <option value={"public"}>Public</option>

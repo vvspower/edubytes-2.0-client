@@ -6,8 +6,11 @@ import CreatePostBar from "../../components/Home/CreatePostBar/CreatePostBar";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { RootState } from "../../store/store";
 import { useSelector, useDispatch } from "react-redux";
+import { ReturnedResourceResponse } from "../../ApiManager/interface/Interfaces";
+import { ReturnedResource } from "../../ApiManager/interface/Interfaces";
 import { useNavigate } from "react-router-dom";
 import Forum from "../../ApiManager/api/forum";
+import Resource from "../../ApiManager/api/resources";
 import { IPost } from "../../ApiManager/interface/Interfaces";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
@@ -28,11 +31,14 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import Contribute from "../../components/Home/Contribute/Contribute";
 import NoteScreen from "../../components/Home/NotesScreen/NoteScreen";
+import { width } from "@mui/system";
 
 const Home = () => {
+
   const [posts, setPosts] = useState<IPost[]>([]);
   const [topPosts, setTopPosts] = useState<IPost[]>([]);
   const [mode, setMode] = useState<"home" | "friends" | "resources">("home");
+  const [resources, setResource] = useState<ReturnedResource[]>([])
   const [random, setRandom] = useState(Math.floor(Math.random() * 6))
 
 
@@ -43,7 +49,7 @@ const Home = () => {
     superLargeDesktop: {
       // the naming can be any, depends on you.
       breakpoint: { max: 4000, min: 3000 },
-      items: 7,
+      items: 4,
       slidesToSlide: 8
     },
     desktop: {
@@ -65,6 +71,8 @@ const Home = () => {
   const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
   const navigate = useNavigate();
   const forumApi = new Forum();
+  const resourceApi = new Resource()
+
 
   const user = useSelector((state: RootState) => state.user.value);
 
@@ -94,6 +102,39 @@ const Home = () => {
     setTopPosts(response.data.data.sorted);
     forceUpdate();
   };
+
+  const getResources = async () => {
+    const response: AxiosResponse<ReturnedResourceResponse> = await resourceApi.getResources()
+    setResource(response.data.data)
+
+  }
+
+  console.log(resources)
+
+  const topPostPreview: JSX.Element = (
+    <>
+
+      <Stack
+        sx={{
+          padding: "10px", backgroundColor: "white", borderRadius: "8px", border: "1px solid #dee2e6", paddingBottom: "0px"
+        }}
+        spacing={1}
+      >
+        <div style={{ display: "flex", gap: "10px" }}>
+          <Skeleton variant="circular" width={20} height={20} />
+          <div>
+            <Skeleton variant="text" width={282} height={10} />
+            <Skeleton variant="text" width={282} height={10} />
+            {/* <Skeleton variant="text" width={100} height={10} /> */}
+          </div>
+        </div >
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <Skeleton variant="circular" width={12} height={12} />
+          <Skeleton variant="text" width="50px" height={30} style={{ borderRadius: "12px", alignContent: "right", margin: "0px" }} />
+        </div>
+      </Stack>
+    </>
+  );
 
   const postPreview: JSX.Element = (
     <>
@@ -143,12 +184,12 @@ const Home = () => {
     } else if (user.education.institute != "") {
       getPosts();
       getTopPosts()
+      getResources()
     }
   }, [user]);
 
   return (
     <div className={styles.container}>
-
       <div className={styles.left}>
         <LeftBar />
       </div>
@@ -157,11 +198,20 @@ const Home = () => {
           spinner
         ) : (
           <>
-            <div className={styles.secondary_post}>{
-              topPosts.map((item, i) => {
-                return <SecondaryPost key={i} username={item.username} pfp={item.user_pfp} likes={item.likes} content={item.content} id={item._id} image={item.image} />
-              })
-            }
+            <div className={styles.secondary_post}>
+              {/* {topPostPreview} */}
+              {/* {topPostPreview} */}
+
+
+
+              {topPosts.length === 0 ? <div className={styles.secondary_post}>
+                {topPostPreview}
+                {topPostPreview}
+
+              </div> : topPosts.map((item, i) => {
+                return <main><SecondaryPost key={i} username={item.username} pfp={item.user_pfp} likes={item.likes} content={item.content} id={item._id} image={item.image} /></main>
+              })}
+
             </div>
             <div className={styles.carousel}>
               <div className={styles.head} >
@@ -175,6 +225,7 @@ const Home = () => {
                   <span>Contribute</span>
                 </div>
               </div>
+              <div></div>
               <Carousel
                 itemClass="carousel-item-padding-0-px"
                 centerMode={true}
@@ -184,28 +235,13 @@ const Home = () => {
                 removeArrowOnDeviceType={["tablet", "mobile"]}
                 partialVisible={false}
               >
-                <div>
-                  <Notes />
-                </div>
-                <div>
-                  <Notes />
-                </div>
-                <div>
-                  <Notes />
-                </div>
-                <div>
-                  <Notes />
-                </div>
-                <div>
-                  <Notes />
-                </div>
-                <div>
-                  <Notes />
-                </div>
+                {resources.map((item, i) => {
+                  return <div ><Notes id={item._id} title={item.resource_title} image={item.preview_image} subject={item.subject} rating={item.rating} username={item.username} user_pfp={item.user_pfp} /></div>
+                })}
               </Carousel>
             </div>
             <div className={styles.postbar}>
-              <CreatePostBar pfp={user.details.pfp} />
+              <CreatePostBar type={"post"} pfp={user.details.pfp} />
             </div>
             <div className={styles.header}>
               <button onClick={() => setMode("home")}><HomeIcon

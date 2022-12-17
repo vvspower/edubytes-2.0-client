@@ -4,6 +4,10 @@ import MenuItem from "@mui/material/MenuItem";
 import { useNavigate } from "react-router-dom";
 import styles from "./dropdown.module.sass";
 import Chip from "@mui/material/Chip";
+// import { Redirect } from 'react-router-dom';
+import { Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+
 
 import Stack from "@mui/material/Stack";
 
@@ -40,6 +44,7 @@ const UserAvatarDropDown = (props: Props) => {
         <div className={styles.menu}>
           <h1 className={styles.title}>ACCOUNT</h1>
           <div onClick={() => {
+            // <Navigate to={`/u/${props.user_name}`} />
             navigate(`/u/${props.user_name}`)
           }} className={styles.profile}>
             <img src={props.user_pfp} />

@@ -7,9 +7,11 @@ import Notes from "../NotesDisplay/Notes";
 
 import { useState } from "react";
 import styles from "./createpostbar.module.sass";
+import { type } from "os";
 
 interface Props {
   pfp: string;
+  type: string
 }
 
 const CreatePostBar = (props: Props) => {
@@ -18,7 +20,7 @@ const CreatePostBar = (props: Props) => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  
+
 
   return (
     <div className={styles.container}>
@@ -40,6 +42,7 @@ const CreatePostBar = (props: Props) => {
         handleClose={handleClose}
         pfp={user.details.pfp}
         username={user.username}
+        type={props.type}
       />
     </div>
   );

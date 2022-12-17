@@ -18,6 +18,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { Chip } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import EditIcon from '@mui/icons-material/Edit';
+
 
 interface Props {
   _id: string;
@@ -80,7 +82,7 @@ const PostCard = (props: Props) => {
   return (
     <div className={styles.container}>
       <div
-        onClick={() => navigate(`/post?v=${props._id}`)}
+        onClick={() => { navigate(`/post?v=${props._id}`); location.reload() }}
         className={styles.image}
 
       >
@@ -96,7 +98,6 @@ const PostCard = (props: Props) => {
               <p>{timeago.format(parseInt(props.created + "000"))}</p>
             </div>
           </div>
-          <MoreHorizIcon sx={{ fill: "#868e96" }} />
         </div>
         <div onClick={() => navigate(`/post?v=${props._id}`)} className={styles.content}>
           <p >{props.content}</p>

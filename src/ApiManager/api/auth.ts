@@ -10,6 +10,13 @@ const instance = axios.create({
 // Post Interfaces
 
 export default class Auth {
+  private _token: string
+
+  constructor() {
+    this._token = sessionStorage.getItem("token")!;
+
+  }
+
   public async signInUser(email: string, password: string) {
     const response: AxiosResponse<interfaces.IAuthResponse> = await instance.post(
       "/sign-in",
@@ -19,7 +26,7 @@ export default class Auth {
   }
 
   public async getUserFromToken(token: string) {
-    instance.defaults.headers.get["Authorization"] = token;
+    instance.defaults.headers.common["Authorization"] = this._token
     const response: AxiosResponse<interfaces.IGetUserResponse> = await instance.get(
       "/user"
     );
@@ -27,11 +34,17 @@ export default class Auth {
   }
 
   public async getUserFromUsername(username: string) {
-    delete axios.defaults.headers.common["Authorization"];
+    // delete axios.defaults.headers.common["Authorization"];
     const response: AxiosResponse<interfaces.IGetUserResponse> = await instance.get(
       `/user/${username}`
     );
     return response;
+  }
+
+  public async updateUser(details: any, education: any) {
+    instance.defaults.headers.common["Authorization"] = this._token
+    const response: AxiosResponse<interfaces.IDefaultResponse> = await instance.put("/user", { details, education })
+    return response
   }
 
 }

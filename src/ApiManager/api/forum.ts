@@ -1,5 +1,6 @@
 import axios, { AxiosInstance, AxiosResponse } from "axios";
 import * as interfaces from '../interface/Interfaces'
+import Cloudinary from "../cloudinaryApi/cloudinary";
 
 
 const instance = axios.create({
@@ -7,25 +8,13 @@ const instance = axios.create({
   timeout: 100000,
 });
 
-
-
-
-
+const cloudinaryApi = new Cloudinary()
 
 export default class Forum {
-  private async uploadImage(form: FormData) {
-    const response: any = await instance.post(
-      "https://api.cloudinary.com/v1_1/disle0uxb/image/upload",
-      form
-    );
-    return response.data.url.toString();
-  }
-
-
   public async createPost(content: string, target: string, subject: string, tags: string[], img: FormData | undefined) {
     let image = ""
     if (img !== undefined) {
-      image = await this.uploadImage(img!)
+      image = await cloudinaryApi.uploadImage(img!)
     }
     instance.defaults.headers.common["Authorization"] =
       sessionStorage.getItem("token")!;
@@ -33,6 +22,17 @@ export default class Forum {
       "/post", { content, image, target, subject, tags, }
     );
     return response;
+  }
+
+  public async updatePost(content: string, img: FormData | undefined) {
+
+
+  }
+
+  public async deletePost(id: string) {
+    instance.defaults.headers.common["Authorization"] = sessionStorage.getItem("token")!;
+    const response: AxiosResponse<interfaces.IDefaultResponse> = await instance.delete(`/post/${id}`)
+    return response
   }
 
 
@@ -53,7 +53,6 @@ export default class Forum {
     return response;
   }
 
-  // http://127.0.0.1:9000/community/forums/post/user/vvspower
 
   public async getPostUser(username: string) {
     delete axios.defaults.headers.common["Authorization"];

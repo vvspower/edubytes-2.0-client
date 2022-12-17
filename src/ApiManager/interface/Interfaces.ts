@@ -313,12 +313,39 @@ export interface Resource {
     resource_title: string
     resource_type: string
     preview_image: string
-    price: number
+    board: string
     rating: number
     file_type: string
     subject: string
     link: string[]
     visibility: string
+}
+
+export interface ReturnedResource {
+    _id: string
+    username: string
+    resource_title: string
+    resource_type: string
+    preview_image: string
+    rating: number
+    raters: string[]
+    file_type: string
+    board: string
+    subject: string
+    link: string[]
+    user_pfp: string
+    visibility: string
+    created: string
+}
+
+export interface ReturnedResourceResponse {
+    data: ReturnedResource[]
+
+}
+
+export interface ReturnedResourceResponseSingle {
+    data: ReturnedResource
+
 }
 
 export interface ResourceResponse {

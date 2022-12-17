@@ -1,9 +1,10 @@
 
 .container
     background-color: white
+    cursor: pointer
     // padding: 10px
     // border: 1px solid #dee2e6
-    width: 120px
+    // width: 200px
     border-radius: 10px
     box-shadow: 0 3px 5px rgb(0 0 0 / 0.1)
     margin-bottom: 10px
@@ -13,30 +14,54 @@
 
 .container img
     height: 100px
-    width: 120px
+    width: 100%
     border-radius: 10px
     border-bottom-left-radius: 0px
     border-bottom-right-radius: 0px
+    object-fit: cover
 
 .main
     padding: 5px
     padding-top: 0px
 
-.main div
-    &:nth-child(1)
-        display: flex
-        justify-content: space-between
-        padding-bottom: 5px
-        padding-top: 2px
+.resource
+    display: flex
+    justify-content: space-between
+    // padding-bottom: 5px
+    padding-top: 2px
+
+.resource p
+    font-size: 11px
+    // color: #343a40
 
 .main
     font-size: 12px
 
 .container button
     display: block
-    width: 120px
+    width: 145px
     border-radius: 25px
     border: 0px
     background-color: #339af0
     color: white
     padding: 2px
+
+.user
+    padding-top: 8px
+
+.user img
+    height: 20px
+    width: 20px
+    border-radius: 50%
+
+.user div
+    display: flex
+    align-items: center
+
+    gap: 5px
+
+    margin-bottom: 5px
+    // gap: 1000px
+
+.user p
+    color: #868e96
