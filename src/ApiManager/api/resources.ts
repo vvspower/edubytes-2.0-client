@@ -42,6 +42,7 @@ export default class Resource {
     }
 
     public async getOneResource(id: string) {
+        instance.defaults.headers.common["Authorization"] = this._token
         const response: AxiosResponse<interfaces.ReturnedResourceResponseSingle> = await instance.get(`/${id}`)
         return response
     }
@@ -53,7 +54,13 @@ export default class Resource {
 
     public async changeRating(id: string, rating: number) {
         instance.defaults.headers.common["Authorization"] = this._token
-        const response: AxiosResponse<interfaces.ResourceResponse> = await instance.post(`/rating/${id}`, { "rating": rating })
+        const response: AxiosResponse<interfaces.ResourceResponse> = await instance.put(`/rating/${id}`, { "rating": rating })
+        return response
+    }
+
+    public async deleteResource(id: string) {
+        instance.defaults.headers.common["Authorization"] = this._token
+        const response: AxiosResponse<interfaces.IDefaultResponse> = await instance.delete(`/${id}`)
         return response
     }
 }

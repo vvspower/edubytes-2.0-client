@@ -221,7 +221,7 @@ const Home = () => {
                   </svg>
                   <p>Popular</p>
                 </div>
-                <div>
+                <div onClick={() => setMode("resources")}>
                   <span>Contribute</span>
                 </div>
               </div>
@@ -289,7 +289,7 @@ const Home = () => {
                             likes={item.likes}
                           />
                         </div>
-                      ) : <div>
+                      ) : <div onClick={() => setMode("resources")}>
                         <Contribute />
                         <div style={{ marginBottom: "10px" }}>
                           <PostCard

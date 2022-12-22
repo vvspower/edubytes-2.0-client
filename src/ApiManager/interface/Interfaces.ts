@@ -321,6 +321,13 @@ export interface Resource {
     visibility: string
 }
 
+export interface All_Raters {
+    rating: number
+    username: string
+    resource_id: string
+    _id: string
+}
+
 export interface ReturnedResource {
     _id: string
     username: string
@@ -328,7 +335,7 @@ export interface ReturnedResource {
     resource_type: string
     preview_image: string
     rating: number
-    raters: string[]
+    user_rated: number
     file_type: string
     board: string
     subject: string

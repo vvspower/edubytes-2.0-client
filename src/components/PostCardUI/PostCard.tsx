@@ -17,6 +17,8 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { Chip } from "@mui/material";
+import Avatar from '@mui/material/Avatar';
+import AvatarGroup from '@mui/material/AvatarGroup';
 import { useNavigate } from "react-router-dom";
 import EditIcon from '@mui/icons-material/Edit';
 
@@ -116,9 +118,11 @@ const PostCard = (props: Props) => {
               <span>{likes.length}</span>
             </div>
             <div className={styles.userlikespfp}>
-              {likes.slice(0, 4).map((item, i) => {
-                return <img key={i} src={item.user_pfp} />;
-              })}
+              <AvatarGroup max={4} >
+                {likes?.map((item, i) => {
+                  return <Avatar sx={{ height: "18px", width: "18px" }} alt={item.username} src={item.user_pfp} />
+                })}
+              </AvatarGroup>
             </div>
           </div>
           <div style={{ display: "flex", alignItems: "center" }}>

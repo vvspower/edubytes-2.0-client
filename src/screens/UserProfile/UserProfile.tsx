@@ -3,6 +3,7 @@ import React, { useEffect, useState, useReducer } from "react";
 import pdfimg from '../../assets/pdf.png'
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import styles from "./userprofile.module.sass";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
@@ -35,6 +36,7 @@ import Cloudinary from "../../ApiManager/cloudinaryApi/cloudinary";
 
 const UserProfile = () => {
     const { username } = useParams();
+    const navigate = useNavigate()
     const [resources, setResources] = useState<ReturnedResource[]>([])
     const [openModal, setOpenModal] = useState<boolean>(false)
     const [response_text, setResponseText] = useState<string>("")
@@ -359,18 +361,16 @@ const UserProfile = () => {
                             {showPublicResources ? resources.filter(item => {
                                 return item.visibility === "public"
                             }).splice(0, 4).map((item, i) => {
-                                return <div className={styles.resource}>
+                                return <div onClick={() => { navigate(`/resources/view/${item._id}`) }} className={styles.resource}>
                                     <img src={item.preview_image !== "" ? item.preview_image : pdfimg} />
-
-                                    <p>{item.resource_title}</p>
+                                    <p>{item.resource_title.substring(0, 100)}</p>
                                 </div>
                             }) : resources.filter(item => {
                                 return item.visibility === "private"
                             }).splice(0, 4).map((item, i) => {
-                                return <div className={styles.resource}>
+                                return <div onClick={() => { navigate(`/resources/view/${item._id}`) }} className={styles.resource}>
                                     <img src={item.preview_image !== "" ? item.preview_image : pdfimg} />
-
-                                    <p>{item.resource_title}</p>
+                                    <p>{item.resource_title.substring(0, 80)}</p>
                                 </div>
                             })}
                         </main>
@@ -382,7 +382,7 @@ const UserProfile = () => {
                     </div>
                     <div className={styles.show_friends} >
                         {user?.friends.map((item, i) => {
-                            return <div className={styles.friend_item}>
+                            return <div onClick={() => { navigate(`/u/${item.username}`) }} className={styles.friend_item}>
                                 <img src={item.pfp} />
                                 <p>{item.username}</p>
                             </div>
@@ -396,9 +396,7 @@ const UserProfile = () => {
     );
 };
 
-// TODO: Create Edit Profile Modal, Add friend fetching api + view all UI,
-// TODO: Show Follower and Following Count
-// TODO: Show suggested Users
+
 
 
 export default UserProfile;

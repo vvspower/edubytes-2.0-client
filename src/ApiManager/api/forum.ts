@@ -24,9 +24,12 @@ export default class Forum {
     return response;
   }
 
-  public async updatePost(content: string, img: FormData | undefined) {
-
-
+  public async updatePost(content: string, id: string) {
+    instance.defaults.headers.common["Authorization"] = sessionStorage.getItem("token")!;
+    const response: AxiosResponse<interfaces.IDefaultResponse> = await instance.put(`/post/${id}`, {
+      content: content
+    })
+    return response
   }
 
   public async deletePost(id: string) {
@@ -97,6 +100,13 @@ export default class Forum {
 
   public async getTopPosts(target: string) {
     const response: AxiosResponse<interfaces.ITopPostsResponse> = await instance.get(`/post/top/${target}`)
+    return response
+  }
+
+  public async searchPost(query: string) {
+    instance.defaults.headers.common["Authorization"] =
+      sessionStorage.getItem("token")!;
+    const response: AxiosResponse<interfaces.IGetPostsResponse> = await instance.get(`/post/search/${query}`)
     return response
   }
 }
