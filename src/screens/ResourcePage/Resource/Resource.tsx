@@ -1,4 +1,4 @@
-import React, { useState, useEffect, } from 'react'
+import React, { useState, useEffect, useReducer, } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import * as timeago from "timeago.js"
@@ -160,6 +160,7 @@ const Resources = () => {
     const [subject, setSubject] = useState<string>("all")
     const [search, setsearch] = useState<string>("all")
     const [loading, setloading] = useState<boolean>(true)
+    const [ignored, forceUpdate] = useReducer((x: number) => x + 1, 0);
 
 
 
@@ -185,6 +186,7 @@ const Resources = () => {
 
 
     console.log(notes)
+    console.log(board, subject)
 
 
     return (
@@ -231,7 +233,7 @@ const Resources = () => {
                     </div>
                 </div>
                 {!loading ? <div className={styles.notes} >
-                    {notes.map((item, i) => {
+                    {notes.length != 0 ? notes.map((item, i) => {
                         return <div onClick={() => navigate(`/resources/view/${item._id}`)} className={styles.note}>
                             {item.preview_image != "" ? <img src={item.preview_image} /> : <img src={pdfimage} />}
                             <h6>{item.resource_title}</h6>
@@ -247,7 +249,7 @@ const Resources = () => {
                                 <span>{item.username}</span>
                             </div>
                         </div>
-                    })}
+                    }) : <p>No results</p>}
                 </div> : <Box sx={{ display: 'flex', margin: "0 auto", }}>
                     <CircularProgress />
                 </Box>}

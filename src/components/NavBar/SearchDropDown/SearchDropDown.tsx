@@ -19,7 +19,7 @@ const SearchDropDown = (props: Props) => {
 
     const Post: JSX.Element = (
         <>{props.posts.map((item, i) => {
-            return <div className={styles.post}>
+            return <div onClick={() => { navigate(`/post?v=${item._id}`); props.setsearch("") }} className={styles.post}>
                 <div className={styles.header}>
                     <img src={item.user_pfp} height={30} width={30} />
                     <p>{item.username}</p>

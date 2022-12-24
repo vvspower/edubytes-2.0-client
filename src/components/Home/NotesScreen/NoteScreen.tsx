@@ -160,7 +160,7 @@ const NoteScreen = () => {
     const [title, setTitle] = useState<string>("")
     const [price, setPrice] = useState<string>("0")
     const [board, setBoard] = useState<string>(boards[0])
-    const [subject, setSubject] = useState<string>("")
+    const [subject, setSubject] = useState<string>("Accounting - 9706")
 
     const [visibility, setVisibility] = useState<string>("private")
 
@@ -255,32 +255,34 @@ const NoteScreen = () => {
 
 
     const uploadPDF = async () => {
-        console.log("here")
-        setUploading(true);
+        if (checkEmpty()) {
+            setUploading(true);
 
-        (async function (next) {
-            let reader = new FileReader();
-            reader.readAsDataURL(PDF!)
-            reader.onload = async function (e) {
-                let rawLog = (reader?.result as string).split(",")[1]!; //extract only thee file data part
-                let dataSend = {
-                    dataReq: { data: rawLog, name: PDF!.name, type: PDF!.type },
-                    fname: "uploadFilesToGoogleDrive",
-                };
-                setProgress(20)
-                const response: AxiosResponse<any> = await axios.post("https://script.google.com/macros/s/AKfycbzahMBn4ZbghLAMQG2zCLMd1f7PuxDDSVOr7DreZ9U1kD4rD48W8oo-nLJVbq7g2eP-bg/exec", JSON.stringify(dataSend))
-                setProgress(50)
-                let newPDF = pdfURL
-                newPDF.push(response.data.url)
-                forceUpdate()
-                if (pdfURL.length === 1) {
+            (async function (next) {
+                let reader = new FileReader();
+                reader.readAsDataURL(PDF!)
+                reader.onload = async function (e) {
+                    let rawLog = (reader?.result as string).split(",")[1]!; //extract only the file data part
+                    let dataSend = {
+                        dataReq: { data: rawLog, name: PDF!.name, type: PDF!.type },
+                        fname: "uploadFilesToGoogleDrive",
+                    };
+                    setProgress(20)
+                    const response: AxiosResponse<any> = await axios.post("https://script.google.com/macros/s/AKfycbzahMBn4ZbghLAMQG2zCLMd1f7PuxDDSVOr7DreZ9U1kD4rD48W8oo-nLJVbq7g2eP-bg/exec", JSON.stringify(dataSend))
+                    setProgress(50)
+                    let newPDF = pdfURL
+                    newPDF.push(response.data.url)
+                    forceUpdate()
+                    console.log("i am here 1")
                     next()
-                }
-            };
 
-        }(function () {
-            uploadResource("pdf")
-        }))
+                };
+
+            }(function () {
+                console.log("i am here 3")
+                uploadResource("pdf")
+            }))
+        }
     }
 
 
@@ -295,6 +297,7 @@ const NoteScreen = () => {
 
 
     const uploadResource = async (target: string) => {
+        console.log(" i am here 4")
         if (checkEmpty()) {
             const resource: interfaces.Resource = {
                 "resource_title": title,

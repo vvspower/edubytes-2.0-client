@@ -300,7 +300,7 @@ const UserProfile = () => {
                             <div className={styles.friends}>
                                 <div style={{ display: "flex", justifyContent: "space-between", paddingBottom: "10px", paddingTop: "10px" }}>
                                     <h1>Friends</h1>
-                                    <p style={{ color: "#868e96", fontSize: "12px", cursor: "pointer" }} >See all friends</p>
+                                    <p onClick={() => onShowDetailsChange("friends")} style={{ color: "#868e96", fontSize: "12px", cursor: "pointer" }} >See all friends</p>
                                 </div>
                                 <div style={{ display: "flex", gap: "10px" }}>
                                     {user?.friends.slice(0, 3).map((item, i) => {
