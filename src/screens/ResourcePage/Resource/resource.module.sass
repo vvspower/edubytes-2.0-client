@@ -26,16 +26,24 @@
 .note
     max-width: 200px
     cursor: pointer
+    display: flex
+    flex-direction: column
+    justify-content: space-between
 
 .details
     display: flex
-    gap: 10px
+    justify-content: space-between
+    margin-top: 5px
+    // gap: 10px
     color: #adb5bd
 
 .note h6
     font-size: 14px
     font-weight: 400
     color: #495057
+    max-width: 200px
+    overflow-wrap: break-word
+    text-overflow: clip
 
 .note p
     font-size: 12px
@@ -48,6 +56,7 @@
     padding: 10px
     box-shadow: 0 3px 5px rgb(0 0 0 / 0.1)
     border-radius: 8px
+    max-width: 300px
 
 .note img
     height: 150px

@@ -358,3 +358,59 @@ export interface ReturnedResourceResponseSingle {
 export interface ResourceResponse {
     data: string
 }
+
+export interface Planner {
+    username?: string
+    title: string
+    description: string
+    due_date: string
+    completed?: boolean
+    type?: "exam" | "study"
+    attatchments: {
+        links: string[]
+        files: string[]
+    }
+    created?: string
+}
+
+
+
+export interface sendingPlanner {
+    title: string
+    description: string
+    due_date: string
+    completed: boolean
+    type: "exam" | "study"
+    attatchments: {
+        links: string[]
+        files: string[]
+    }
+}
+
+export interface ReturnedPlanner {
+    _id: string
+    username: string
+    title: string
+    description: string
+    due_date: string
+    completed: boolean
+    type: "exam" | "study"
+    attatchments: {
+        links: string[]
+        files: string[]
+    }
+    created: string
+}
+
+
+
+export interface ReturnedPlannerResponse {
+    data: ReturnedPlanner
+    success: boolean
+}
+
+export interface ReturnedPlannerResponseMultiple {
+    data: ReturnedPlanner[]
+    success: boolean
+}
+

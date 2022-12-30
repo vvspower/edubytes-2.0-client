@@ -7,8 +7,11 @@ import { useSelector } from 'react-redux';
 import Friend, { DefaultResponse, FriendRequest } from '../../../ApiManager/api/friend';
 import Suggestions from '../../../ApiManager/api/suggestions';
 import { ResponseData } from '../../../ApiManager/api/friend';
-import { ResponseSuggestedUser, SuggestedUser } from '../../../ApiManager/api/suggestions';
+// import ResponseSuggestedUser, SuggestedUser from '../../../ApiManager/api/suggestions';
+import { SuggestedUser } from '../../../ApiManager/interface/Interfaces';
+import { ResponseSuggestedUser } from '../../../ApiManager/interface/Interfaces';
 import { RootState } from '../../../store/store';
+import { useNavigate } from 'react-router-dom';
 import { Stack } from '@mui/system';
 import { Skeleton } from '@mui/material';
 import SnackBar from '../../SnackBar/SnackBar';
@@ -16,6 +19,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 const FriendScreen = () => {
     const user = useSelector((state: RootState) => state.user.value);
+    const navigate = useNavigate()
 
     const [friendReqs, setFriendReqs] = useState<FriendRequest[]>([])
     const [suggestedUsers, setSuggestedUsers] = useState<SuggestedUser[]>([])
@@ -126,14 +130,12 @@ const FriendScreen = () => {
                         </div>
                         {suggestedUsers.length !== 0 ? <h1>Suggested Users</h1> : null}
                         <div>{suggestedUsers.map((item, i) => {
-                            return <main key={i}>
+                            return <main style={{ cursor: "pointer" }} onClick={() => navigate(`/u/${item.username}`)} key={i}>
                                 <div className={styles.friend_req}>
                                     <img src={item.details.pfp} />
                                     <p>{item.username}</p>
                                 </div>
-                                <div style={{ cursor: "pointer", marginRight: "20px" }}>
-                                    <AddCircleIcon sx={{ fill: "#339af0" }} />
-                                </div>
+
                             </main>
                         })}
                         </div></> : friendStack}

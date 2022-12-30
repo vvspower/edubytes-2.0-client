@@ -106,7 +106,7 @@ const ViewResource = () => {
                 <div className={styles.pdf}>
                     <div className={styles.header}>
                         <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: "10px" }}>
-                            <h5 >{resource?.resource_title} </h5>
+                            <h5 >{resource?.resource_title.substring(0, 40)} </h5>
                             <div style={{ display: "flex", gap: "20px" }}>
                                 <div>
                                     <p>{resource.rating}</p>
@@ -139,7 +139,7 @@ const ViewResource = () => {
             {resource?.file_type === "image" ? <div className={styles.images}>
                 <div className={styles.header}>
                     <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
-                        <h5 >{resource?.resource_title}</h5>
+                        <h5 >{resource?.resource_title.substring(0, 40)}</h5>
                         <div>
                             <p>{resource.rating}</p>
                             <ReactStars

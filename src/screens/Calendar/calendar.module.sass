@@ -20,6 +20,7 @@
     border-bottom: 1px solid #dee2e6
 
 .current
+    width: 610px
     // max-width: 700px
     // max-height: 400px
 
@@ -57,7 +58,8 @@
         color: #495057
         max-width: 350px
     p
-        margin-top: 20px
+        margin-top: 30px
+        margin-bottom: 20px
         font-size: 12px
         color: #adb5bd
     span
@@ -102,9 +104,20 @@
     gap: 20px
 
 .table_planner
-    padding-top: 15px
+    // padding-top: 15px
     border-right: 1px solid #dee2e6
     padding-right: 20px
+    width: 650px
+
+.table_planner button
+    margin-top: 10px
+    margin-bottom: 10px
+    border-radius: 25px
+    padding: 2px 8px
+    border: none
+    background-color: #339af0
+    color: white
+    cursor: pointer
 
 .planner_item
     background-color: white
@@ -117,10 +130,13 @@
     h1
         font-size: 18px
         font-weight: 400
+        color: #495057
+    p
+        font-size: 12px
         color: #868e96
 
 .exam_planner
-    margin-top: 15px
+    // margin-top: 15px
 
 .exam_planner_item
     background-color: white
@@ -137,19 +153,32 @@
     h1
         font-size: 20px
         font-weight: 400
-        color: #868e96
+        color: #495057
 
     p
         font-size: 12px
         color: #868e96
         margin-bottom: 10px
 
+.exam_planner button
+    margin-top: 10px
+    margin-bottom: 10px
+    border-radius: 25px
+    padding: 2px 8px
+    border: none
+    background-color: #339af0
+    color: white
+    cursor: pointer
+
 .chip
     margin-top: 15px
+    display: flex
+    align-items: center
+    gap: 10px
     span
         &:nth-child(1)
             font-size: 12px
-            margin-right: 10px
+            // margin-right: 10px
             background-color: #d0ebff
             color: #4dabf7
             padding: 3px 8px
@@ -163,10 +192,20 @@
             padding: 3px 8px
             border-radius: 25px
             // #d0ebff
+        &:nth-child(3)
+            font-size: 12px
+            margin-right: 10px
+            background-color: #4dabf7
+            color: white
+            // border: 1px solid #dee2e6
+            padding: 3px 8px
+            border-radius: 25px
     //  #4dabf7
 
 .exam_chip
     margin-top: 15px
+    display: flex
+    align-items: center
     span
         &:nth-child(1)
             font-size: 12px

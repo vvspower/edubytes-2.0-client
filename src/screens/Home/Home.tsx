@@ -6,7 +6,7 @@ import CreatePostBar from "../../components/Home/CreatePostBar/CreatePostBar";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { RootState } from "../../store/store";
 import { useSelector, useDispatch } from "react-redux";
-import { ReturnedResourceResponse } from "../../ApiManager/interface/Interfaces";
+import { ReturnedPlanner, ReturnedPlannerResponseMultiple, ReturnedResourceResponse } from "../../ApiManager/interface/Interfaces";
 import { ReturnedResource } from "../../ApiManager/interface/Interfaces";
 import { useNavigate } from "react-router-dom";
 import Forum from "../../ApiManager/api/forum";
@@ -31,12 +31,14 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import Contribute from "../../components/Home/Contribute/Contribute";
 import NoteScreen from "../../components/Home/NotesScreen/NoteScreen";
+import Planner from "../../ApiManager/api/planner";
 import { width } from "@mui/system";
 
 const Home = () => {
 
   const [posts, setPosts] = useState<IPost[]>([]);
   const [topPosts, setTopPosts] = useState<IPost[]>([]);
+  const [planner, setplanner] = useState<ReturnedPlanner[]>([])
   const [mode, setMode] = useState<"home" | "friends" | "resources">("home");
   const [resources, setResource] = useState<ReturnedResource[]>([])
   const [random, setRandom] = useState(Math.floor(Math.random() * 6))
@@ -72,6 +74,7 @@ const Home = () => {
   const navigate = useNavigate();
   const forumApi = new Forum();
   const resourceApi = new Resource()
+  const plannerApi = new Planner()
 
 
   const user = useSelector((state: RootState) => state.user.value);
@@ -106,7 +109,11 @@ const Home = () => {
   const getResources = async () => {
     const response: AxiosResponse<ReturnedResourceResponse> = await resourceApi.getResources()
     setResource(response.data.data)
+  }
 
+  const getPlanners = async () => {
+    const response: AxiosResponse<ReturnedPlannerResponseMultiple> = await plannerApi.getPlanner()
+    setplanner(response.data.data)
   }
 
   console.log(resources)
@@ -185,6 +192,7 @@ const Home = () => {
       getPosts();
       getTopPosts()
       getResources()
+      getPlanners()
     }
   }, [user]);
 
@@ -321,7 +329,7 @@ const Home = () => {
         )}
       </div>
       <div className={styles.right}>
-        <RightBar />
+        <RightBar planner={planner} />
       </div>
     </div>
   );

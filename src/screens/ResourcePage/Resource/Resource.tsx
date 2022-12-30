@@ -235,18 +235,22 @@ const Resources = () => {
                 {!loading ? <div className={styles.notes} >
                     {notes.length != 0 ? notes.map((item, i) => {
                         return <div onClick={() => navigate(`/resources/view/${item._id}`)} className={styles.note}>
-                            {item.preview_image != "" ? <img src={item.preview_image} /> : <img src={pdfimage} />}
-                            <h6>{item.resource_title}</h6>
-                            <div className={styles.details}>
-                                <span>{item.subject}</span>
-                                <span>{item.board}</span>
+                            <div>
+                                {item.preview_image != "" ? <img src={item.preview_image} /> : <img src={pdfimage} />}
+                                <h6>{item.resource_title.substring(0, 40)}{item.resource_title.length > 40 ? "..." : null}</h6>
+                                <div className={styles.details}>
+                                    <span>{item.subject}</span>
+                                    <span>{item.board}</span>
+                                </div>
+                                <div style={{ marginTop: "5px" }}>
+                                    <p>{timeago.format(parseInt(item.created + "000"))}</p>
+                                </div>
                             </div>
-                            <div style={{ marginTop: "5px" }}>
-                                <p>{timeago.format(parseInt(item.created + "000"))}</p>
-                            </div>
-                            <div className={styles.user}>
-                                <img src={item.user_pfp} />
-                                <span>{item.username}</span>
+                            <div>
+                                <div className={styles.user}>
+                                    <img src={item.user_pfp} />
+                                    <span>{item.username}</span>
+                                </div>
                             </div>
                         </div>
                     }) : <p>No results</p>}

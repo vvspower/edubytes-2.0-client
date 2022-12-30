@@ -33,6 +33,7 @@ import Suggestions from "../../ApiManager/api/suggestions";
 import { userInfo } from "os";
 import { flexbox } from "@mui/system";
 import Cloudinary from "../../ApiManager/cloudinaryApi/cloudinary";
+import VerifiedIcon from '@mui/icons-material/Verified';
 
 const UserProfile = () => {
     const { username } = useParams();
@@ -234,7 +235,10 @@ const UserProfile = () => {
                     </div>
                     <div style={{ marginLeft: "170px", width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                         <div>
-                            <h2>{user?.username}</h2>
+                            <div style={{ display: "flex", gap: "5px", alignItems: "center" }}>
+                                <h2>{user?.username}</h2>
+                                {user?.admin ? <VerifiedIcon fontSize="small" sx={{ fill: "#339af0" }} /> : null}
+                            </div>
                             <p style={{ color: "#495057", fontSize: "14px" }} >{user?.education.institute}</p>
                             <p >{user?.details.bio.substring(0, 210)}</p>
                             <p style={{ marginTop: "5px" }}>{user?.friends.length} Friends</p>

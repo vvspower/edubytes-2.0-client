@@ -37,7 +37,7 @@ const Notes = (props: Props) => {
                     </div>
                 </div>
                 <div >
-                    <p style={{ color: "#343a40" }}>{props.title.length <= 25 ? props.title.substring(0, 25) : props.title.substring(0, 22) + ".."}</p>
+                    <p style={{ color: "#343a40" }}>{props.title.length <= 25 ? props.title.substring(0, 25) : props.title.substring(0, 18) + ".."}</p>
                 </div>
                 <div className={styles.user} >
                     <div >

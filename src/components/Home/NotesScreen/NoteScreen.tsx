@@ -148,8 +148,21 @@ const NoteScreen = () => {
         "Chemistry",
         "Biology",
         "Computer Science",
-        "English"
+        "English",
+        "Islamiyat",
+        "Urdu",
+        "Pakistan Studies"
     ]
+
+    const setboardlogic = (board: string) => {
+        if (board === "A Level") {
+            setSubject("Accounting - 9706")
+        } else if (board === "O Level") {
+            setSubject("Accounting - 7707")
+        } else {
+            setSubject("Mathematics")
+        }
+    }
 
     const hiddenImageFileInput = useRef<HTMLInputElement>(null);
     const hiddenPDFFileInput = useRef<HTMLInputElement>(null);
@@ -180,7 +193,10 @@ const NoteScreen = () => {
     useEffect(() => {
         setTitle("")
         setPrice("")
+
     }, [])
+
+
 
 
     const raiseError = (text: string) => {
@@ -193,6 +209,7 @@ const NoteScreen = () => {
         if (imageFile !== null) {
             formData.append("file", file);
             formData.append("upload_preset", "mb3hrwz7");
+            console.log(formData, "HERE")
         } else {
             formData = undefined;
         }
@@ -268,6 +285,9 @@ const NoteScreen = () => {
                         fname: "uploadFilesToGoogleDrive",
                     };
                     setProgress(20)
+                    // https://script.google.com/macros/s/AKfycbxiYmT_MaT_LMTubCDCtzi-Qg8YSLlDAnKl3DIQ5t9ivOxGWCR_-e6oE0GwGv-qqZ0RqQ/exec
+                    // https://script.google.com/macros/s/AKfycbzahMBn4ZbghLAMQG2zCLMd1f7PuxDDSVOr7DreZ9U1kD4rD48W8oo-nLJVbq7g2eP-bg/exec this is mani one
+
                     const response: AxiosResponse<any> = await axios.post("https://script.google.com/macros/s/AKfycbzahMBn4ZbghLAMQG2zCLMd1f7PuxDDSVOr7DreZ9U1kD4rD48W8oo-nLJVbq7g2eP-bg/exec", JSON.stringify(dataSend))
                     setProgress(50)
                     let newPDF = pdfURL
@@ -277,6 +297,7 @@ const NoteScreen = () => {
                     next()
 
                 };
+                // https://script.google.com/macros/s/AKfycbzV9a3N1hN-5BZOgA8ngiQXXflR2o9gLgKgofK5gLAtmlcWvEGgirpSnk2Lo3rmjL70ug/exec
 
             }(function () {
                 console.log("i am here 3")
@@ -400,7 +421,7 @@ const NoteScreen = () => {
                                     <div className={styles.notes_info}>
                                         <div>
                                             <input onChange={(e) => { setTitle(e.target.value) }} value={title} placeholder='Title' />
-                                            <select onChange={(e) => { setBoard(e.target.value) }} name="subject" >
+                                            <select onChange={(e) => { setBoard(e.target.value), setboardlogic(e.target.value) }} name="subject" >
                                                 {boards.map((item, i) => {
                                                     // TODO: Add logic to set subject to first subject in the list onChange
                                                     return <option value={item}>{item}</option>
@@ -419,6 +440,18 @@ const NoteScreen = () => {
                                                 })}
 
                                             </select> : null}
+                                            {board === "Intermediate" ? <select onChange={(e) => { setSubject(e.target.value) }} name='subject'>
+                                                {ecatsubjects.map((item, i) => {
+                                                    return <option value={item}>{item}</option>
+                                                })}
+
+                                            </select> : null}
+                                            {board === "Matric" ? <select onChange={(e) => { setSubject(e.target.value) }} name='subject'>
+                                                {ecatsubjects.map((item, i) => {
+                                                    return <option value={item}>{item}</option>
+                                                })}
+
+                                            </select> : null}
                                             {board === "A Level" ?
                                                 <select onChange={(e) => { setSubject(e.target.value) }} name="subject">
                                                     {
@@ -426,7 +459,6 @@ const NoteScreen = () => {
                                                             return <option value={item}>{item}</option>
                                                         })
                                                     }
-
                                                 </select>
                                                 : null}
 
