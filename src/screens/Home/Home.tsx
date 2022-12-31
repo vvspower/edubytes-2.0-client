@@ -33,8 +33,12 @@ import Contribute from "../../components/Home/Contribute/Contribute";
 import NoteScreen from "../../components/Home/NotesScreen/NoteScreen";
 import Planner from "../../ApiManager/api/planner";
 import { width } from "@mui/system";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const Home = () => {
+  const user = useSelector((state: RootState) => state.user.value);
+
+  const communities = ["general", "A Level", "O Level", user.education.institute]
 
   const [posts, setPosts] = useState<IPost[]>([]);
   const [topPosts, setTopPosts] = useState<IPost[]>([]);
@@ -42,6 +46,15 @@ const Home = () => {
   const [mode, setMode] = useState<"home" | "friends" | "resources">("home");
   const [resources, setResource] = useState<ReturnedResource[]>([])
   const [random, setRandom] = useState(Math.floor(Math.random() * 6))
+  const [postCommunity, setpostCommunity] = useState("general")
+  const [loadingCommunity, setloadingCommunity] = useState(false)
+  const [number, setnumber] = useState(0)
+  const [postLength, setpostLength] = useState(0)
+  const [hasMore, setHasMore] = useState(true)
+
+
+  console.log(postLength, posts.length)
+
 
 
 
@@ -76,8 +89,10 @@ const Home = () => {
   const resourceApi = new Resource()
   const plannerApi = new Planner()
 
+  console.log(posts)
+  console.log(postCommunity)
 
-  const user = useSelector((state: RootState) => state.user.value);
+
 
 
 
@@ -92,11 +107,36 @@ const Home = () => {
     setAnchorEl(null);
   };
 
+  const switchComminity = async (community: string) => {
+    setloadingCommunity(true)
+    await getPosts(community)
+    setloadingCommunity(false)
 
-  const getPosts = async () => {
-    const data = await forumApi.getPostsTargetGeneral(user.education.institute);
+  }
+
+  const fetchNextData = async () => {
+    const data = await forumApi.getPostsTargetGeneral(postCommunity, number + 15);
+    if (data.data.length === postLength) {
+      setHasMore(false)
+    }
+    setpostLength(data.data.length)
+    setnumber(number + 15)
+    forceUpdate()
     setPosts(data.data);
-    forceUpdate();
+
+  }
+
+
+  const getPosts = async (community: string) => {
+    setHasMore(true)
+    const data = await forumApi.getPostsTargetGeneral(community, 0);
+    setPosts(data.data);
+    setpostLength(data.data.length)
+    if (data.data.length < 15) {
+      setHasMore(false)
+    }
+
+
   };
 
   const getTopPosts = async () => {
@@ -162,7 +202,6 @@ const Home = () => {
             <Skeleton sx={{ borderRadius: "25px" }} variant="circular" width={60} height={30} />
             <Skeleton sx={{ borderRadius: "25px" }} variant="circular" width={60} height={30} />
             <Skeleton variant="circular" width={30} height={30} />
-
           </div>
         </div>
       </Stack>
@@ -189,7 +228,8 @@ const Home = () => {
     if (sessionStorage.getItem("token") === null) {
       navigate("/login");
     } else if (user.education.institute != "") {
-      getPosts();
+      getPosts("general");
+
       getTopPosts()
       getResources()
       getPlanners()
@@ -199,7 +239,7 @@ const Home = () => {
   return (
     <div className={styles.container}>
       <div className={styles.left}>
-        <LeftBar />
+        <LeftBar setMode={setMode} />
       </div>
       <div className={styles.middle}>
         {user._id == "" ? (
@@ -207,11 +247,6 @@ const Home = () => {
         ) : (
           <>
             <div className={styles.secondary_post}>
-              {/* {topPostPreview} */}
-              {/* {topPostPreview} */}
-
-
-
               {topPosts.length === 0 ? <div className={styles.secondary_post}>
                 {topPostPreview}
                 {topPostPreview}
@@ -243,7 +278,7 @@ const Home = () => {
                 removeArrowOnDeviceType={["tablet", "mobile"]}
                 partialVisible={false}
               >
-                {resources.map((item, i) => {
+                {resources.slice(0, 10).sort((a, b) => { return b.rating - a.rating }).map((item, i) => {
                   return <div ><Notes id={item._id} title={item.resource_title} image={item.preview_image} subject={item.subject} rating={item.rating} username={item.username} user_pfp={item.user_pfp} /></div>
                 })}
               </Carousel>
@@ -251,79 +286,111 @@ const Home = () => {
             <div className={styles.postbar}>
               <CreatePostBar type={"post"} pfp={user.details.pfp} />
             </div>
-            <div className={styles.header}>
-              <button onClick={() => setMode("home")}><HomeIcon
-                sx={{
-                  cursor: "pointer",
-                  fill: mode === "home" ? "#339af0" : "#868e96",
-                }}
-                fontSize="small"
-              /></button>
-              <button onClick={() => setMode("friends")}><PeopleIcon
-                sx={{
-                  cursor: "pointer",
-                  fill: mode === "friends" ? "#339af0" : "#868e96",
-                }}
-                fontSize="small"
-              /></button>
-              <button onClick={() => setMode("resources")}><ImportContactsIcon
-                sx={{
-                  cursor: "pointer",
-                  fill: mode === "resources" ? "#339af0" : "#868e96",
-                }}
-                fontSize="small"
-              /></button>
+            <div className={styles.filter}>
+              {mode === "home" ? <div className={styles.filter_select}>
+                <p>You are viewing posts for: {postCommunity}</p>
+                <p className={styles.mobile_filter}> viewing for: {postCommunity}</p>
+
+                <select onChange={(e) => { setpostCommunity(e.target.value); switchComminity(e.target.value) }} name="subject">
+                  {
+                    communities.map((item, i) => {
+                      return <option value={item}>{item}</option>
+                    })
+                  }
+                </select>
+
+              </div> : null}
+              <div className={styles.header}>
+                <button onClick={() => setMode("home")}><HomeIcon
+                  sx={{
+                    cursor: "pointer",
+                    fill: mode === "home" ? "#339af0" : "#868e96",
+                  }}
+                  fontSize="small"
+                /></button>
+                <button onClick={() => setMode("friends")}><PeopleIcon
+                  sx={{
+                    cursor: "pointer",
+                    fill: mode === "friends" ? "#339af0" : "#868e96",
+                  }}
+                  fontSize="small"
+                /></button>
+                <button onClick={() => setMode("resources")}><ImportContactsIcon
+                  sx={{
+                    cursor: "pointer",
+                    fill: mode === "resources" ? "#339af0" : "#868e96",
+                  }}
+                  fontSize="small"
+                /></button>
+              </div>
+
+
 
             </div>
+            <div style={{ overflow: "hidden" }}>
+              <InfiniteScroll
+                style={{ overflow: "hidden" }}
+                dataLength={posts.length} //This is important field to render the next data
+                next={fetchNextData}
+                hasMore={hasMore}
+                loader={<p className={styles.endtext}>loading more posts</p>}
+                endMessage={
+                  <p style={{ textAlign: 'center' }}>
+                    <p className={styles.endtext}>End of the posts</p>
+                  </p>
+                }
+              // below props only if you need pull down functionality
 
-            <div className={styles.mainposts}>
+              >
+                <div className={styles.mainposts}>
+                  {loadingCommunity ? postPreview : null}
+                  {loadingCommunity === false ? <div>
+                    {mode === "home" ? <div>
+                      {posts.length !== 0
+                        ? posts.map((item, i) => {
+                          return i !== random ? (
+                            <div className={styles.post}>
+                              <PostCard
+                                key={i}
+                                _id={item._id}
+                                username={item.username}
+                                created={item.created}
+                                image={item.image}
+                                subject={item.subject}
+                                tags={item.tags}
+                                pfp={item.user_pfp}
+                                content={item.content}
+                                likes={item.likes}
+                              />
+                            </div>
+                          ) : <div onClick={() => setMode("resources")}>
+                            <Contribute />
+                            <div style={{ marginBottom: "10px" }}>
+                              <PostCard
+                                key={i}
+                                _id={item._id}
+                                username={item.username}
+                                created={item.created}
+                                image={item.image}
+                                subject={item.subject}
+                                tags={item.tags}
+                                pfp={item.user_pfp}
+                                content={item.content}
+                                likes={item.likes}
+                              />
+                            </div>
 
-              <div>
-                {mode === "home" ? <div>
-                  {posts.length !== 0
-                    ? posts.map((item, i) => {
-                      return i !== random ? (
-                        <div className={styles.post}>
-                          <PostCard
-                            key={i}
-                            _id={item._id}
-                            username={item.username}
-                            created={item.created}
-                            image={item.image}
-                            subject={item.subject}
-                            tags={item.tags}
-                            pfp={item.user_pfp}
-                            content={item.content}
-                            likes={item.likes}
-                          />
-                        </div>
-                      ) : <div onClick={() => setMode("resources")}>
-                        <Contribute />
-                        <div style={{ marginBottom: "10px" }}>
-                          <PostCard
-                            key={i}
-                            _id={item._id}
-                            username={item.username}
-                            created={item.created}
-                            image={item.image}
-                            subject={item.subject}
-                            tags={item.tags}
-                            pfp={item.user_pfp}
-                            content={item.content}
-                            likes={item.likes}
-                          />
-                        </div>
-
-                      </div>
-                    })
-                    : <div className={styles.post} >{postPreview}</div>}
-                  <p className={styles.endtext}>End of the posts</p>
-                </div> : null}
-                {mode === "friends" ? <div>
-                  <FriendScreen />
-                </div> : null}
-                {mode === "resources" ? <NoteScreen /> : null}
-              </div>
+                          </div>
+                        })
+                        : <div className={styles.post} >{postPreview}</div>}
+                    </div> : null}
+                    {mode === "friends" ? <div>
+                      <FriendScreen />
+                    </div> : null}
+                    {mode === "resources" ? <NoteScreen /> : null}
+                  </div> : null}
+                </div>
+              </InfiniteScroll>
             </div>
           </>
         )}

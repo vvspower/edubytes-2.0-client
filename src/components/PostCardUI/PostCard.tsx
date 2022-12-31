@@ -104,7 +104,6 @@ const PostCard = (props: Props) => {
         <div onClick={() => navigate(`/post?v=${props._id}`)} className={styles.content}>
           <p >{props.content}</p>
         </div>
-
         <div className={styles.interaction}>
           <div onClick={handleLike} className={styles.likes}>
             <div>

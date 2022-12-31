@@ -39,10 +39,10 @@ export default class Forum {
   }
 
 
-  public async getPostsTargetGeneral(target: string) {
+  public async getPostsTargetGeneral(target: string, number: number) {
     delete axios.defaults.headers.common["Authorization"];
     const response: AxiosResponse<interfaces.IGetPostsResponse> = await instance.get(
-      `/post/i/${target}/general`
+      `/post/i/${target}/general/${number.toString()}`
     );
     return response.data;
   }

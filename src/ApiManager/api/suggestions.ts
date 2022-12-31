@@ -26,4 +26,10 @@ export default class Suggestions {
         return response
     }
 
+    public async getSuggestedResources() {
+        instance.defaults.headers.common["Authorization"] = this._token
+        const response: AxiosResponse<interfaces.ReturnedResourceResponse> = await instance.get(`/resources`)
+        return response
+    }
+
 }

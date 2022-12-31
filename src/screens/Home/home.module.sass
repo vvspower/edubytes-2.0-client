@@ -89,11 +89,12 @@ body
     margin-top: 20px
     text-align: center
     color: $secondary-gray
+    margin-bottom: 20px
 
 .header
     display: block
     float: right
-    margin-top: 4px
+    // margin-top: 4px
     border: 2px solid #dee2e6
     background-color: white
     border-radius: 25px
@@ -122,8 +123,42 @@ body
     font-weight: 500
     font-size: 16px
 
+.filter
+    display: flex
+    align-items: center
+    gap: 10px
+    margin-top: 4px
+    justify-content: end
+
+.filter_select
+    background-color: white
+    padding: 8px 10px
+    display: flex
+    gap: 10px
+    align-items: center
+    width: 100%
+    max-width: 510px
+    justify-content: space-between
+
+    border-radius: 25px
+    border: 2px solid #dee2e6
+    p
+        font-size: 14px
+        color: #868e96
+    select
+        padding: 0px 5px
+        border-radius: 25px
+        border: 2px solid #adb5bd
+        outline: none
+        cursor: pointer
+
+            // width: 100%
+
+.mobile_filter
+    display: none
+
 .mainposts
-    margin-top: 46px
+    margin-top: 26px
 
 .post
     max-width: 680px
@@ -144,6 +179,22 @@ body
 
     .carousel
         width: 500px
+
+    .filter
+        justify-content: center
+        div
+
+            &:nth-child(1)
+                justify-content: start
+                width: 250px
+
+                p
+                    &:nth-child(1)
+
+                        display: none
+
+    .mobile_filter
+        display: block
 
 @media only screen and (max-width: 540px)
     .secondary_post main
