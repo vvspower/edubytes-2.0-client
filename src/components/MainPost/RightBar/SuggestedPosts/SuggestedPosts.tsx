@@ -14,7 +14,7 @@ interface Props {
 const SuggestedPosts = (props: Props) => {
 
     const redirect = (id: string) => {
-        navigate(`/post?v=${id}`)
+        navigate(`/post/${id}`)
         window.location.reload()
 
     }

@@ -1,6 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { User } from "../ApiManager/interface/Interfaces";
+import { useReducer } from "react";
+
 // import { User } from "../ApiManager/api/auth";
 
 export interface UserState {
@@ -13,20 +15,20 @@ let init: User = {
   email: "",
   created: "",
   admin: false,
-  partnerd: false,
   details: {
     bio: "",
     pfp: "",
-    verified: false,
+    completed: false,
   },
   education: {
     institute: "",
-    university: false,
-    college: false,
     subjects: [],
   },
   friends: [],
 };
+
+
+
 
 const initialState: UserState = {
   value: init,
@@ -41,6 +43,7 @@ export const userSlice = createSlice({
     },
     removeUser: (state, action: PayloadAction<User>) => {
       state.value = action.payload;
+
     },
   },
 });

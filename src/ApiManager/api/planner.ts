@@ -3,7 +3,7 @@ import * as interfaces from '../interface/Interfaces'
 
 
 const instance = axios.create({
-    baseURL: "http://127.0.0.1:9000/planner",
+    baseURL: "https://edubytes.herokuapp.com/planner",
     timeout: 100000,
 });
 
@@ -11,7 +11,7 @@ export default class Planner {
     private _token: string
 
     constructor() {
-        this._token = sessionStorage.getItem("token")!
+        this._token = localStorage.getItem("token")!
     }
 
     public async createPlanner(data: interfaces.sendingPlanner) {

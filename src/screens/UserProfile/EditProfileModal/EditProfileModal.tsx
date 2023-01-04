@@ -13,6 +13,7 @@ import styles from './edit.module.sass'
 import Resource from '../../../ApiManager/api/resources';
 import { IDefaultResponse } from '../../../ApiManager/interface/Interfaces';
 import Cloudinary from '../../../ApiManager/cloudinaryApi/cloudinary';
+import loader from '../../../assets/loading.gif'
 
 
 interface Props {
@@ -21,12 +22,9 @@ interface Props {
 
     pfp: string
     bio: string
-    verified: boolean
 
     education?: {
         institute: string
-        college: boolean,
-        university: boolean
         subjects: string[]
     }
     subjects?: string[]
@@ -60,6 +58,7 @@ export default function EditProfileModal(props: Props) {
     const [image, setImage] = useState<string>("");
     const [imageURL, setImageURL] = useState<string>("");
     const [imageFile, setImageFile] = useState<Blob>();
+    const [error, seterror] = useState(false)
 
     const hiddenImageFileInput = useRef<HTMLInputElement>(null);
 
@@ -72,7 +71,6 @@ export default function EditProfileModal(props: Props) {
 
 
     useEffect(() => {
-        console.log(props.bio, props.education?.institute)
         setbio(props.bio!)
         setinstitute(props.education?.institute!)
     }, [props])
@@ -86,7 +84,6 @@ export default function EditProfileModal(props: Props) {
                 let imageNew: string = image
                 imageNew = URL.createObjectURL(event.target.files[0]!)
                 setImage(imageNew)
-                // setpfp("new")
                 forceUpdate()
                 let imageFileNew: Blob = imageFile!
                 imageFileNew = event.target.files[0]
@@ -118,8 +115,8 @@ export default function EditProfileModal(props: Props) {
     //  add changing profile functionality component
 
     const updateProfile = () => {
+        seterror(false)
         setuploading(true)
-        console.log(image)
         if (image != "") {
             uploadImage()
         } else {
@@ -129,28 +126,27 @@ export default function EditProfileModal(props: Props) {
 
 
     const profileUpdater = async (url?: string) => {
-        let details = {
-            bio: bio,
-            pfp: url === "" ? props.pfp : url,
-            verified: true
+        if (bio.length < 2 || institute.length < 2) {
+            seterror(true)
+        } else {
+            let details = {
+                bio: bio,
+                pfp: url === "" ? props.pfp : url,
+                completed: true
+            }
+            let education = {
+                institute: institute,
+                subjects: props.education?.subjects
+            }
+            const response: AxiosResponse<IDefaultResponse> = await authApi.updateUser(details, education)
+            location.reload()
+
         }
-        let education = {
-            institute: institute,
-            college: props.education?.college,
-            university: props.education?.university,
-            subjects: props.education?.subjects
-        }
-        console.log("hello i am here")
-        const response: AxiosResponse<IDefaultResponse> = await authApi.updateUser(details, education)
-        console.log(response.data.data)
-        setuploading(false)
-        location.reload()
     }
 
 
     return (
-        <div >
-
+        <div className={styles.container}>
             <Modal
                 open={props.open}
                 onClose={() => props.handleClose()}
@@ -158,16 +154,16 @@ export default function EditProfileModal(props: Props) {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <div style={{ pointerEvents: uploading ? "none" : "auto", cursor: uploading ? "progress" : "auto" }}>
+                    <div className={styles.main} style={{ pointerEvents: uploading && !error ? "none" : "auto", cursor: uploading ? "progress" : "auto" }}>
                         <Typography id="modal-modal-title" variant="h6" component="h2">
                             Edit Profile
                         </Typography>
                         <div className={styles.pfp}>
                             {image == "" ? <img src={props.pfp} /> : <img src={image} />}
-                            <div onClick={() => {
-                                hiddenImageFileInput.current!.click()
-                            }}  >
-                                <button>Change Profile Picture</button>
+                            <div >
+                                <button onClick={() => {
+                                    hiddenImageFileInput.current!.click()
+                                }} >Change Profile Picture</button>
                             </div>
                             <input
                                 type="file"
@@ -189,11 +185,11 @@ export default function EditProfileModal(props: Props) {
                                     <input value={institute} onChange={(e) => setinstitute(e.target.value)} placeholder='institute' />
                                 </div>
                             </div>
-
-
                         </div>
+                        {error ? <span>dont leave inputs empty</span> : null}
                         <div>
-                            <button onClick={updateProfile}>Update Profile</button>
+                            {uploading ? <img width={20} src={loader} /> : <button onClick={updateProfile}>Update Profile</button>}
+                            {/* <img width={20} src={loader} /> */}
                         </div>
                     </div>
                 </Box>

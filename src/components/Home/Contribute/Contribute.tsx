@@ -1,6 +1,7 @@
 import React from 'react'
 import styles from './contribute.module.sass'
 
+
 const Contribute = () => {
     return (
         <div className={styles.container}>

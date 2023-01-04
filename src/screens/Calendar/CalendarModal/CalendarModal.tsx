@@ -31,7 +31,6 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    // width: 400,
     bgcolor: 'background.paper',
     boxShadow: 24,
     borderRadius: "12px",
@@ -97,7 +96,6 @@ export default function CalendarModal(props: Props) {
     const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files instanceof FileList) {
             let newFiles = []
-            console.log(e.target.files[0]!)
             newFiles = file!
             newFiles.push(e.target.files[0]!)
             setFile(newFiles)
@@ -140,7 +138,6 @@ export default function CalendarModal(props: Props) {
     }
 
     const updatePlanner = async () => {
-        console.log(title, description)
         const planner = {
             title,
             description,
@@ -231,7 +228,7 @@ export default function CalendarModal(props: Props) {
                         </div>
                         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
                             <button className={styles.save_button} onClick={uploadFile}>Save</button>
-                            {props.mode === "edit" ? <button style={{}} className={styles.save_button} onClick={() => deletePlanner(props.planner?._id)}>Delete</button> : null}
+                            {props.mode === "edit" ? <button style={{}} className={styles.save_button} onClick={() => deletePlanner(props.planner?._id!)}>Delete</button> : null}
                             {deleting ? <img width="30px" src={loader} /> : null}
 
 

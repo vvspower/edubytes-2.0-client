@@ -10,24 +10,29 @@ import Resource from "./screens/ResourcePage/Resource/Resource";
 import MainPage from "./screens/Main/MainPage";
 import ViewResource from "./screens/ResourcePage/Resource/ViewResource/ViewResource";
 import Calendar from "./screens/Calendar/Calendar";
+import CompleteProfile from "./screens/Auth/CompleteProfile/CompleteProfile";
+import Verify from "./screens/Auth/Verify/Verify";
+import { useSelector } from "react-redux";
+import { RootState } from "./store/store";
 
 function App() {
+  const logged_user = useSelector((state: RootState) => state.user.value);
+
   const location = useLocation();
   return (
     <div className="App">
-      {location.pathname !== "/login" ? <NavBar /> : null}
-      {/* {location.pathname === "/home" || location.pathname === "/" ? <SideBar /> : null} */}
+      {location.pathname !== "/login" || "/complete" || sessionStorage.getItem("token") === null ? <NavBar /> : null}
       <Routes>
         <Route path="/login" element={<Login />} />
-        <Route path="/" element={<MainPage />} />
-        <Route path="/home" element={<Home />} />
+        <Route path="/" element={<Home />} />
         <Route path="/u/:username" element={<UserProfile />} />
-        <Route path="/post" element={<MainPost />} />
+        <Route path="/post/:id" element={<MainPost />} />
         <Route path="/notifications" element={<Notifications />} />
         <Route path="/resources" element={<Resource />} />
         <Route path="/resources/view/:id" element={<ViewResource />} />
         <Route path="/calendar" element={<Calendar />} />
-
+        <Route path="/complete" element={logged_user.details.completed === false ? <CompleteProfile /> : <h1 style={{ marginTop: "80px" }}>Not Allowed</h1>} />
+        <Route path="/verify" element={<Verify />} />
 
       </Routes>
     </div>

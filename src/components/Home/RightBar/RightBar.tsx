@@ -1,9 +1,13 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import example_pfp from '../../../assets/example_pfp.jpg'
 import styles from './rightbar.module.sass'
-import { useNavigate } from 'react-router-dom'
-import { ReturnedPlanner } from '../../../ApiManager/interface/Interfaces'
+// import { useNavigate } from 'react-router-dom'
+import { INotification, NotificationsResponse, ReturnedPlanner } from '../../../ApiManager/interface/Interfaces'
 import GitHubIcon from '@mui/icons-material/GitHub';
+import Notifications from '../../../ApiManager/api/events'
+import pfp from "../../../assets/example_pfp.jpg"
+import { AxiosResponse } from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 
 
@@ -12,11 +16,22 @@ interface Props {
 }
 
 const RightBar = (props: Props) => {
-    console.log(props)
+    const [notifs, setnotifs] = useState<INotification[]>([])
+    const notificationApi = new Notifications()
+
+    const getLatestNotifications = async () => {
+        const response: AxiosResponse<NotificationsResponse> = await notificationApi.getUnReadNotifications()
+        setnotifs(response.data.data)
+    }
+
+    useEffect(() => {
+        getLatestNotifications()
+    }, [])
+
     const navigate = useNavigate()
     return (
         <div className={styles.container}>
-            <div style={{ borderBottom: "1px solid #ced4da" }}>
+            <div >
                 {props.planner.length === 0 ? <div className={styles.study_queue}>
                     <h3>Be on Track </h3>
                     <p>Orgranize your classes, assignments and study routines straight from here</p>
@@ -44,80 +59,21 @@ const RightBar = (props: Props) => {
                     <p>View Upcoming, and rest on your schedule</p>
                     <button onClick={() => navigate("/calendar")}>Go</button>
                 </div> : null}
-
-
-
-                {/* 
-            <div className={styles.notes}>
-                <div className={styles.head}>
-                    <h1>Marketplace</h1>
-                </div>
-                <div className={styles.item}>
-                    <div className={styles.left}>
-                        <img src={example_pfp} />
-                    </div>
-                    <div className={styles.right}>
-                        <div style={{ display: "flex", gap: "5px", alignItems: "center" }}>
-                            <img src={example_pfp} />
-                            <span style={{ color: "#adb5bd", fontSize: "12px" }}>username</span>
-                        </div>
-                        <div>
-                            <p>A Level Mathematics Notes (9709)</p>
-                            <span>By:</span>
-                        </div>
-                    </div>
-                </div>
-                <div className={styles.item}>
-                    <div className={styles.left}>
-                        <img src={example_pfp} />
-                    </div>
-                    <div className={styles.right}>
-                        <div style={{ display: "flex", gap: "5px", alignItems: "center" }}>
-                            <img src={example_pfp} />
-                            <span style={{ color: "#adb5bd", fontSize: "12px" }}>username</span>
-                        </div>
-                        <div>
-                            <p>A Level Mathematics Notes (9709)</p>
-                            <span>By:</span>
-                        </div>
-                    </div>
-                </div>
-                <div className={styles.item}>
-                    <div className={styles.left}>
-                        <img src={example_pfp} />
-                    </div>
-                    <div className={styles.right}>
-                        <div style={{ display: "flex", gap: "5px", alignItems: "center" }}>
-                            <img src={example_pfp} />
-                            <span style={{ color: "#adb5bd", fontSize: "12px" }}>username</span>
-                        </div>
-                        <div>
-                            <p>A Level Mathematics Notes (9709)</p>
-                            <span>By:</span>
-                        </div>
-                    </div>
-                </div>
-            </div> */}
-                {/* <div className={styles.chats}>
-                <h1>Active chats</h1>
-                <div >
-                    <img src={example_pfp} />
-                    <p>username</p>
-                </div>
-                <div >
-                    <img src={example_pfp} />
-                    <p>username</p>
-                </div>
-                <div >
-                    <img src={example_pfp} />
-                    <p>username</p>
-                </div>
-            </div> */}
             </div>
+            {notifs.length !== 0 ? <div className={styles.notifications}>
+                <p>Notifications</p>
+                {notifs.slice(0, 4).map((item, i) => {
+                    return <div onClick={() => navigate(item.redirect)} >
+                        <img src={item.from.pfp} />
+                        <h6>{item.content}</h6>
+                    </div>
+                })}
+            </div> : null}
             <div className={styles.footer}>
-                <p>Website is in Beta. Follow for updates</p>
-                <GitHubIcon />
-
+                <div>
+                    <p>Website is in Beta. Follow for updates</p>
+                    <GitHubIcon />
+                </div>
             </div>
 
         </div >

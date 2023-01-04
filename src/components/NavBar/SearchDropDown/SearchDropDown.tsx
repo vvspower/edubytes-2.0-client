@@ -5,6 +5,7 @@ import example_pfp from './../../../assets/example_pfp.jpg'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { IPost } from '../../../ApiManager/interface/Interfaces';
 import { useNavigate } from 'react-router-dom';
+import loader from '../../../assets/loading.gif'
 
 interface Props {
     search: string
@@ -19,7 +20,7 @@ const SearchDropDown = (props: Props) => {
 
     const Post: JSX.Element = (
         <>{props.posts.map((item, i) => {
-            return <div onClick={() => { navigate(`/post?v=${item._id}`); props.setsearch("") }} className={styles.post}>
+            return <div onClick={() => { navigate(`/post/${item._id}`); props.setsearch("") }} className={styles.post}>
                 <div className={styles.header}>
                     <img src={item.user_pfp} height={30} width={30} />
                     <p>{item.username}</p>
@@ -33,16 +34,14 @@ const SearchDropDown = (props: Props) => {
                 </div>
             </div>
         })}
-
         </>
-
     )
 
     return (
         <div className={styles.container}>
             <span>Search results for "{props.search}" in posts</span>
             <div className={styles.postcontainer} >
-                {props.loading === false ? Post : <h1>loading</h1>}
+                {props.loading === false ? Post : <img src={loader} width="30px" />}
                 <KeyboardArrowDownIcon fontSize='large' sx={{ fill: "#adb5bd" }} />
             </div>
             <div className={styles.extra}>

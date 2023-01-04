@@ -17,8 +17,7 @@ const UserInfo = (props: Props) => {
     const authApi = new Auth()
     const [user, setuser] = useState<User | null>(null)
 
-    console.log(props.username)
-    console.log(user)
+
 
 
     const getUser = async () => {

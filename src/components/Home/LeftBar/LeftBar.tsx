@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import pdf from '../../../assets/pdf.png'
 import { useNavigate } from 'react-router-dom'
 import styles from './leftbar.module.sass'
@@ -9,12 +9,9 @@ import university from '../../../assets/university.png'
 import marketplace from '../../../assets/marketplace.png'
 import friends from '../../../assets/friends.png'
 import star from '../../../assets/star.png'
-import book from '../../../assets/book.jpg'
-import Rating from '@mui/material/Rating';
 import Suggestions from '../../../ApiManager/api/suggestions'
 import { AxiosResponse } from 'axios'
 import { ResourceResponse, ReturnedResource, ReturnedResourceResponse } from '../../../ApiManager/interface/Interfaces'
-import Resource from '../../../ApiManager/api/resources'
 
 interface Props {
     setMode: Dispatch<SetStateAction<"home" | "friends" | "resources">>
@@ -34,8 +31,6 @@ const LeftBar = ({ setMode }: Props) => {
     useEffect(() => {
         getSuggestedResources()
     }, [])
-
-    console.log(resources)
 
 
     return (
@@ -62,7 +57,7 @@ const LeftBar = ({ setMode }: Props) => {
                             </button>
                             <button onClick={() => { setMode("friends") }}>
                                 <img src={friends} />
-                                <div >Friends</div>
+                                <div>Friends</div>
                             </button>
                             <button onClick={() => alert("coming soon")}>
                                 <img src={star} />
@@ -75,7 +70,7 @@ const LeftBar = ({ setMode }: Props) => {
                     <h1>Suggested resources for you</h1>
                     {resources.map((item, i) => {
 
-                        return <div onClick={() => navigate(`/resources/view/${item._id}`)} className={styles.book}>
+                        return <div key={i} onClick={() => navigate(`/resources/view/${item._id}`)} className={styles.book}>
                             <div style={{ display: "flex", gap: "10px" }}>
                                 <img src={item.file_type === "pdf" ? pdf : item.link[0]} />
                                 <div>
@@ -90,7 +85,7 @@ const LeftBar = ({ setMode }: Props) => {
                 {/* suggested notes will be here. according to users subjects  */}
             </div>
             <div className={styles.footer}>
-                <p>EduBytes  &copy; 2022</p>
+                <p>EduBytes  &copy; 2023</p>
             </div>
         </div>
     )

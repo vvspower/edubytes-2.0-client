@@ -31,14 +31,13 @@ const NavBar = () => {
   const [searched, setsearched] = useState(false)
   const [search, setsearch] = useState<string>("")
   const user = useSelector((state: RootState) => state.user.value);
-  const token: string | null = sessionStorage.getItem("token");
+  const token: string | null = localStorage.getItem("token");
   const [posts, setposts] = useState<IPost[]>([])
 
 
   const searchPost = async () => {
     setSearchLoading(true)
     const response: AxiosResponse<IGetPostsResponse> = await forumApi.searchPost(search)
-    console.log(response)
     setposts(response.data.data)
     setSearchLoading(false)
     setsearched(true)
@@ -65,7 +64,6 @@ const NavBar = () => {
   }
 
 
-
   // MENU VARIABLES
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const openUserDropDown = Boolean(anchorEl);
@@ -78,79 +76,95 @@ const NavBar = () => {
   // END HERE
 
   const getUser = async () => {
+
     const data: IGetUserResponse = await authApi.getUserFromToken(
-      sessionStorage.getItem("token")!
+      localStorage.getItem("token")!
     );
+
+    if (data.data.completed === false) {
+      navigate("/complete")
+    }
     dispatch(initializeUser(data.data));
     setSuccess(data.success);
     forceUpdate();
+    if (success && user.details.completed === false) {
+      navigate("/complete")
+    }
   };
 
   useEffect(() => {
-    getUser();
+    if (localStorage.getItem("token")?.match(/^[A-Za-z0-9_-]{2,}(?:\.[A-Za-z0-9_-]{2,}){2}$/)) {
+      getUser();
+    } else {
+      localStorage.removeItem("token")
+      navigate("/login")
+    }
+
+
   }, []);
 
-  console.log(search)
 
   return (
     <>
-      {success ? (
-        <div className={styles.navbar}>
-          <div className={styles.left}>
-            <div style={{ cursor: "pointer" }} onClick={() => navigate("/home")}>
-              <img src={edubytes_logo_large} height='30px' style={{ marginTop: "5px" }} />
+      {<div style={{ visibility: localStorage.getItem("token") === null ? "hidden" : undefined }}>
+        {success ? (
+          <div className={styles.navbar}>
+            <div className={styles.left}>
+              <div style={{ cursor: "pointer" }} onClick={() => navigate("/")}>
+                <img src={edubytes_logo_large} height='30px' style={{ marginTop: "5px" }} />
+              </div>
             </div>
+            <div className={styles.middle}>
+              <div className={styles.search}>
+                <div onClick={() => searchPost()} className={styles.search_icon}>
+                  <SearchRoundedIcon sx={{ fill: "#868e96" }} />
+                </div>
+                <input onKeyDown={onKeyDown} onChange={(e) => handleSearchChange(e)} placeholder="Search" />
+                {search.length != 0 ? <div onClick={() => setsearch("")}><CloseIcon sx={{ cursor: "pointer", fill: "#adb5bd" }} fontSize="small" /></div> : null}
+              </div>
+              {search.length != 0 && searched ? <SearchDropDown setsearch={onnavigate} search={search} posts={posts} loading={searchLoading} /> : null}
+            </div>
+            {token !== null ? (
+              <div className={styles.right}>
+                {/* <div className={styles.icons}>
+                  <MailOutlineRoundedIcon sx={{ fill: "#868e96", padding: "5px", borderRadius: "50%", ":hover": { backgroundColor: "#e9ecef" } }} />
+                </div> */}
+                <div onClick={() => navigate("/notifications")} className={styles.icons}>
+                  <Badge sx={{ "marginRight": "8px" }} badgeContent={4} variant="dot" color="primary">
+                    <NotificationsNoneRoundedIcon sx={{ fill: "#868e96", padding: "0px", borderRadius: "50%", ":hover": { backgroundColor: "#e9ecef" }, }} />
+                  </Badge>
+                </div>
+                <button
+                  style={{
+                    border: "none",
+                    backgroundColor: "white",
+                    cursor: "pointer",
+                  }}
+                  id="basic-button"
+                  aria-controls={openUserDropDown ? "basic-menu" : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={openUserDropDown ? "true" : undefined}
+                  onClick={handleClick}
+                >
+                  <img src={user.details.pfp} />
+                </button>
+                <UserAvatarDropDown
+                  user_name={user.username}
+                  anchorEl={anchorEl}
+                  open={openUserDropDown}
+                  handleClose={handleClose}
+                  user_email={user.email}
+                  user_pfp={user.details.pfp}
+                />
+              </div>
+            ) : (
+              <div className={styles.right}>
+                <button>login</button>
+              </div>
+            )}
           </div>
-          <div className={styles.middle}>
-            <div className={styles.search}>
-              <div onClick={() => searchPost()} className={styles.search_icon}>
-                <SearchRoundedIcon sx={{ fill: "#868e96" }} />
-              </div>
-              <input onKeyDown={onKeyDown} onChange={(e) => handleSearchChange(e)} placeholder="Search" />
-              {search.length != 0 ? <div onClick={() => setsearch("")}><CloseIcon sx={{ cursor: "pointer", fill: "#adb5bd" }} fontSize="small" /></div> : null}
-            </div>
-            {search.length != 0 && searched ? <SearchDropDown setsearch={onnavigate} search={search} posts={posts} loading={searchLoading} /> : null}
-          </div>
-          {token !== null ? (
-            <div className={styles.right}>
-              <div className={styles.icons}>
-                <MailOutlineRoundedIcon sx={{ fill: "#868e96", padding: "5px", borderRadius: "50%", ":hover": { backgroundColor: "#e9ecef" } }} />
-              </div>
-              <div onClick={() => navigate("/notifications")} className={styles.icons}>
-                <Badge sx={{ "marginRight": "8px" }} badgeContent={4} variant="dot" color="primary">
-                  <NotificationsNoneRoundedIcon sx={{ fill: "#868e96", padding: "0px", borderRadius: "50%", ":hover": { backgroundColor: "#e9ecef" }, }} />
-                </Badge>
-              </div>
-              <button
-                style={{
-                  border: "none",
-                  backgroundColor: "white",
-                  cursor: "pointer",
-                }}
-                id="basic-button"
-                aria-controls={openUserDropDown ? "basic-menu" : undefined}
-                aria-haspopup="true"
-                aria-expanded={openUserDropDown ? "true" : undefined}
-                onClick={handleClick}
-              >
-                <img src={user.details.pfp} />
-              </button>
-              <UserAvatarDropDown
-                user_name={user.username}
-                anchorEl={anchorEl}
-                open={openUserDropDown}
-                handleClose={handleClose}
-                user_email={user.email}
-                user_pfp={user.details.pfp}
-              />
-            </div>
-          ) : (
-            <div className={styles.right}>
-              <button>login</button>
-            </div>
-          )}
-        </div>
-      ) : null}
+        ) : null}
+      </div>}
     </>
   );
 };

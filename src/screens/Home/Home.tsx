@@ -42,6 +42,7 @@ const Home = () => {
 
   const [posts, setPosts] = useState<IPost[]>([]);
   const [topPosts, setTopPosts] = useState<IPost[]>([]);
+  const [postsLoading, setpostsLoading] = useState(false)
   const [planner, setplanner] = useState<ReturnedPlanner[]>([])
   const [mode, setMode] = useState<"home" | "friends" | "resources">("home");
   const [resources, setResource] = useState<ReturnedResource[]>([])
@@ -51,11 +52,6 @@ const Home = () => {
   const [number, setnumber] = useState(0)
   const [postLength, setpostLength] = useState(0)
   const [hasMore, setHasMore] = useState(true)
-
-
-  console.log(postLength, posts.length)
-
-
 
 
   // const random: number = (Math.floor(Math.random() * 6))
@@ -89,12 +85,6 @@ const Home = () => {
   const resourceApi = new Resource()
   const plannerApi = new Planner()
 
-  console.log(posts)
-  console.log(postCommunity)
-
-
-
-
 
   // MENU VARIABLES
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -115,6 +105,7 @@ const Home = () => {
   }
 
   const fetchNextData = async () => {
+    setpostsLoading(true)
     const data = await forumApi.getPostsTargetGeneral(postCommunity, number + 15);
     if (data.data.length === postLength) {
       setHasMore(false)
@@ -123,11 +114,15 @@ const Home = () => {
     setnumber(number + 15)
     forceUpdate()
     setPosts(data.data);
+    setpostsLoading(false)
+
 
   }
 
 
   const getPosts = async (community: string) => {
+    setpostsLoading(true)
+
     setHasMore(true)
     const data = await forumApi.getPostsTargetGeneral(community, 0);
     setPosts(data.data);
@@ -135,15 +130,19 @@ const Home = () => {
     if (data.data.length < 15) {
       setHasMore(false)
     }
+    setpostsLoading(false)
+
 
 
   };
 
   const getTopPosts = async () => {
+    setpostsLoading(true)
     const response: AxiosResponse<ITopPostsResponse> =
       await forumApi.getTopPosts(user.education.institute);
     setTopPosts(response.data.data.sorted);
     forceUpdate();
+    setpostsLoading(false)
   };
 
   const getResources = async () => {
@@ -156,11 +155,9 @@ const Home = () => {
     setplanner(response.data.data)
   }
 
-  console.log(resources)
 
   const topPostPreview: JSX.Element = (
     <>
-
       <Stack
         sx={{
           padding: "10px", backgroundColor: "white", borderRadius: "8px", border: "1px solid #dee2e6", paddingBottom: "0px"
@@ -172,7 +169,6 @@ const Home = () => {
           <div>
             <Skeleton variant="text" width={282} height={10} />
             <Skeleton variant="text" width={282} height={10} />
-            {/* <Skeleton variant="text" width={100} height={10} /> */}
           </div>
         </div >
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
@@ -225,11 +221,11 @@ const Home = () => {
   );
 
   useEffect(() => {
-    if (sessionStorage.getItem("token") === null) {
+
+    if (localStorage.getItem("token") === null) {
       navigate("/login");
     } else if (user.education.institute != "") {
       getPosts("general");
-
       getTopPosts()
       getResources()
       getPlanners()
@@ -279,27 +275,32 @@ const Home = () => {
                 partialVisible={false}
               >
                 {resources.slice(0, 10).sort((a, b) => { return b.rating - a.rating }).map((item, i) => {
-                  return <div ><Notes id={item._id} title={item.resource_title} image={item.preview_image} subject={item.subject} rating={item.rating} username={item.username} user_pfp={item.user_pfp} /></div>
+                  return <div ><Notes key={i} id={item._id} title={item.resource_title} image={item.preview_image} subject={item.subject} rating={item.rating} username={item.username} user_pfp={item.user_pfp} /></div>
                 })}
               </Carousel>
             </div>
             <div className={styles.postbar}>
               <CreatePostBar type={"post"} pfp={user.details.pfp} />
             </div>
+
+
             <div className={styles.filter}>
-              {mode === "home" ? <div className={styles.filter_select}>
-                <p>You are viewing posts for: {postCommunity}</p>
-                <p className={styles.mobile_filter}> viewing for: {postCommunity}</p>
+              {<div style={{ visibility: mode === "home" ? "visible" : "hidden" }} className={styles.filter_select}>
+                <button style={{
+                  color: postCommunity === "general" ? "#339af0" : "#868e96"
+                }} onClick={() => { setpostCommunity("general"); switchComminity("general") }} >General</button>
+                <button style={{
+                  color: postCommunity === "A Level" ? "#339af0" : "#868e96"
+                }} onClick={() => { setpostCommunity("A Level"); switchComminity('A Level') }}>A Level</button>
+                <button style={{
+                  color: postCommunity === "O Level" ? "#339af0" : "#868e96"
+                }} onClick={() => { setpostCommunity("O Level"); switchComminity("O Level") }}>O Level</button>
+                <button style={{
+                  color: postCommunity === user.education.institute ? "#339af0" : "#868e96"
+                }} onClick={() => { setpostCommunity(user.education.institute); switchComminity(user.education.institute) }}>{user.education.institute}</button>
 
-                <select onChange={(e) => { setpostCommunity(e.target.value); switchComminity(e.target.value) }} name="subject">
-                  {
-                    communities.map((item, i) => {
-                      return <option value={item}>{item}</option>
-                    })
-                  }
-                </select>
 
-              </div> : null}
+              </div>}
               <div className={styles.header}>
                 <button onClick={() => setMode("home")}><HomeIcon
                   sx={{
@@ -323,10 +324,8 @@ const Home = () => {
                   fontSize="small"
                 /></button>
               </div>
-
-
-
             </div>
+
             <div style={{ overflow: "hidden" }}>
               <InfiniteScroll
                 style={{ overflow: "hidden" }}
@@ -335,9 +334,9 @@ const Home = () => {
                 hasMore={hasMore}
                 loader={<p className={styles.endtext}>loading more posts</p>}
                 endMessage={
-                  <p style={{ textAlign: 'center' }}>
-                    <p className={styles.endtext}>End of the posts</p>
-                  </p>
+                  <div style={{ textAlign: 'center' }}>
+                    {posts.length === 0 && postsLoading === false ? null : <p className={styles.endtext}>End of the posts</p>}
+                  </div>
                 }
               // below props only if you need pull down functionality
 
@@ -363,8 +362,10 @@ const Home = () => {
                                 likes={item.likes}
                               />
                             </div>
-                          ) : <div onClick={() => setMode("resources")}>
-                            <Contribute />
+                          ) : <div >
+                            <div style={{ maxWidth: "300px", margin: "0 auto", cursor: "pointer" }} onClick={() => setMode("resources")}>
+                              <Contribute />
+                            </div>
                             <div style={{ marginBottom: "10px" }}>
                               <PostCard
                                 key={i}
@@ -382,7 +383,10 @@ const Home = () => {
 
                           </div>
                         })
-                        : <div className={styles.post} >{postPreview}</div>}
+                        : null}
+                      {posts.length === 0 && postsLoading ? <div className={styles.post} >{postPreview}</div> : null}
+                      {posts.length === 0 && postsLoading === false ? <p style={{ color: "#adb5bd" }}>No posts</p> : null}
+
                     </div> : null}
                     {mode === "friends" ? <div>
                       <FriendScreen />
@@ -398,7 +402,7 @@ const Home = () => {
       <div className={styles.right}>
         <RightBar planner={planner} />
       </div>
-    </div>
+    </div >
   );
 };
 

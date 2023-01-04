@@ -10,15 +10,13 @@ export interface Friends {
 
 export interface Education {
     institute: string;
-    university: boolean;
-    college: boolean;
     subjects: string[];
 }
 
 export interface Details {
     bio: string;
     pfp: string;
-    verified: boolean;
+    completed: boolean;
 }
 
 export interface User {
@@ -27,8 +25,7 @@ export interface User {
     email: string;
     created: string;
     admin: boolean;
-    partnerd: boolean;
-    details: Details;
+details: Details;
     education: Education;
     friends: Friends[];
 }

@@ -63,8 +63,6 @@ const ViewResource = () => {
         navigate("/home")
     }
 
-    console.log(resource)
-
 
 
     const changeRating = async (newRating: number) => {

@@ -209,7 +209,6 @@ const NoteScreen = () => {
         if (imageFile !== null) {
             formData.append("file", file);
             formData.append("upload_preset", "mb3hrwz7");
-            console.log(formData, "HERE")
         } else {
             formData = undefined;
         }
@@ -220,7 +219,7 @@ const NoteScreen = () => {
 
     const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files[0]) {
-            if (image.length >= 5) {
+            if (image.length >= 12) {
                 return
             } else {
                 let imageNew: string[] = image
@@ -285,22 +284,14 @@ const NoteScreen = () => {
                         fname: "uploadFilesToGoogleDrive",
                     };
                     setProgress(20)
-                    // https://script.google.com/macros/s/AKfycbxiYmT_MaT_LMTubCDCtzi-Qg8YSLlDAnKl3DIQ5t9ivOxGWCR_-e6oE0GwGv-qqZ0RqQ/exec
-                    // https://script.google.com/macros/s/AKfycbzahMBn4ZbghLAMQG2zCLMd1f7PuxDDSVOr7DreZ9U1kD4rD48W8oo-nLJVbq7g2eP-bg/exec this is mani one
-
                     const response: AxiosResponse<any> = await axios.post("https://script.google.com/macros/s/AKfycbzahMBn4ZbghLAMQG2zCLMd1f7PuxDDSVOr7DreZ9U1kD4rD48W8oo-nLJVbq7g2eP-bg/exec", JSON.stringify(dataSend))
                     setProgress(50)
                     let newPDF = pdfURL
                     newPDF.push(response.data.url)
                     forceUpdate()
-                    console.log("i am here 1")
                     next()
-
                 };
-                // https://script.google.com/macros/s/AKfycbzV9a3N1hN-5BZOgA8ngiQXXflR2o9gLgKgofK5gLAtmlcWvEGgirpSnk2Lo3rmjL70ug/exec
-
             }(function () {
-                console.log("i am here 3")
                 uploadResource("pdf")
             }))
         }
@@ -318,7 +309,6 @@ const NoteScreen = () => {
 
 
     const uploadResource = async (target: string) => {
-        console.log(" i am here 4")
         if (checkEmpty()) {
             const resource: interfaces.Resource = {
                 "resource_title": title,
@@ -346,9 +336,7 @@ const NoteScreen = () => {
         }
     }
 
-    console.log(subject)
 
-    // todo: handle status != 200 error
 
     return (
         <div className={styles.container}>
@@ -390,13 +378,13 @@ const NoteScreen = () => {
                         <div className={styles.images}>
                             <div className={styles.image}>
                                 {image.map((img, i) => {
-                                    return <img src={img} />
+                                    return <img key={i} src={img} />
                                 })}
                             </div>
                             {!uploading ?
                                 <>
                                     <div>
-                                        <p>Currently you can only add upto 5 images due to long upload times.</p>
+                                        <p>Currently you can only add upto 12 images due to long upload times.</p>
                                     </div>
                                     <div>
                                         <button onClick={() => {
@@ -423,32 +411,32 @@ const NoteScreen = () => {
                                             <input onChange={(e) => { setTitle(e.target.value) }} value={title} placeholder='Title' />
                                             <select onChange={(e) => { setBoard(e.target.value), setboardlogic(e.target.value) }} name="subject" >
                                                 {boards.map((item, i) => {
-                                                    // TODO: Add logic to set subject to first subject in the list onChange
-                                                    return <option value={item}>{item}</option>
+
+                                                    return <option key={i} value={item}>{item}</option>
                                                 })}
                                             </select>
 
                                             {board === "O Level" ? <select onChange={(e) => { setSubject(e.target.value) }} name='subject'>
                                                 {olevelsubjects.map((item, i) => {
-                                                    return <option value={item}>{item}</option>
+                                                    return <option key={i} value={item}>{item}</option>
                                                 })}
 
                                             </select> : null}
                                             {board === "ECAT/MDCAT" ? <select onChange={(e) => { setSubject(e.target.value) }} name='subject'>
                                                 {ecatsubjects.map((item, i) => {
-                                                    return <option value={item}>{item}</option>
+                                                    return <option key={i} value={item}>{item}</option>
                                                 })}
 
                                             </select> : null}
                                             {board === "Intermediate" ? <select onChange={(e) => { setSubject(e.target.value) }} name='subject'>
                                                 {ecatsubjects.map((item, i) => {
-                                                    return <option value={item}>{item}</option>
+                                                    return <option key={i} value={item}>{item}</option>
                                                 })}
 
                                             </select> : null}
                                             {board === "Matric" ? <select onChange={(e) => { setSubject(e.target.value) }} name='subject'>
                                                 {ecatsubjects.map((item, i) => {
-                                                    return <option value={item}>{item}</option>
+                                                    return <option key={i} value={item}>{item}</option>
                                                 })}
 
                                             </select> : null}
@@ -456,7 +444,7 @@ const NoteScreen = () => {
                                                 <select onChange={(e) => { setSubject(e.target.value) }} name="subject">
                                                     {
                                                         alevelsubjects.map((item, i) => {
-                                                            return <option value={item}>{item}</option>
+                                                            return <option key={i} value={item}>{item}</option>
                                                         })
                                                     }
                                                 </select>

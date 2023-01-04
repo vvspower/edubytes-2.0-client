@@ -184,11 +184,6 @@ const Resources = () => {
     }
 
 
-
-    console.log(notes)
-    console.log(board, subject)
-
-
     return (
         <div className={styles.container}>
             <div className={styles.right}>
@@ -234,7 +229,7 @@ const Resources = () => {
                 </div>
                 {!loading ? <div className={styles.notes} >
                     {notes.length != 0 ? notes.map((item, i) => {
-                        return <div onClick={() => navigate(`/resources/view/${item._id}`)} className={styles.note}>
+                        return <div key={i} onClick={() => navigate(`/resources/view/${item._id}`)} className={styles.note}>
                             <div>
                                 {item.preview_image != "" ? <img src={item.preview_image} /> : <img src={pdfimage} />}
                                 <h6>{item.resource_title.substring(0, 40)}{item.resource_title.length > 40 ? "..." : null}</h6>

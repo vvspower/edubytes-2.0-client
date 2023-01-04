@@ -13,104 +13,158 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Auth from "../../../ApiManager/api/auth";
 import { useNavigate } from "react-router-dom";
+import styles from './login.module.sass'
+import img from '../../../assets/login.png'
+import PersonIcon from '@mui/icons-material/Person';
+import LockIcon from '@mui/icons-material/Lock';
+import axios, { AxiosError, AxiosResponse } from "axios";
+import { IDefaultResponse } from "../../../ApiManager/interface/Interfaces";
+import loader from '../../../assets/loading.gif'
 
-const theme = createTheme();
+
+
 
 export default function Login() {
   const authApi = new Auth();
   const navigate = useNavigate();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [username, setUsername] = useState<string>("");
+  const [loading, setloading] = useState(false)
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log({
-      email,
-      password,
-    });
 
-    const authorization: string = await authApi.signInUser(email, password);
-    sessionStorage.setItem("token", authorization);
-    navigate("/home");
+  const [error, setError] = useState<string>("");
+
+  const [loginPage, setloginPage] = useState(true)
+  const [next, setnext] = useState(false)
+
+
+  const displayError = (err: string): void => {
+    setError(err)
+    const myTimeout = setTimeout(() => { setError(""), clearTimeout(myTimeout); }, 2000);
+  }
+
+
+  const handleSubmit = async (e: React.FormEvent<HTMLInputElement>) => {
+    setloading(true)
+    try {
+      e.preventDefault()
+      const authorization: string = await authApi.signInUser(email, password);
+      localStorage.setItem("token", authorization);
+      navigate("/");
+      location.reload()
+    } catch (error: any) {
+      if (axios.isAxiosError(error)) {
+        const err = error as AxiosError<IDefaultResponse>
+        displayError(err.response?.data.data!)
+        setloading(false)
+      }
+    }
   };
 
+  const SignUp = async () => {
+    try {
+      setloading(true)
+      const response: AxiosResponse<IDefaultResponse> = await authApi.signUpUser(email, password, username);
+      setloading(false)
+      setnext(true)
+    } catch (error: any) {
+      if (axios.isAxiosError(error)) {
+        const err = error as AxiosError<IDefaultResponse>
+        displayError(err.response?.data.data!)
+        setloading(false)
+      }
+    }
+  }
+
+
+
   return (
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
+    <div className={styles.container}>
+      {!localStorage.getItem("token") ? <Box>
         <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
+          component="form"
+          onSubmit={handleSubmit}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}></Avatar>
-          <Typography component="h1" variant="h5">
-            Sign in
-          </Typography>
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{ mt: 1 }}
-          >
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-              value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign In
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
-          </Box>
+          <div>
+            {loginPage ? <div className={styles.modal}>
+              <img height={200} src={img} />
+              <div className={styles.login}>
+                <h1>Login to Edubytes</h1>
+                <div className={styles.inputs}>
+                  <div>
+                    <PersonIcon sx={{ fill: "#495057" }} />
+                    <input id="email"
+                      value={email}
+                      onChange={(e) => {
+                        setEmail(e.target.value);
+                      }}
+                      name="email" placeholder="Email" />
+                  </div>
+                  <div>
+                    <LockIcon sx={{ fill: "#495057" }} />
+                    <input name="password"
+                      value={password}
+                      onChange={(e) => {
+                        setPassword(e.target.value);
+                      }}
+                      type="password"
+                      id="password" placeholder="Password" />
+                  </div>
+                </div>
+                <p style={{ fontSize: "12px", color: "#fa5252", marginTop: "10px" }}>{error}</p>
+                <p onClick={() => { setloginPage(false); setError("") }} style={{ fontSize: "12px", color: "#1971c2", marginTop: "10px", cursor: "pointer" }}>Dont have an account? Sign up!</p>
+                <div>
+
+                  <Button disabled={loading} type="submit">{loading ? <img src={loader} width="30px" /> : "Logic"}</Button>
+                </div>
+              </div>
+            </div> : null}
+          </div>
         </Box>
-      </Container>
-    </ThemeProvider>
+      </Box > : <p style={{ marginTop: "60px", textAlign: "center" }}>Log out before logging in again</p>}
+      {!loginPage ? <div className={styles.sign_up}>
+        {!next ? <div className={styles.modal}>
+          <img height={200} src={img} />
+          <div className={styles.normal_inputs}>
+            <h1>Sign up</h1>
+            <input value={username}
+              onChange={(e) => {
+                setUsername(e.target.value);
+              }} style={{ width: "95%", marginBottom: "10px" }} placeholder="Username" />
+            <div>
+              <div>
+                <input id="email"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+
+                  name="email" placeholder="Email" />
+              </div>
+              <div>
+                <input name="password"
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
+                  type="password"
+                  id="password" placeholder="Password" />
+              </div>
+
+
+            </div>
+            <p style={{ fontSize: "12px", color: "#fa5252", marginTop: "10px", cursor: "pointer" }}>{error}</p>
+            <p onClick={() => { setloginPage(true); setError("") }} style={{ fontSize: "12px", color: "#1971c2", marginTop: "10px", cursor: "pointer" }}>Already have an account? Sign in!</p>
+            {!loading ? <button onClick={() => SignUp()}>SignUp</button> : null}
+            {loading ? <img height={30} src={loader} /> : null}
+          </div>
+        </div> : <div className={styles.modal}>
+          <div>
+            <p>Email has been sent to {email}. Please verify and continue</p>
+          </div>
+        </div>}
+      </div> : null}
+    </div>
   );
 }

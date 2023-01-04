@@ -1,21 +1,19 @@
 import React, { useState, useEffect, useReducer } from 'react'
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import styles from './friendscreen.module.sass'
-import example_pfp from '../../../assets/example_pfp.jpg'
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useSelector } from 'react-redux';
-import Friend, { DefaultResponse, FriendRequest } from '../../../ApiManager/api/friend';
+import Friend from '../../../ApiManager/api/friend';
+import { DefaultResponse, FriendRequest, } from '../../../ApiManager/interface/Interfaces';
 import Suggestions from '../../../ApiManager/api/suggestions';
-import { ResponseData } from '../../../ApiManager/api/friend';
-// import ResponseSuggestedUser, SuggestedUser from '../../../ApiManager/api/suggestions';
-import { SuggestedUser } from '../../../ApiManager/interface/Interfaces';
+import { ResponseData } from '../../../ApiManager/interface/Interfaces';
+import { IDefaultResponse, SuggestedUser } from '../../../ApiManager/interface/Interfaces';
 import { ResponseSuggestedUser } from '../../../ApiManager/interface/Interfaces';
 import { RootState } from '../../../store/store';
 import { useNavigate } from 'react-router-dom';
 import { Stack } from '@mui/system';
 import { Skeleton } from '@mui/material';
 import SnackBar from '../../SnackBar/SnackBar';
-import CircularProgress from '@mui/material/CircularProgress';
 
 const FriendScreen = () => {
     const user = useSelector((state: RootState) => state.user.value);
@@ -86,8 +84,9 @@ const FriendScreen = () => {
             setOpen(true)
             createNewFriendReqArray(username)
 
-        } catch (err: any) {
-            if (axios.isAxiosError(err)) {
+        } catch (error: any) {
+            if (axios.isAxiosError(error)) {
+                const err = error as AxiosError<IDefaultResponse>
                 setText(err.response?.data.data!)
                 setOpen(true)
                 createNewFriendReqArray(username)

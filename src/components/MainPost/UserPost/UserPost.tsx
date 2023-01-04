@@ -32,9 +32,6 @@ import { useNavigate } from "react-router-dom";
 import EditIcon from '@mui/icons-material/Edit';
 import Edit from "@mui/icons-material/Edit";
 
-// import Suggestions, { ResponseSuggestedPost, SuggestedPost, SuggestedUser } from "../../../ApiManager/api/suggestions";
-// import Suggestions, { ResponseSuggestedPost, SuggestedPost, SuggestedUser } from "../../../ApiManager/api/suggestions";
-// import Suggestions, ResponseSuggestedPost, SuggestedPost, SuggestedUser  from "../../../ApiManager/api/suggestions";
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -70,22 +67,17 @@ const UserPost = (props: IPost) => {
     const [replies, setReplies] = useState<Replies[]>([])
     const [content, setContent] = useState<string>("")
 
-    // 
+
 
     const [openDelete, setOpenDelete] = React.useState(false);
     const handleOpenDelete = () => setOpenDelete(true);
     const handleCloseDelete = () => setOpenDelete(false);
 
-    // 
 
     const [openEdit, setOpenEdit] = React.useState(false);
     const handleOpenEdit = () => setOpenEdit(true);
     const handleCloseEdit = () => setOpenEdit(false);
     const [textEdit, settextEdit] = useState(props.content)
-
-    // 
-
-
 
 
 
@@ -168,7 +160,6 @@ const UserPost = (props: IPost) => {
 
     return (
         <div className={styles.container}>
-            {/* MODALS */}
             <div>
                 <Modal
                     open={openDelete}
@@ -240,7 +231,7 @@ const UserPost = (props: IPost) => {
                             <div className={styles.userlikespfp}>
                                 <AvatarGroup max={4} >
                                     {likes?.map((item, i) => {
-                                        return <Avatar sx={{ height: "18px", width: "18px" }} alt={item.username} src={item.user_pfp} />
+                                        return <Avatar key={i} sx={{ height: "18px", width: "18px" }} alt={item.username} src={item.user_pfp} />
                                     })}
                                 </AvatarGroup>
                             </div>

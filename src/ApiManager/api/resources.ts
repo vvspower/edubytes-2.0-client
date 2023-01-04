@@ -3,7 +3,7 @@ import * as interfaces from '../interface/Interfaces'
 
 
 const instance = axios.create({
-    baseURL: "http://127.0.0.1:9000/resources",
+    baseURL: "https://edubytes.herokuapp.com/resources",
     timeout: 100000,
 });
 
@@ -13,20 +13,20 @@ export default class Resource {
     private _token: string
 
     constructor() {
-        this._token = this._token = sessionStorage.getItem("token")!;
+        this._token = this._token = localStorage.getItem("token")!;
 
     }
 
     public async uploadResource(data: interfaces.Resource) {
         instance.defaults.headers.common["Authorization"] = this._token
         const response: AxiosResponse<interfaces.ResourceResponse> = await instance.post(`/upload`, data)
-        console.log(response)
+
         return response
     }
 
     public async getResources() {
         const response: AxiosResponse<interfaces.ReturnedResourceResponse> = await instance.get(`/`)
-        console.log(response)
+
         return response
     }
 

@@ -93,11 +93,13 @@ body
 
 .header
     display: block
-    float: right
+    // float: right
+    justify-content: end
     // margin-top: 4px
-    border: 2px solid #dee2e6
+    // border: 2px solid #dee2e6
     background-color: white
-    border-radius: 25px
+    border-radius: 8px
+    // border-radius: 25px
     // max-width: 125px
 
 .header button
@@ -110,45 +112,59 @@ body
 
 .header button
     &:nth-child(1)
-        border-top-left-radius: 25px
-        border-bottom-left-radius: 25px
+        border-left: 1px solid #e9ecef
+
     &:nth-child(2)
         border-right: 1px solid #e9ecef
         border-left: 1px solid #e9ecef
     &:nth-child(3)
-        border-top-right-radius: 25px
-        border-bottom-right-radius: 25px
+        border-top-right-radius: 8px
+        border-bottom-right-radius: 8px
 
 .header h1
     font-weight: 500
     font-size: 16px
 
 .filter
+    background-color: white
     display: flex
     align-items: center
-    gap: 10px
+    gap: 5px
     margin-top: 4px
-    justify-content: end
+    justify-content: space-between
+    // padding: 2px
+    border-radius: 8px
+    border: 1px solid #dee2e6
 
 .filter_select
-    background-color: white
-    padding: 8px 10px
     display: flex
-    gap: 10px
     align-items: center
-    width: 100%
-    max-width: 510px
-    justify-content: space-between
+    // gap: 10px
+    button
+        padding: 10px
+        background-color: white
+        border: none
+        cursor: pointer
+        font-weight: 500
+        color: #868e96
+        border-right: 1px solid #dee2e6
 
-    border-radius: 25px
-    border: 2px solid #dee2e6
+        &:hover
+            background-color: #f1f3f5
+        &:nth-child(1)
+            border-top-left-radius: 8px
+            border-bottom-left-radius: 8px
+
+            // margin-left: 10px
+    // background-color: white
+
     p
         font-size: 14px
         color: #868e96
     select
-        padding: 0px 5px
+        padding: 7px 5px
         border-radius: 25px
-        border: 2px solid #adb5bd
+        border: 2px solid #dee2e6
         outline: none
         cursor: pointer
 
@@ -180,19 +196,10 @@ body
     .carousel
         width: 500px
 
-    .filter
-        justify-content: center
-        div
-
-            &:nth-child(1)
-                justify-content: start
-                width: 250px
-
-                p
-                    &:nth-child(1)
-
-                        display: none
-
+    .filter_select
+        button
+            font-size: 10px
+            padding: 10px 5x
     .mobile_filter
         display: block
 

@@ -92,7 +92,7 @@ const PostCard = (props: Props) => {
         {props.image != "" ? <img src={props.image} /> : null}
       </div>
       <div style={{ padding: "12px" }}>
-        <div onClick={() => navigate(`/post?v=${props._id}`)} className={styles.header}>
+        <div onClick={() => navigate(`/post/${props._id}`)} className={styles.header}>
           <div>
             <img src={props.pfp} />
             <div>
@@ -101,7 +101,7 @@ const PostCard = (props: Props) => {
             </div>
           </div>
         </div>
-        <div onClick={() => navigate(`/post?v=${props._id}`)} className={styles.content}>
+        <div onClick={() => navigate(`/post/${props._id}`)} className={styles.content}>
           <p >{props.content}</p>
         </div>
         <div className={styles.interaction}>
@@ -119,7 +119,7 @@ const PostCard = (props: Props) => {
             <div className={styles.userlikespfp}>
               <AvatarGroup max={4} >
                 {likes?.map((item, i) => {
-                  return <Avatar sx={{ height: "18px", width: "18px" }} alt={item.username} src={item.user_pfp} />
+                  return <Avatar key={i} sx={{ height: "18px", width: "18px" }} alt={item.username} src={item.user_pfp} />
                 })}
               </AvatarGroup>
             </div>

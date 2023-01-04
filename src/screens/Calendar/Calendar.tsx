@@ -54,8 +54,6 @@ const Calendar = () => {
 
     }
 
-    console.log(studyPlanner, examPlanner)
-
     const openLinks = (item: Attatchments) => {
         item.links.map((link, i) => {
             window.open(link, "_blank")
@@ -74,7 +72,7 @@ const Calendar = () => {
                 {planners.filter((item, i) => {
                     return new Date(item.due_date).getDate() === new Date().getDate() || new Date(item.due_date).getDate() < new Date().getDate() && item.type === "study"
                 }).splice(0, 1).map((item, i) => {
-                    return <div className={styles.current}>
+                    return <div key={i} className={styles.current}>
                         <h1>Current</h1>
                         <main>
                             <div className={styles.header}>
@@ -108,7 +106,7 @@ const Calendar = () => {
                 {planners.filter((item, i) => {
                     return new Date(item.due_date).getDate() > new Date().getDate() && item.type === "study"
                 }).splice(0, 1).map((item, i) => {
-                    return <div className={styles.upcoming}>
+                    return <div key={i} className={styles.upcoming}>
                         {/* <p>hello</p> */}
                         <main>
                             <div className={styles.header}>
@@ -204,7 +202,8 @@ const Calendar = () => {
                                     <CalendarModal planner={value} type='study' mode='edit' />
 
                                 </div>
-                            </div>}
+                            </div>
+                        }
                     />
                 </div>
                 <div className={styles.exam_planner}>

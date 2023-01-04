@@ -4,7 +4,7 @@ import Cloudinary from "../cloudinaryApi/cloudinary";
 
 
 const instance = axios.create({
-  baseURL: "http://127.0.0.1:9000/community/forums",
+  baseURL: "https://edubytes.herokuapp.com/community/forums",
   timeout: 100000,
 });
 
@@ -25,7 +25,7 @@ export default class Forum {
   }
 
   public async updatePost(content: string, id: string) {
-    instance.defaults.headers.common["Authorization"] = sessionStorage.getItem("token")!;
+    instance.defaults.headers.common["Authorization"] = localStorage.getItem("token")!;
     const response: AxiosResponse<interfaces.IDefaultResponse> = await instance.put(`/post/${id}`, {
       content: content
     })
@@ -33,7 +33,7 @@ export default class Forum {
   }
 
   public async deletePost(id: string) {
-    instance.defaults.headers.common["Authorization"] = sessionStorage.getItem("token")!;
+    instance.defaults.headers.common["Authorization"] = localStorage.getItem("token")!;
     const response: AxiosResponse<interfaces.IDefaultResponse> = await instance.delete(`/post/${id}`)
     return response
   }
@@ -68,7 +68,7 @@ export default class Forum {
 
   public async postLike(like: boolean, id: string) {
     instance.defaults.headers.common["Authorization"] =
-      sessionStorage.getItem("token")!;
+      localStorage.getItem("token")!;
     if (like) {
       const response: AxiosResponse<interfaces.IDefaultResponse> = await instance.post(
         `/post/like/${id}/like`
@@ -84,14 +84,14 @@ export default class Forum {
 
   public async getReplies(post_id: string) {
     instance.defaults.headers.common["Authorization"] =
-      sessionStorage.getItem("token")!;
+      localStorage.getItem("token")!;
     const response: AxiosResponse<interfaces.IGetRepliesResponse> = await instance.get(`/reply/${post_id}`)
     return response.data.data
   }
 
   public async postReply(post_id: string, content: string, image: string = "") {
     instance.defaults.headers.common["Authorization"] =
-      sessionStorage.getItem("token")!;
+      localStorage.getItem("token")!;
     const response: AxiosResponse<interfaces.IPostReply> = await instance.post(`/reply/${post_id}`, {
       content, image
     })
@@ -105,7 +105,7 @@ export default class Forum {
 
   public async searchPost(query: string) {
     instance.defaults.headers.common["Authorization"] =
-      sessionStorage.getItem("token")!;
+      localStorage.getItem("token")!;
     const response: AxiosResponse<interfaces.IGetPostsResponse> = await instance.get(`/post/search/${query}`)
     return response
   }

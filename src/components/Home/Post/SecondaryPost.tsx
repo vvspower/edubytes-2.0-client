@@ -6,10 +6,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import { ILikes } from "../../../ApiManager/interface/Interfaces";
 import { Chip } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-// import { ILikes } from "../../../ApiManager/api/forum";
 
-
-// username={item.username} pfp={item.user_pfp} likes={item.likes} content={item.content} id={item._id} image={item.image}
 
 interface Props {
   id: string
@@ -25,14 +22,14 @@ const SecondaryPost = (props: Props) => {
   const navigate = useNavigate()
   return (
     <div onClick={() => {
-      navigate(`/post?v=${props.id}`)
+      navigate(`/post/${props.id}`)
 
     }} className={styles.container}>
       <div className={styles.header}>
         <div>
           <img src={props.pfp} />
           <p>
-            {props.content.substring(0, 95)}..
+            {props.content.substring(0, 95)}{props.content.length > 95 ? ".." : null}
           </p>
         </div>
       </div>

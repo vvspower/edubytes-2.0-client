@@ -47,7 +47,7 @@ const CreatePost = (props: Props) => {
   const hiddenFileInput = useRef<HTMLInputElement>(null);
   const [success, setSuccess] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
-  const [forum, setforum] = useState(user.education.institute)
+  const [forum, setforum] = useState("general")
 
   const displayError = (err: string): void => {
     setError(err)
@@ -69,12 +69,11 @@ const CreatePost = (props: Props) => {
       settags(event.target.value);
     }
   };
-  
+
 
   const handleDelete = (i: number): void => {
     const tags = tagsArray;
     tags.splice(i, 1);
-    console.log(tags);
     setTagsArray(tags);
     forceUpdate();
   };
@@ -97,7 +96,6 @@ const CreatePost = (props: Props) => {
 
   const handleSelect = (event: ChangeEvent<HTMLSelectElement>): void => {
     setforum(event.target.value)
-
   }
 
   const uploadPost = async () => {
@@ -119,14 +117,15 @@ const CreatePost = (props: Props) => {
       )
       setSuccess(true);
       props.handleClose()
+      location.reload()
     } catch (error: any) {
       if (axios.isAxiosError(error)) {
         const err = error as AxiosError<IDefaultResponse>
         displayError(err.response?.data.data!)
         setSuccess(true);
       }
-
     }
+
   }
 
 
@@ -158,10 +157,10 @@ const CreatePost = (props: Props) => {
                 </div>
                 <div className={styles.select}>
                   <select onChange={handleSelect} name="forum" id="forum">
-                    <option value={user.education.institute}>{user.education.institute}</option>
+                    <option value="general">General</option>
                     <option value="alevel">A Levels Forum</option>
                     <option value="olevel">O Levels Forum</option>
-                    <option value="general">General</option>
+                    <option value={user.education.institute}>{user.education.institute}</option>
                   </select>
                 </div>
               </div>
