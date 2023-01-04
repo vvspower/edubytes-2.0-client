@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react'
+// @ts-ignore
 import ReactStars from "react-rating-stars-component";
 import Resource from '../../../../ApiManager/api/resources';
 import { IDefaultResponse, ResourceResponse, ReturnedResource, ReturnedResourceResponseSingle } from '../../../../ApiManager/interface/Interfaces';
