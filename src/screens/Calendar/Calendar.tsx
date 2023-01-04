@@ -189,22 +189,21 @@ const Calendar = () => {
                         }
                         renderList={({ children, props }) => <div className={styles.planner} {...props}>{children}</div>}
                         renderItem={({ value, props }) =>
-
                             <div className={styles.planner_item} {...props}>
                                 <h1>{value.title}</h1>
                                 <p>{new Date(value.due_date).toDateString()}</p>
-
-                                {console.log(new Date(), new Date(value.due_date))}
                                 <div className={styles.chip}>
+                                    <span>Exam</span>
                                     {new Date(value.due_date).getDate() > new Date().getDate() ? <span>Upcoming</span> : null}
                                     {new Date(value.due_date).getDate() === new Date().getDate() ? <span style={{ backgroundColor: "#fff4e6", color: "#ffa94d" }}>Current</span> : null}
                                     {new Date(value.due_date).getDate() < new Date().getDate() ? <span style={{ backgroundColor: "#ffe3e3", color: "#ff6b6b" }} onClick={() => console.log("hello")}>Due</span> : null}
-                                    <CalendarModal planner={value} type='study' mode='edit' />
 
+                                    <CalendarModal planner={value} type='exam' mode='edit' />
                                 </div>
                             </div>
                         }
                     />
+
                 </div>
                 <div className={styles.exam_planner}>
                     {planners.filter((item, _) => {
@@ -228,7 +227,6 @@ const Calendar = () => {
                                     {new Date(value.due_date).getDate() < new Date().getDate() ? <span style={{ backgroundColor: "#ffe3e3", color: "#ff6b6b" }}>Due</span> : null}
 
                                     <CalendarModal planner={value} type='exam' mode='edit' />
-
                                 </div>
                             </div>}
                     />
