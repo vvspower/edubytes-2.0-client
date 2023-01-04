@@ -25,7 +25,7 @@ export interface User {
     email: string;
     created: string;
     admin: boolean;
-details: Details;
+    details: Details;
     education: Education;
     friends: Friends[];
 }

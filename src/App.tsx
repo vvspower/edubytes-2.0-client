@@ -7,7 +7,6 @@ import MainPost from "./components/MainPost/MainPost";
 import Notifications from "./screens/Notifications/Notifications";
 import UserProfile from "./screens/UserProfile/UserProfile";
 import Resource from "./screens/ResourcePage/Resource/Resource";
-import MainPage from "./screens/Main/MainPage";
 import ViewResource from "./screens/ResourcePage/Resource/ViewResource/ViewResource";
 import Calendar from "./screens/Calendar/Calendar";
 import CompleteProfile from "./screens/Auth/CompleteProfile/CompleteProfile";

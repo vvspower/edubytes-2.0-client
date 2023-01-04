@@ -4,7 +4,8 @@ import { Chip } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 
 import styles from './suggestedpost.module.sass'
-import { SuggestedPost } from '../../../../ApiManager/api/suggestions'
+// import { SuggestedPost } from '../../../../ApiManager/api/suggestions'
+import { SuggestedPost } from '../../../../ApiManager/interface/Interfaces'
 
 interface Props {
     posts: SuggestedPost[]

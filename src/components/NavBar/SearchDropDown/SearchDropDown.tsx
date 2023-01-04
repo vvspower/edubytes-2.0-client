@@ -11,7 +11,7 @@ interface Props {
     search: string
     posts: IPost[]
     loading: boolean
-    setsearch: () => void
+    setsearch: (s: string) => void
 }
 
 const SearchDropDown = (props: Props) => {

@@ -5,7 +5,8 @@ import MailOutlineRoundedIcon from "@mui/icons-material/MailOutlineRounded";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import { Badge } from "@mui/material";
 import Auth from "../../ApiManager/api/auth";
-import { IGetUserResponse } from "../../ApiManager/api/auth";
+// import { IGetUserResponse } from "../../ApiManager/api/auth";
+import { IGetUserResponse } from "../../ApiManager/interface/Interfaces";
 import { RootState } from "../../store/store";
 import { initializeUser, removeUser } from "../../state/userSlice";
 import { useSelector, useDispatch } from "react-redux";
@@ -81,7 +82,7 @@ const NavBar = () => {
       localStorage.getItem("token")!
     );
 
-    if (data.data.completed === false) {
+    if (data.data.details.completed === false) {
       navigate("/complete")
     }
     dispatch(initializeUser(data.data));

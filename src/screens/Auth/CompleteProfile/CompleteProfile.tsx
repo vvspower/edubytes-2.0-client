@@ -164,8 +164,9 @@ const CompleteProfile = () => {
 
     const getUser = async () => {
         console.log("hello")
-        const response: AxiosResponse<IGetUserResponse> = await authApi.getUserFromToken(sessionStorage.getItem("token")!)
-        setuser(response.data.data)
+        const response: IGetUserResponse = await authApi.getUserFromToken(sessionStorage.getItem("token")!)
+        // response.data
+        setuser(response.data)
         if (response.data.details.completed === true) {
             navigate("/")
         }
@@ -277,7 +278,7 @@ const CompleteProfile = () => {
                                     <Chip
                                         key={i}
                                         label={item}
-                                        onClick={(n: number) => handleDelete(n)}
+                                        onClick={() => handleDelete(i)}
                                         size="small"
                                     />
                                 );
