@@ -17,7 +17,7 @@ export default class Forum {
       image = await cloudinaryApi.uploadImage(img!)
     }
     instance.defaults.headers.common["Authorization"] =
-      sessionStorage.getItem("token")!;
+      localStorage.getItem("token")!;
     const response: AxiosResponse<interfaces.IDefaultResponse> = await instance.post(
       "/post", { content, image, target, subject, tags, }
     );

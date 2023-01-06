@@ -16,7 +16,7 @@ const Verify = () => {
     const verifyUser = async () => {
         const response: AxiosResponse<IDefaultResponse> = await authApi.verifyUser(token!)
         if (response.status === 200) {
-            sessionStorage.setItem("token", response.data.data)
+            localStorage.setItem("token", response.data.data)
             navigate("/complete")
         }
     }

@@ -70,10 +70,10 @@ const RightBar = (props: Props) => {
                 })}
             </div> : null}
             <div className={styles.footer}>
-                <div>
+                <a href='https://github.com/vvspower'>
                     <p>Website is in Beta. Follow for updates</p>
                     <GitHubIcon />
-                </div>
+                </a>
             </div>
 
         </div >

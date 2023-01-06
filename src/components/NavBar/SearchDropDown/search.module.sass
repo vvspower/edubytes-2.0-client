@@ -1,6 +1,7 @@
 .container
     position: absolute
     top: 120%
+    // left: 10
     background-color: white
     padding: 10px
     border-radius: 8px
@@ -52,3 +53,22 @@
     border-radius: 8px
     &:hover
         background-color: #f8f9fa
+
+@media only screen and (max-width: 670px)
+    .container
+        width: 400px
+
+@media only screen and (max-width: 600px)
+    .container
+
+        left: 10%
+
+@media only screen and (max-width: 420px)
+    .container
+        left: 5%
+        width: 350px
+
+@media only screen and (max-width: 370px)
+    .container
+        left: 2%
+        width: 330px

@@ -38,7 +38,7 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
+    width: 350,
     bgcolor: 'background.paper',
     borderRadius: "16px",
     border: "none",
@@ -85,7 +85,7 @@ const UserPost = (props: IPost) => {
         setDeletedLoading(true)
         const response: AxiosResponse<IDefaultResponse> = await forumApi.deletePost(props._id)
         setDeletedLoading(false)
-        navigate("/home")
+        navigate("/")
     }
 
     const updatePost = async () => {
@@ -194,7 +194,7 @@ const UserPost = (props: IPost) => {
                             Edit Post
                         </Typography>
                         <div style={{ paddingLeft: "15px", paddingRight: "15px", marginTop: "10px" }}>
-                            <textarea onChange={(e) => settextEdit(e.target.value)} value={textEdit} style={{ width: "100%", borderRadius: "8px", border: "none", backgroundColor: "#f8f9fa", outline: "none", padding: "10px", maxWidth: "350px", height: "100px" }} placeholder="Enter new text" />
+                            <textarea onChange={(e) => settextEdit(e.target.value)} value={textEdit} style={{ width: "95%", borderRadius: "8px", border: "none", backgroundColor: "#f8f9fa", outline: "none", padding: "10px", maxWidth: "350px", height: "100px" }} placeholder="Enter new text" />
                         </div>
                         <div style={{ marginTop: "10px" }} >
                             <div style={{ display: "flex", alignItems: "center" }}>
@@ -242,7 +242,7 @@ const UserPost = (props: IPost) => {
                             <FlagIcon fontSize="small" sx={{ fill: "#868e96", cursor: "pointer", marginLeft: "5px" }} />
                         </div>
                     </div>
-                    <div>
+                    <div className={styles.normal_chip} >
                         {props?.tags?.slice(0, 3).map((item, i) => {
                             return <Chip
                                 key={i}
@@ -254,6 +254,21 @@ const UserPost = (props: IPost) => {
                             />
                         })
                         }
+                    </div>
+                    <div className={styles.chip_mobile}>
+                        {props?.tags?.slice(0, 1).map((item, i) => {
+                            return <Chip
+                                key={i}
+                                sx={{
+                                    marginRight: 1, backgroundColor: "#D7EFE0", color: "#37b24d"
+                                }}
+                                label={item}
+                                size="small"
+                            />
+
+                        })
+                        }
+                        <p style={{ fontSize: "12px" }}>{(props.tags.length - 1) !== 0 ? "+" + (props.tags.length - 1).toString() : null}</p>
                     </div>
                 </div>
             </div>

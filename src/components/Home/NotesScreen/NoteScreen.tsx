@@ -407,54 +407,58 @@ const NoteScreen = () => {
                             {!uploading ?
                                 <div>
                                     <div className={styles.notes_info}>
-                                        <div>
-                                            <input onChange={(e) => { setTitle(e.target.value) }} value={title} placeholder='Title' />
-                                            <select onChange={(e) => { setBoard(e.target.value), setboardlogic(e.target.value) }} name="subject" >
-                                                {boards.map((item, i) => {
+                                        <div className={styles.inputs_change}>
+                                            <div>
+                                                <input style={{ maxWidth: "150px" }} onChange={(e) => { setTitle(e.target.value) }} value={title} placeholder='Title' />
 
-                                                    return <option key={i} value={item}>{item}</option>
-                                                })}
-                                            </select>
+                                                <select onChange={(e) => { setBoard(e.target.value), setboardlogic(e.target.value) }} name="subject" >
+                                                    {boards.map((item, i) => {
 
-                                            {board === "O Level" ? <select onChange={(e) => { setSubject(e.target.value) }} name='subject'>
-                                                {olevelsubjects.map((item, i) => {
-                                                    return <option key={i} value={item}>{item}</option>
-                                                })}
-
-                                            </select> : null}
-                                            {board === "ECAT/MDCAT" ? <select onChange={(e) => { setSubject(e.target.value) }} name='subject'>
-                                                {ecatsubjects.map((item, i) => {
-                                                    return <option key={i} value={item}>{item}</option>
-                                                })}
-
-                                            </select> : null}
-                                            {board === "Intermediate" ? <select onChange={(e) => { setSubject(e.target.value) }} name='subject'>
-                                                {ecatsubjects.map((item, i) => {
-                                                    return <option key={i} value={item}>{item}</option>
-                                                })}
-
-                                            </select> : null}
-                                            {board === "Matric" ? <select onChange={(e) => { setSubject(e.target.value) }} name='subject'>
-                                                {ecatsubjects.map((item, i) => {
-                                                    return <option key={i} value={item}>{item}</option>
-                                                })}
-
-                                            </select> : null}
-                                            {board === "A Level" ?
-                                                <select onChange={(e) => { setSubject(e.target.value) }} name="subject">
-                                                    {
-                                                        alevelsubjects.map((item, i) => {
-                                                            return <option key={i} value={item}>{item}</option>
-                                                        })
-                                                    }
+                                                        return <option key={i} value={item}>{item}</option>
+                                                    })}
                                                 </select>
-                                                : null}
+                                            </div>
+                                            <div style={{ maxWidth: "150px" }} >
 
+                                                {board === "O Level" ? <select onChange={(e) => { setSubject(e.target.value) }} name='subject'>
+                                                    {olevelsubjects.map((item, i) => {
+                                                        return <option key={i} value={item}>{item}</option>
+                                                    })}
 
-                                            <select onChange={(e) => { setVisibility(e.target.value) }} name='visibility'>
-                                                <option value={"private"}>Private</option>
-                                                <option value={"public"}>Public</option>
-                                            </select>
+                                                </select> : null}
+                                                {board === "ECAT/MDCAT" ? <select onChange={(e) => { setSubject(e.target.value) }} name='subject'>
+                                                    {ecatsubjects.map((item, i) => {
+                                                        return <option key={i} value={item}>{item}</option>
+                                                    })}
+
+                                                </select> : null}
+                                                {board === "Intermediate" ? <select onChange={(e) => { setSubject(e.target.value) }} name='subject'>
+                                                    {ecatsubjects.map((item, i) => {
+                                                        return <option key={i} value={item}>{item}</option>
+                                                    })}
+
+                                                </select> : null}
+                                                {board === "Matric" ? <select onChange={(e) => { setSubject(e.target.value) }} name='subject'>
+                                                    {ecatsubjects.map((item, i) => {
+                                                        return <option key={i} value={item}>{item}</option>
+                                                    })}
+
+                                                </select> : null}
+                                                {board === "A Level" ?
+                                                    <select onChange={(e) => { setSubject(e.target.value) }} name="subject">
+                                                        {
+                                                            alevelsubjects.map((item, i) => {
+                                                                return <option key={i} value={item}>{item}</option>
+                                                            })
+                                                        }
+                                                    </select>
+                                                    : null}
+
+                                                <select onChange={(e) => { setVisibility(e.target.value) }} name='visibility'>
+                                                    <option value={"private"}>Private</option>
+                                                    <option value={"public"}>Public</option>
+                                                </select>
+                                            </div>
                                         </div>
                                         <div style={{ fontSize: "12px", marginTop: "10px", color: "#ff6b6b" }}>{errorText}</div>
                                     </div>

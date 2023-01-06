@@ -234,9 +234,9 @@ const Home = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.left}>
+      {user._id == "" ? null : <div className={styles.left}>
         <LeftBar setMode={setMode} />
-      </div>
+      </div>}
       <div className={styles.middle}>
         {user._id == "" ? (
           spinner
@@ -244,8 +244,13 @@ const Home = () => {
           <>
             <div className={styles.secondary_post}>
               {topPosts.length === 0 ? <div className={styles.secondary_post}>
-                {topPostPreview}
-                {topPostPreview}
+                <main>
+                  {topPostPreview}
+                </main>
+                <main>
+                  {topPostPreview}
+                </main>
+
 
               </div> : topPosts.map((item, i) => {
                 return <main><SecondaryPost key={i} username={item.username} pfp={item.user_pfp} likes={item.likes} content={item.content} id={item._id} image={item.image} /></main>
@@ -334,8 +339,10 @@ const Home = () => {
                 hasMore={hasMore}
                 loader={<p className={styles.endtext}>loading more posts</p>}
                 endMessage={
-                  <div style={{ textAlign: 'center' }}>
-                    {posts.length === 0 && postsLoading === false ? null : <p className={styles.endtext}>End of the posts</p>}
+                  <div>
+                    {mode === "home" ? <div style={{ textAlign: 'center' }}>
+                      {(posts.length === 0 && postsLoading === false) ? null : <p className={styles.endtext}>End of the posts</p>}
+                    </div> : null}
                   </div>
                 }
               // below props only if you need pull down functionality
@@ -399,9 +406,9 @@ const Home = () => {
           </>
         )}
       </div>
-      <div className={styles.right}>
+      {user._id == "" ? null : <div className={styles.right}>
         <RightBar planner={planner} />
-      </div>
+      </div>}
     </div >
   );
 };

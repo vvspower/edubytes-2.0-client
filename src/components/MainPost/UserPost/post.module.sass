@@ -4,16 +4,6 @@
 
 .container
     margin: 0 auto
-    width: 750px
-
-    // background-color: white
-    // box-shadow: 0 3px 5px rgb(0 0 0 / 0.1)
-    // border: 1px solid #dee2e6
-
-    // padding: 10px
-    // margin-bottom: 30px
-
-    // border-radius: 12px
 
 .mainpost
     background-color: white
@@ -76,6 +66,7 @@
     display: flex
     gap: 10px
     background-color: #e9ecef
+    // background-color: blue
     // padding: 5px 10px
     padding: 2px 5px
     border-radius: 25px
@@ -167,10 +158,26 @@
     font-size: 12px
     font-weight: 300
 
+.chip_mobile
+    display: none
 @media only screen and (max-width: 780px)
     .container
-        width: 90%
-        margin-left: 10px
+        // width: 90%
+        margin-left: 5px
+        margin-right: 5px
 
     .content img
         width: 100%
+
+    .normal_chip
+        display: none
+
+    .chip_mobile
+        display: flex
+        align-items: center
+        color: #868e96
+
+    // .chip
+    //     max-width: 220px
+    //     overflow-y: scroll
+        // background-color: blue

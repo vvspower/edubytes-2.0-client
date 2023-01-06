@@ -13,13 +13,22 @@ import CompleteProfile from "./screens/Auth/CompleteProfile/CompleteProfile";
 import Verify from "./screens/Auth/Verify/Verify";
 import { useSelector } from "react-redux";
 import { RootState } from "./store/store";
+import { Helmet } from 'react-helmet'
 
 function App() {
   const logged_user = useSelector((state: RootState) => state.user.value);
 
   const location = useLocation();
+
   return (
     <div className="App">
+      <Helmet>
+        <title>EduBytes</title>
+        <meta name="description" content="Welcome to Edubytes. v0.1.0. Alpha Testing" />
+      </Helmet>
+
+
+
       {location.pathname !== "/login" || "/complete" || sessionStorage.getItem("token") === null ? <NavBar /> : null}
       <Routes>
         <Route path="/login" element={<Login />} />
@@ -32,8 +41,10 @@ function App() {
         <Route path="/calendar" element={<Calendar />} />
         <Route path="/complete" element={logged_user.details.completed === false ? <CompleteProfile /> : <h1 style={{ marginTop: "80px" }}>Not Allowed</h1>} />
         <Route path="/verify" element={<Verify />} />
+        <Route path="*" element={<div style={{ marginTop: "100px", textAlign: "center" }}><h2>Page not found</h2><p>Please return to the home page</p></div>} />
 
       </Routes>
+
     </div>
   );
 }

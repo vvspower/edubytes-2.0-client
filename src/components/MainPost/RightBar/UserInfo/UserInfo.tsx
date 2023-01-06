@@ -40,7 +40,7 @@ const UserInfo = (props: Props) => {
             </div>
             <div className={styles.button}>
                 <button onClick={() => { navigate(`/u/${props.username}`) }}> Visit Profile</button>
-                <button> Message</button>
+                <button onClick={() => alert("coming soon")}> Message</button>
             </div>
             <div className={styles.userinfo}>
                 <div>

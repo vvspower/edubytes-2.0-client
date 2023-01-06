@@ -34,10 +34,10 @@ const ViewResource = () => {
 
     const style = {
         position: 'absolute' as 'absolute',
-        top: '30%',
+        top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: 400,
+        width: 350,
         bgcolor: 'background.paper',
         borderRadius: "12px",
         boxShadow: 24,
@@ -61,9 +61,8 @@ const ViewResource = () => {
     const deleteResource = async () => {
         setDeleteLoading(true)
         const response: AxiosResponse<IDefaultResponse> = await resourceApi.deleteResource(id!)
-        navigate("/home")
+        navigate("/")
     }
-
 
 
     const changeRating = async (newRating: number) => {
@@ -85,13 +84,14 @@ const ViewResource = () => {
     return (
         <div className={styles.container}>
             <Modal
+                // sx={{ maxWidth: "200px" }}
                 open={openDeleteModal}
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <Typography id="modal-modal-title" variant="h6" component="h2">
+                    <Typography id="modal-modal-title" variant="h6" component="p">
                         Are you sure you want to delete?
                     </Typography>
                     <div style={{ marginTop: "10px", display: "flex", gap: "10px", alignItems: "center" }}>
@@ -130,7 +130,7 @@ const ViewResource = () => {
                             </div> : null}
                         </div>
                     </div>
-                    <div className={styles.pdf}>
+                    <div className={styles.pdf_viewer}>
                         {resource ? <iframe src={resource?.link[0].slice(0, -17) + "preview"} width="840" height="800px" allow="autoplay"></iframe> : null}
                     </div>
                 </div>

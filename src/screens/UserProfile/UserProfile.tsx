@@ -59,6 +59,7 @@ const UserProfile = () => {
     const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
     const [text, settext] = useState<string>("Add Friend")
     const [open, setOpen] = useState(false);
+    const [userloaded, setuserloaded] = useState(false)
 
     const authApi = new Auth();
     const forumApi = new Forum();
@@ -94,6 +95,7 @@ const UserProfile = () => {
             }
             setUser(response.data.data);
             checkIfFriend()
+            setuserloaded(true)
         } catch (error: any) {
             if (axios.isAxiosError(error)) {
                 const err = error as AxiosError<IDefaultResponse>
@@ -224,9 +226,9 @@ const UserProfile = () => {
                     </div>
                     <main>
                         <div>
-                            <img style={{ backgroundColor: "white" }} className={styles.pfp} src={user?.details.pfp} />
+                            {userloaded ? <img style={{ backgroundColor: "white" }} className={styles.pfp} src={user?.details.pfp} /> : null}
                         </div>
-                        <div style={{ marginLeft: "170px", width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                        <div className={styles.header_text} >
                             <div>
                                 <div style={{ display: "flex", gap: "5px", alignItems: "center" }}>
                                     <h2>{user?.username}</h2>
@@ -234,19 +236,19 @@ const UserProfile = () => {
                                 </div>
                                 <p style={{ color: "#495057", fontSize: "14px" }} >{user?.education.institute}</p>
                                 <p >{user?.details.bio.substring(0, 210)}</p>
-                                <p style={{ marginTop: "5px" }}>{user?.friends.length} Friends</p>
+                                {userloaded ? <p style={{ marginTop: "5px" }}>{user?.friends.length} Friends</p> : null}
                                 {user?.friends.map((item, i) => {
                                     return <img style={{ position: "relative", height: "20px", width: "20px", margin: "0px", padding: "0px", borderRadius: "50%", marginTop: "5px" }} src={item.pfp} />
                                 })}
                             </div>
                             {/* todo: fix this */}
-                            <div style={{ marginRight: "30px" }}>
+                            {userloaded ? <div className={styles.edit_buttons} style={{ marginRight: "30px" }}>
                                 {logged_user.username !== username ?
                                     <>
                                         <button className={styles.interact_button} onClick={sendFriendRequest}>{text}</button>
                                         <button className={styles.interact_button}>Message</button>
                                     </> : <button className={styles.edit_button} onClick={() => { setOpenModal(true) }} >Edit Profile</button>}
-                            </div>
+                            </div> : null}
                         </div>
                     </main>
                     <div style={{ marginTop: user?.friends.length === 0 ? "40px" : "0px" }} className={styles.interaction_btns}>
@@ -274,9 +276,6 @@ const UserProfile = () => {
 
                                         </div>
                                     })}
-                                    {/* <div className={styles.user}>
-
-                        </div> */}
                                 </div> : null}
                             </div>
                             : null}
@@ -310,7 +309,7 @@ const UserProfile = () => {
                                 </div>
                             </div>
                             <div>
-                                {logged_user.username === user?.username ? <CreatePostBar pfp={logged_user.details.pfp} type={"post"} /> : null}
+                                {logged_user.username === user?.username ? <div className={styles.post_bar}><CreatePostBar pfp={logged_user.details.pfp} type={"post"} /></div> : null}
                                 <div className={styles.post_filter}>
                                     <h1>Posts</h1>
                                 </div>

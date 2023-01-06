@@ -116,7 +116,7 @@ export default function Login() {
                 <p onClick={() => { setloginPage(false); setError("") }} style={{ fontSize: "12px", color: "#1971c2", marginTop: "10px", cursor: "pointer" }}>Dont have an account? Sign up!</p>
                 <div>
 
-                  <Button disabled={loading} type="submit">{loading ? <img src={loader} width="30px" /> : "Logic"}</Button>
+                  <Button disabled={loading} type="submit">{loading ? <img src={loader} width="30px" /> : "Login"}</Button>
                 </div>
               </div>
             </div> : null}

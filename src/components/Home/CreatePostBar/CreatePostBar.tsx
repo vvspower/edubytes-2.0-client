@@ -31,10 +31,9 @@ const CreatePostBar = (props: Props) => {
         </div>
         <div>
           <p>
-            Note: Since the website is still in development, some functionality
-            may not work. v1.0.0
+            Note: Alpha Testing. Since the website is still in development, some functionality
+            may not work. v0.1.0
           </p>
-
         </div>
       </div>
       <CreatePost

@@ -148,6 +148,7 @@ export default function CalendarModal(props: Props) {
             }
         }
         const response: AxiosResponse<DefaultResponse> = await plannerApi.updatePlanner(planner, props.planner?._id!)
+        location.reload()
         handleClose()
 
     }
@@ -166,8 +167,10 @@ export default function CalendarModal(props: Props) {
                 "files": fileURL
             }
         }
+
         const response: AxiosResponse<ReturnedPlannerResponse> = await plannerApi.createPlanner(planner)
         handleClose()
+        location.reload()
     }
 
     const deletePlanner = async (id: string) => {

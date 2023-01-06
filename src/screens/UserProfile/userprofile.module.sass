@@ -1,6 +1,10 @@
 html
     overflow-y: scroll
 
+html,
+body
+    max-width: 100%
+
 .container
     padding-left: calc(100vw - 100%)
     // display: flex
@@ -8,6 +12,8 @@ html
     margin: 0 auto
     // max-width: 1000px
     // width: 1200px
+    // padding-left: 10px
+    // padding-right: 10px
     margin-top: 30px
     gap: 20px
 
@@ -49,6 +55,13 @@ html
     max-width: 600px
     font-size: 12px
     color: #868e96
+
+.header_text
+    margin-left: 170px
+    width: 100%
+    display: flex
+    justify-content: space-between
+    align-items: center
 
 .pfp
     height: 160px
@@ -184,7 +197,6 @@ html
     font-weight: 500
 
 .show_friends
-
     display: grid
     gap: 10px
     grid-template-columns: 100px 100px 100px 100px 100px 100px
@@ -271,3 +283,80 @@ html
 .resource p
     margin-top: 10px
     font-size: 12px
+
+@media only screen and (max-width: 800px)
+    .show_friends
+        grid-template-columns: 100px 100px 100px 100px 100px 100px
+
+    .resources main
+        grid-template-columns: 150px 150px 150px 150px
+
+@media only screen and (max-width: 800px)
+    .resources main
+        grid-template-columns: 150px 150px 150px
+
+@media only screen and (max-width: 500px)
+    .show_friends
+
+        display: grid
+        gap: 10px
+        grid-template-columns: 100px 100px 100px
+    .resources main
+        margin: 0 auto
+        max-width: 350px
+        grid-template-columns: 150px 150px
+
+@media only screen and (max-width: 900px)
+    .sidecard
+        display: none
+
+    .post_filter
+        // width: 100%
+
+    .container
+        padding-left: 0px
+        width: 100%
+
+    .color
+        width: 100%
+    .interaction_btns
+        width: 100%
+        margin: 0px
+
+    .user_header_details
+        padding: 0px
+        // padding-right: 10px
+        // width: 100%
+
+    .user_header_details main
+        // width: 100%
+
+    .posts
+        max-width: 100%
+        padding: 5px
+        // margin-left: 10px
+
+@media only screen and (max-width: 650px)
+    .post_filter
+        display: none
+
+    .edit_buttons
+        display: none
+
+    .user_header_details main
+        gap: 0px
+        padding-left: 10px
+
+    .pfp
+        height: 120px
+        width: 120px
+
+    .header_text
+        margin-left: 140px
+        h2
+            font-size: 18px
+        p
+            font-size: 10px
+
+    .post_bar
+        padding: 5px

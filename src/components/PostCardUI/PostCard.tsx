@@ -84,7 +84,7 @@ const PostCard = (props: Props) => {
   return (
     <div className={styles.container}>
       <div
-        onClick={() => { navigate(`/post?v=${props._id}`); location.reload() }}
+        onClick={() => { navigate(`/post/${props._id}`); location.reload() }}
         className={styles.image}
 
       >
@@ -92,12 +92,12 @@ const PostCard = (props: Props) => {
         {props.image != "" ? <img src={props.image} /> : null}
       </div>
       <div style={{ padding: "12px" }}>
-        <div onClick={() => navigate(`/post/${props._id}`)} className={styles.header}>
+        <div className={styles.header}>
           <div>
-            <img src={props.pfp} />
+            <img onClick={() => navigate(`/u/${props.username}`)} src={props.pfp} />
             <div>
-              <h1>{props.username}</h1>
-              <p>{timeago.format(parseInt(props.created + "000"))}</p>
+              <h1 >{props.username}</h1>
+              <p onClick={() => navigate(`/u/${props.username}`)}>{timeago.format(parseInt(props.created + "000"))}</p>
             </div>
           </div>
         </div>

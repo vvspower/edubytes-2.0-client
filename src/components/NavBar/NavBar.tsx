@@ -12,6 +12,7 @@ import { initializeUser, removeUser } from "../../state/userSlice";
 import { useSelector, useDispatch } from "react-redux";
 import Button from "@mui/material/Button";
 import edubytes_logo_large from '../../assets/edubytes_logo_large.png'
+import edubytes_logo_small from '../../assets/edubytes_logo_small.png'
 import UserAvatarDropDown from "./UserAvatarDropDown/UserAvatarDropDown";
 import SearchDropDown from "./SearchDropDown/SearchDropDown";
 import { useNavigate } from "react-router-dom";
@@ -112,7 +113,8 @@ const NavBar = () => {
           <div className={styles.navbar}>
             <div className={styles.left}>
               <div style={{ cursor: "pointer" }} onClick={() => navigate("/")}>
-                <img src={edubytes_logo_large} height='30px' style={{ marginTop: "5px" }} />
+                <img className={styles.logo_large} src={edubytes_logo_large} height='30px' style={{ marginTop: "5px" }} />
+                <img className={styles.logo_small} src={edubytes_logo_small} height='30px' style={{ marginTop: "5px" }} />
               </div>
             </div>
             <div className={styles.middle}>

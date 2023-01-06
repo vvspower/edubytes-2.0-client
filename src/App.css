@@ -4,11 +4,27 @@ body {
   /* overflow: hidden; */
   /* font-family: "Roboto", sans-serif; */
 }
-
+html,
 body,
 html {
   font-family: "Roboto", sans-serif;
   /* overflow: hidden; */
+}
+
+html,
+body {
+  max-width: 100%;
+  /* overflow-x: hidden; */
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+@media only screen and (max-width: 1410px) {
+  ::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 *::-webkit-scrollbar {
