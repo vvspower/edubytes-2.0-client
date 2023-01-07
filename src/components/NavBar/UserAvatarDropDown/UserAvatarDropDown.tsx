@@ -91,7 +91,9 @@ const UserAvatarDropDown = (props: Props) => {
           </div>
           <div className={styles.footer}>
             <h1 className={styles.title}>EDUBYTES</h1>
+            <h3 onClick={() => { navigate("/resources") }}>Browse Resources</h3>
             <h3>Contact</h3>
+
           </div>
         </div>
       </Menu>

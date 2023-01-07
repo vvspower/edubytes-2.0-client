@@ -31,6 +31,7 @@ body
     padding-top: 15px
     border-radius: 12px
     border: 1px solid #dee2e6
+    // max-width: 92%
     // display: none
 
     margin-top: 10px
@@ -66,8 +67,10 @@ body
 .container
     display: flex
     gap: 20px
+    width: auto
 
     padding-top: 50px
+    // padding: 10px
     // padding-left: calc(100vw - 100%)
     // padding-left: calc(100vw - 100%)
 
@@ -175,12 +178,35 @@ body
 
 .mainposts
     margin-top: 26px
+    padding: 0px 5px
 
 .post
     max-width: 680px
+    // padding: 10px
     background-color: white
     border-radius: 16px
     margin-bottom: 15px
+
+@media only screen and (max-width: 1800px)
+    .left
+        left: 180px
+
+    .right
+        left: 1250px
+
+@media only screen and (max-width: 1650px)
+    .left
+        left: 80px
+
+    .right
+        left: 1200px
+
+@media only screen and (max-width: 1500px)
+    .left
+        left: 20px
+
+    .right
+        left: 1100px
 
 @media only screen and (max-width: 1390px)
     .left
@@ -190,8 +216,9 @@ body
 
 @media only screen and (max-width: 670px)
     .container
-        padding-left: 5px
-        padding-right: 20px
+        padding-left: 10px
+        padding-right: 10px
+        display: block
 
     .carousel
         width: 500px
@@ -204,9 +231,15 @@ body
         display: block
 
 @media only screen and (max-width: 540px)
-    .secondary_post main
-        &:nth-child(2)
-            display: none
+    .secondary_post
+        display: block
+
+        // padding: 10px
+        // max-width: 530px
+        main
+
+            &:nth-child(2)
+                display: none
 
     .secondary_post
         width: 100%
@@ -216,24 +249,14 @@ body
 
 @media only screen and (max-width: 500px)
     .carousel
-        width: 440px
+        width: 94%
 
-@media only screen and (max-width: 450px)
-    .carousel
-        width: 390px
+// @media only screen and (max-width: 450px)
 
-@media only screen and (max-width: 400px)
-    .carousel
-        width: 350px
+// @media only screen and (max-width: 420px)
 
-@media only screen and (max-width: 420px)
-    .carousel
-        width: 382px
+// @media only screen and (max-width: 400px)
 
-@media only screen and (max-width: 360px)
-    .carousel
-        width: 330px
+// @media only screen and (max-width: 360px)
 
-@media only screen and (max-width: 350px)
-    .carousel
-        width: 300px
+// @media only screen and (max-width: 350px)

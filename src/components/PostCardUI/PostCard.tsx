@@ -84,7 +84,7 @@ const PostCard = (props: Props) => {
   return (
     <div className={styles.container}>
       <div
-        onClick={() => { navigate(`/post/${props._id}`); location.reload() }}
+        onClick={() => { navigate(`/post/${props._id}`) }}
         className={styles.image}
 
       >
@@ -125,8 +125,9 @@ const PostCard = (props: Props) => {
             </div>
           </div>
           <div style={{ display: "flex", alignItems: "center" }}>
+            <p style={{ marginRight: "5px" }}>{props.tags.length > 1 ? "+ " + (props.tags.length - 1).toString() : null}</p>
             <div>
-              {props?.tags?.map((item, i) => {
+              {props?.tags?.slice(0, 1).map((item, i) => {
                 return (
 
                   <Chip
@@ -141,6 +142,7 @@ const PostCard = (props: Props) => {
                 );
               })}
             </div>
+
             <div className={styles.comment}>
               <CommentIcon sx={{ fill: "#868e96", height: "14px" }} fontSize="small" />
             </div>
