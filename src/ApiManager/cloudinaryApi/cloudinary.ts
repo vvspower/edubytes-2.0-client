@@ -2,7 +2,7 @@ import axios, { AxiosInstance, AxiosResponse } from "axios";
 
 
 const instance = axios.create({
-    baseURL: "https://api.cloudinary.com/v1_1/disle0uxb",
+    baseURL: "cloudinarydatabaselink",
     timeout: 100000,
 });
 

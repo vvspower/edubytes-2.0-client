@@ -3,7 +3,7 @@ import * as interfaces from '../interface/Interfaces'
 
 
 const instance = axios.create({
-    baseURL: "https://edubytes.herokuapp.com/friend",
+    baseURL: "http://127.0.0.1:5000/friend",
     timeout: 100000,
 });
 

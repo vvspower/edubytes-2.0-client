@@ -3,7 +3,7 @@ import axios, { AxiosInstance, AxiosResponse } from "axios";
 import * as interfaces from '../interface/Interfaces'
 
 const instance = axios.create({
-  baseURL: "https://edubytes.herokuapp.com/auth",
+  baseURL: "http://127.0.0.1:5000/auth",
   timeout: 100000,
 });
 

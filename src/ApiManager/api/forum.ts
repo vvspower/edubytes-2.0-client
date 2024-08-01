@@ -4,7 +4,7 @@ import Cloudinary from "../cloudinaryApi/cloudinary";
 
 
 const instance = axios.create({
-  baseURL: "https://edubytes.herokuapp.com/community/forums",
+  baseURL: "http://127.0.0.1:5000/community/forums",
   timeout: 100000,
 });
 
