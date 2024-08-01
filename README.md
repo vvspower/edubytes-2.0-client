@@ -1,1 +1,1 @@
-serer: https://github.com/vvspower/edubytes-2.0
+server: https://github.com/vvspower/edubytes-2.0
